@@ -67,7 +67,7 @@ A reviewer should be able to independently reproduce all main figures and tables
 | D3 | Statistical significance tests are reported | ✅ | t-distribution CIs (n=10); all conditions significant at α=0.05 |
 | D4 | Effect sizes are reported (not just p-values) | ✅ | Carbon saving % is the effect size; threshold efficiency ratio also reported |
 | D5 | Per-seed raw data is available | ✅ | `results/carbon/results.csv` contains all 120 per-seed rows |
-| D6 | Ablation results are reported | ✅ | CI variability ablation (Section 5.5); combined policy orthogonality (Section 6) |
+| D6 | Ablation results are reported | ✅ | CI variability ablation (Section 5.5); batch×deadline factorial ablation (Section 5.7, Table 7, Figure 7); combined policy orthogonality (Section 6) |
 | D7 | Negative results (null directions) are reported | ✅ | LOGBOX.md documents 4 null/near-null directions; summary in paper Section 7.2 |
 
 ---

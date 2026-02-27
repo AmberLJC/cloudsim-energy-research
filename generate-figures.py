@@ -343,4 +343,81 @@ plt.savefig('figures/fig6_ci_swing.png', dpi=300, bbox_inches='tight')
 plt.close()
 print("fig6_ci_swing.png  ✓")
 
-print("\nAll 6 figures generated in figures/")
+
+# ════════════════════════════════════════════════════════════════════════════
+# FIG 7 — Batch Fraction × Deadline Slack Heatmap
+# ════════════════════════════════════════════════════════════════════════════
+import json as _json_mod
+import os as _os_mod
+
+_batch_path = 'results/carbon/ablation_batch_sensitivity_summary.json'
+if _os_mod.path.exists(_batch_path):
+    with open(_batch_path) as _f:
+        batch_summary = _json_mod.load(_f)
+
+    batch_fracs  = [0.10, 0.20, 0.30, 0.40, 0.50]
+    defer_hours  = [2, 4, 6, 8]
+
+    # Build heatmap matrix: rows=batch_frac, cols=defer_hours
+    heatmap = np.zeros((len(batch_fracs), len(defer_hours)))
+    for i, bf in enumerate(batch_fracs):
+        for j, dh in enumerate(defer_hours):
+            key = f"bf{int(bf*100)}_dh{dh}"
+            heatmap[i, j] = batch_summary[key]['carbon_saving_mean']
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+
+    # Custom diverging colormap: red=negative/null, yellow=borderline, green=viable
+    from matplotlib.colors import LinearSegmentedColormap
+    cmap_colors = [
+        (0.0, '#dc3545'),   # negative/null — red
+        (0.15, '#ffc107'),  # ~2% — yellow
+        (0.3, '#28a745'),   # ~5% — green
+        (1.0, '#004a1e'),   # ~17% — dark green
+    ]
+    cmap = LinearSegmentedColormap.from_list(
+        'carbon_heatmap',
+        [(v, c) for v, c in cmap_colors]
+    )
+
+    # Normalize: -2% to 17%
+    vmin, vmax = -2.0, 18.0
+    im = ax.imshow(heatmap, cmap=cmap, vmin=vmin, vmax=vmax, aspect='auto')
+
+    # Axis labels
+    ax.set_xticks(range(len(defer_hours)))
+    ax.set_xticklabels([f'{dh}h' for dh in defer_hours], fontsize=11)
+    ax.set_yticks(range(len(batch_fracs)))
+    ax.set_yticklabels([f'{int(bf*100)}%' for bf in batch_fracs], fontsize=11)
+    ax.set_xlabel('Deadline Slack (defer window)', fontsize=12)
+    ax.set_ylabel('Batch Job Fraction', fontsize=12)
+
+    # Cell annotations
+    for i in range(len(batch_fracs)):
+        for j in range(len(defer_hours)):
+            val = heatmap[i, j]
+            marker = '(OK)' if val >= 5.0 else ('(~)' if val >= 2.0 else '(x)')
+            text_color = 'white' if val > 10 or val < 0 else 'black'
+            ax.text(j, i, f'{val:.1f}%\n{marker}',
+                    ha='center', va='center', fontsize=10,
+                    fontweight='bold', color=text_color)
+
+    # Threshold line: 5% viability boundary
+    # Add colorbar
+    cbar = fig.colorbar(im, ax=ax, shrink=0.8, pad=0.02)
+    cbar.set_label('Carbon Saving (%)', fontsize=11)
+    cbar.ax.axhline(y=(5.0 - vmin)/(vmax - vmin), color='white', lw=2, ls='--')
+    cbar.ax.text(3.5, (5.0 - vmin)/(vmax - vmin), '5% threshold',
+                 va='center', fontsize=8.5, color='white')
+
+    ax.set_title('Figure 7: Carbon Saving Heatmap — Batch Fraction × Deadline Slack\n'
+                 '(Threshold Policy, US Midwest CI, 10-seed mean)', fontsize=12)
+
+    plt.tight_layout()
+    plt.savefig('figures/fig7_batch_sensitivity.png', dpi=300, bbox_inches='tight')
+    plt.close()
+    print("fig7_batch_sensitivity.png  ✓")
+    print("\nAll 7 figures generated in figures/")
+else:
+    print("\nAll 6 figures generated in figures/ (fig7 skipped — run ablation-batch-sensitivity.py first)")
+

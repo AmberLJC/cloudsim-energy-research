@@ -2,17 +2,18 @@
 # ============================================================
 # run_all.sh — Reproduce all simulation results from scratch
 # 
-# Runtime: ~2-3 minutes on any modern laptop
+# Runtime: ~3-4 minutes on any modern laptop
 # Requirements: Python 3.8+, NumPy, SciPy, Matplotlib
 #
 # Outputs:
-#   results/carbon/results.csv         — per-seed raw data (120 runs)
-#   results/carbon/summary.json        — aggregated results
-#   results/carbon/ci-table-final.txt  — 95% CI table
-#   results/carbon/ci-table-final.json — CI data
-#   results/combined-sim-results.json  — orthogonality experiment
-#   results/ci-variability-ablation.json — CI swing ablation
-#   figures/*.png                      — all 6 publication figures
+#   results/carbon/results.csv                    — per-seed raw data (120 runs)
+#   results/carbon/summary.json                   — aggregated results
+#   results/carbon/ci-table-final.txt             — 95% CI table
+#   results/carbon/ci-table-final.json            — CI data
+#   results/combined-sim-results.json             — orthogonality experiment
+#   results/ci-variability-ablation.json          — CI swing ablation
+#   results/carbon/ablation_batch_sensitivity.csv — batch×deadline ablation (200 runs)
+#   figures/*.png                                 — all 7 publication figures
 # ============================================================
 
 set -e
@@ -35,29 +36,34 @@ python3 -c "import numpy, scipy, matplotlib" || {
     exit 1
 }
 
-echo "[1/5] Running main carbon deferral simulation (120 runs)..."
+echo "[1/6] Running main carbon deferral simulation (120 runs)..."
 python3 simulate-carbon.py
 echo "  → Done: results/carbon/results.csv, results/carbon/summary.json"
 echo ""
 
-echo "[2/5] Computing 95% confidence intervals..."
+echo "[2/6] Computing 95% confidence intervals..."
 python3 compute-ci-from-csv.py
 echo "  → Done: results/carbon/ci-table-final.txt, ci-table-final.json"
 echo ""
 
-echo "[3/5] Running combined VAR-PABFD + carbon deferral experiment (40 runs)..."
+echo "[3/6] Running combined VAR-PABFD + carbon deferral experiment (40 runs)..."
 python3 simulate-combined.py
 echo "  → Done: results/combined-sim-results.json"
 echo ""
 
-echo "[4/5] Running CI variability ablation..."
+echo "[4/6] Running CI variability ablation..."
 python3 ablation-ci-variability.py
 echo "  → Done: results/ci-variability-ablation.json"
 echo ""
 
-echo "[5/5] Generating publication figures..."
+echo "[5/6] Running batch fraction × deadline slack factorial ablation (200 runs)..."
+python3 ablation-batch-sensitivity.py
+echo "  → Done: results/carbon/ablation_batch_sensitivity.csv, ablation_batch_sensitivity_summary.json"
+echo ""
+
+echo "[6/6] Generating publication figures (7 total)..."
 python3 generate-figures.py
-echo "  → Done: figures/fig1_ci_profile.png ... fig6_ci_swing.png"
+echo "  → Done: figures/fig1_ci_profile.png ... fig7_batch_sensitivity.png"
 echo ""
 
 echo "============================================================"

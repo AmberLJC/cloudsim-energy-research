@@ -1,0 +1,162 @@
+{
+  "bf10_dh2": {
+    "batch_fraction": 0.1,
+    "defer_hours": 2,
+    "carbon_saving_mean": -0.138,
+    "carbon_saving_std": 1.383,
+    "energy_delta_mean": 0.1701,
+    "sla_violations_mean": 0.3
+  },
+  "bf10_dh4": {
+    "batch_fraction": 0.1,
+    "defer_hours": 4,
+    "carbon_saving_mean": 0.103,
+    "carbon_saving_std": 1.268,
+    "energy_delta_mean": -0.3439,
+    "sla_violations_mean": 0.3
+  },
+  "bf10_dh6": {
+    "batch_fraction": 0.1,
+    "defer_hours": 6,
+    "carbon_saving_mean": 0.866,
+    "carbon_saving_std": 1.56,
+    "energy_delta_mean": -0.5217,
+    "sla_violations_mean": 0.3
+  },
+  "bf10_dh8": {
+    "batch_fraction": 0.1,
+    "defer_hours": 8,
+    "carbon_saving_mean": 3.074,
+    "carbon_saving_std": 1.793,
+    "energy_delta_mean": -1.6022,
+    "sla_violations_mean": 0.3
+  },
+  "bf20_dh2": {
+    "batch_fraction": 0.2,
+    "defer_hours": 2,
+    "carbon_saving_mean": -0.217,
+    "carbon_saving_std": 1.235,
+    "energy_delta_mean": -0.2255,
+    "sla_violations_mean": 0.9
+  },
+  "bf20_dh4": {
+    "batch_fraction": 0.2,
+    "defer_hours": 4,
+    "carbon_saving_mean": 0.327,
+    "carbon_saving_std": 0.84,
+    "energy_delta_mean": -1.1994,
+    "sla_violations_mean": 0.9
+  },
+  "bf20_dh6": {
+    "batch_fraction": 0.2,
+    "defer_hours": 6,
+    "carbon_saving_mean": 1.697,
+    "carbon_saving_std": 1.683,
+    "energy_delta_mean": -1.2938,
+    "sla_violations_mean": 0.9
+  },
+  "bf20_dh8": {
+    "batch_fraction": 0.2,
+    "defer_hours": 8,
+    "carbon_saving_mean": 5.399,
+    "carbon_saving_std": 1.696,
+    "energy_delta_mean": -3.0159,
+    "sla_violations_mean": 0.9
+  },
+  "bf30_dh2": {
+    "batch_fraction": 0.3,
+    "defer_hours": 2,
+    "carbon_saving_mean": -0.765,
+    "carbon_saving_std": 1.278,
+    "energy_delta_mean": -0.1193,
+    "sla_violations_mean": 1.3
+  },
+  "bf30_dh4": {
+    "batch_fraction": 0.3,
+    "defer_hours": 4,
+    "carbon_saving_mean": 0.001,
+    "carbon_saving_std": 1.295,
+    "energy_delta_mean": -1.2672,
+    "sla_violations_mean": 1.3
+  },
+  "bf30_dh6": {
+    "batch_fraction": 0.3,
+    "defer_hours": 6,
+    "carbon_saving_mean": 2.435,
+    "carbon_saving_std": 1.759,
+    "energy_delta_mean": -2.5013,
+    "sla_violations_mean": 1.3
+  },
+  "bf30_dh8": {
+    "batch_fraction": 0.3,
+    "defer_hours": 8,
+    "carbon_saving_mean": 8.191,
+    "carbon_saving_std": 1.492,
+    "energy_delta_mean": -4.8686,
+    "sla_violations_mean": 1.3
+  },
+  "bf40_dh2": {
+    "batch_fraction": 0.4,
+    "defer_hours": 2,
+    "carbon_saving_mean": -0.829,
+    "carbon_saving_std": 1.717,
+    "energy_delta_mean": -0.4953,
+    "sla_violations_mean": 1.9
+  },
+  "bf40_dh4": {
+    "batch_fraction": 0.4,
+    "defer_hours": 4,
+    "carbon_saving_mean": 0.023,
+    "carbon_saving_std": 1.463,
+    "energy_delta_mean": -1.5822,
+    "sla_violations_mean": 1.9
+  },
+  "bf40_dh6": {
+    "batch_fraction": 0.4,
+    "defer_hours": 6,
+    "carbon_saving_mean": 3.756,
+    "carbon_saving_std": 2.04,
+    "energy_delta_mean": -4.0446,
+    "sla_violations_mean": 1.9
+  },
+  "bf40_dh8": {
+    "batch_fraction": 0.4,
+    "defer_hours": 8,
+    "carbon_saving_mean": 12.497,
+    "carbon_saving_std": 1.709,
+    "energy_delta_mean": -8.5597,
+    "sla_violations_mean": 1.9
+  },
+  "bf50_dh2": {
+    "batch_fraction": 0.5,
+    "defer_hours": 2,
+    "carbon_saving_mean": -1.038,
+    "carbon_saving_std": 1.287,
+    "energy_delta_mean": -0.7019,
+    "sla_violations_mean": 2.3
+  },
+  "bf50_dh4": {
+    "batch_fraction": 0.5,
+    "defer_hours": 4,
+    "carbon_saving_mean": -0.668,
+    "carbon_saving_std": 1.742,
+    "energy_delta_mean": -2.3689,
+    "sla_violations_mean": 2.3
+  },
+  "bf50_dh6": {
+    "batch_fraction": 0.5,
+    "defer_hours": 6,
+    "carbon_saving_mean": 4.606,
+    "carbon_saving_std": 2.126,
+    "energy_delta_mean": -5.6037,
+    "sla_violations_mean": 2.3
+  },
+  "bf50_dh8": {
+    "batch_fraction": 0.5,
+    "defer_hours": 8,
+    "carbon_saving_mean": 16.904,
+    "carbon_saving_std": 2.732,
+    "energy_delta_mean": -11.7942,
+    "sla_violations_mean": 2.3
+  }
+}

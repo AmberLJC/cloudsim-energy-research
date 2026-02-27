@@ -1,14 +1,14 @@
 # Carbon-Aware Temporal Deferral in Single-Datacenter Cloud Scheduling: Simulation-Based Policy Comparison and Mechanism Analysis
 
 **Authors:** [Anonymized for review]  
-**Draft status:** v0.5 — 2026-02-27 (figures upgraded to 300 DPI; reproducibility checklist updated to 98% complete [53/54]; all pre-submission technical items resolved)  
+**Draft status:** v0.6 — 2026-02-27 (batch fraction × deadline slack factorial ablation added [Section 5.7, Table 7, Figure 7]; 7 figures; revised deployment recommendations; reproducibility checklist 98% [53/54])  
 **Target venues:** IEEE Transactions on Cloud Computing; CCGRID 2026; IEEE/ACM GreenCom 2026
 
 ---
 
 ## Abstract
 
-Cloud data centers face growing pressure to reduce operational carbon emissions beyond energy efficiency alone. We present a simulation study of *carbon-aware temporal deferral* — shifting flexible batch workloads to periods of low grid carbon intensity — integrated with PABFD-style VM consolidation in a parameterized CloudSim-style Python framework. Through 120 controlled simulation runs across four scheduling policies and three batch-flexibility scenarios, we show that a simple carbon-intensity threshold policy achieves **4.83–15.52% carbon reduction** with **zero energy overhead**. The threshold policy captures 64–84% of oracle savings on average, confirming prior data-driven bounds. We prove analytically — and validate empirically — that temporal deferral is *energy-neutral* under linear power models, making carbon savings strictly cost-free for single-datacenter operators. Additionally, we demonstrate that variance-aware host consolidation (VAR-PABFD) achieves 2.7–5.5% energy reduction orthogonally composable with temporal deferral, yielding a **combined policy achieving 5% energy savings and 10% carbon savings** with zero interaction effect. These findings provide actionable deployment guidance: solar-influenced grids with ≥4× diurnal carbon intensity swing, 30% batch fraction, and 6-hour deadline flexibility support >10% carbon reduction without sophisticated forecasting.
+Cloud data centers face growing pressure to reduce operational carbon emissions beyond energy efficiency alone. We present a simulation study of *carbon-aware temporal deferral* — shifting flexible batch workloads to periods of low grid carbon intensity — integrated with PABFD-style VM consolidation in a parameterized CloudSim-style Python framework. Through 120 controlled simulation runs across four scheduling policies and three batch-flexibility scenarios, we show that a simple carbon-intensity threshold policy achieves **4.83–15.52% carbon reduction** with **zero energy overhead**. The threshold policy captures 64–84% of oracle savings on average, confirming prior data-driven bounds. We prove analytically — and validate empirically — that temporal deferral is *energy-neutral* under linear power models, making carbon savings strictly cost-free for single-datacenter operators. Additionally, we demonstrate that variance-aware host consolidation (VAR-PABFD) achieves 2.7–5.5% energy reduction orthogonally composable with temporal deferral, yielding a **combined policy achieving 5% energy savings and 10% carbon savings** with zero interaction effect. These findings provide actionable deployment guidance: solar-influenced grids with ≥4× diurnal carbon intensity swing, ≥20% batch fraction, and **8-hour deadline flexibility** (not 6-hour, as a 5×4 factorial ablation reveals) support >5% carbon reduction without sophisticated forecasting.
 
 ---
 
@@ -302,6 +302,38 @@ We tested the threshold policy (medium_flex scenario) across grid profiles repre
 
 **Note on wait-time variance:** Wait times are nearly deterministic across seeds (SD < 0.01 h) because the CI profile — which determines deferral timing — is fixed. Only the workload arrival process (seeded Poisson) varies across seeds, but mean wait time is driven by CI valley timing, not arrival noise.
 
+### 5.7 Batch Fraction × Deadline Slack Sensitivity
+
+The experiments in Sections 5.1–5.3 use three fixed scenarios that **confound batch fraction and deadline slack** (low_flex: 20%+4h, medium_flex: 30%+6h, high_flex: 40%+8h). This section answers the paper's stated research question (Section 1): *What minimum batch fraction and deadline slack are independently required?*
+
+We ran a **5×4 factorial ablation**: batch fraction ∈ {10%, 20%, 30%, 40%, 50%} × deadline slack ∈ {2, 4, 6, 8 hours}. 200 simulation runs (20 conditions × 10 seeds each), threshold policy, US Midwest CI profile. Results are shown in Figure 7 and Table 7.
+
+**Table 7: Carbon Saving Heatmap (%) — Threshold Policy, 10-Seed Mean**
+
+| Batch % | 2h slack | 4h slack | 6h slack | 8h slack |
+|---------|----------|----------|----------|----------|
+| 10% | −0.14 ✗ | +0.10 ✗ | +0.87 ✗ | +3.07 ~ |
+| 20% | −0.22 ✗ | +0.33 ✗ | +1.70 ✗ | **+5.40 ✓** |
+| 30% | −0.77 ✗ | +0.00 ✗ | +2.44 ~ | **+8.19 ✓** |
+| 40% | −0.83 ✗ | +0.02 ✗ | +3.76 ~ | **+12.50 ✓** |
+| 50% | −1.04 ✗ | −0.67 ✗ | +4.61 ~ | **+16.90 ✓** |
+
+*Legend: ✓ = viable (≥5%), ~ = borderline (2–5%), ✗ = null (<2%)*
+
+**Key findings:**
+
+1. **Deadline slack is the dominant variable.** The 2h and 4h columns are uniformly null regardless of batch fraction — a 4-hour CI valley cannot be captured in a 2–4 hour deadline window. The 8h column is viable at ≥20% batch fraction.
+
+2. **Minimum viable configuration:** ≥20% batch fraction AND ≥8h deadline slack yields >5% carbon saving. This is a more precise deployment guideline than the scenario-based experiments.
+
+3. **6h slack is borderline (2–5%) but not independently viable.** It reaches 4.61% at 50% batch fraction, confirming that 6h slack captures only the edges of CI valleys (which are 3–6h wide in the US Midwest profile). Grids with wider CI valleys (e.g., high-solar California) would likely cross the 5% threshold at 6h.
+
+4. **Batch fraction matters only conditional on sufficient deadline slack.** At 8h deadline, savings scale roughly linearly with batch fraction: 5.4% (20%) → 8.2% (30%) → 12.5% (40%) → 16.9% (50%). The mechanism is clear: each additional batch percentage point adds proportional deferral capacity.
+
+5. **Energy delta is negative at 8h deadline:** Deferred jobs run during lower-utilization periods (CI valleys coincide with off-peak hours), slightly reducing total energy (1.6–11.8% energy reduction at 8h). This is a simulation-specific result — in production, capacity planning may fill these off-peak troughs — but suggests no energy penalty.
+
+**Revised deployment recommendation:** Operators should ensure ≥8h deadline slack (not 6h) for batch jobs targeting US Midwest-class grids. 6h may suffice for grids with higher CI swing (California, UK/Denmark), which exhibit wider CI valleys. The batch fraction requirement is secondary: ≥20% is sufficient.
+
 ---
 
 ## 6. Orthogonality of Spatial and Temporal Optimization
@@ -374,7 +406,7 @@ This additivity removes the need to jointly optimize the two mechanisms and allo
 
 Based on our simulation results, we recommend:
 
-1. **Deploy threshold policy for carbon reduction** when: (a) grid CI swing ≥ 4×, (b) ≥20% of jobs are deferrable, (c) batch deadlines of 4+ hours are acceptable. No forecasting infrastructure is required.
+1. **Deploy threshold policy for carbon reduction** when: (a) grid CI swing ≥ 4×, (b) ≥20% of jobs are deferrable, (c) **batch deadlines of 8+ hours** are acceptable. This requirement (revised from an initial 6h estimate) arises from our 5×4 factorial ablation (Section 5.7): US Midwest CI valleys are 3–6h wide, requiring 8h deadline slack to reliably capture them. No forecasting infrastructure is required.
 
 2. **Set threshold at 30th CI percentile** (approximately 15% above CI minimum). This outperforms 10th, 20th, and 40th percentile thresholds in all tested scenarios.
 
@@ -511,6 +543,8 @@ The only energy reduction comes from HOST ON/OFF decisions (transitioning a host
 
 **Figure 6** *(figures/fig6_ci_swing.png):* Carbon saving as a function of grid CI swing (Threshold policy, medium_flex scenario). A CI swing of ≥4× is required to achieve the 5% deployment threshold. France (nuclear-dominated, 1.8× swing) falls below threshold; US Midwest, California, and UK/Denmark grids are deployable.
 
+**Figure 7** *(figures/fig7_batch_sensitivity.png):* Heatmap of carbon saving (%) as a function of batch fraction (rows: 10–50%) and deadline slack (columns: 2–8 hours). Green cells (OK) achieve ≥5% carbon saving; yellow cells (~) achieve 2–5%; red cells (✗) are null (<2%). The clear pattern shows that **8h deadline slack is the critical threshold**: no configuration achieves ≥5% saving with ≤6h deadline, regardless of batch fraction. At 8h, savings scale linearly with batch fraction from 5.4% (20%) to 16.9% (50%). This deconfounds the batch fraction and deadline slack variables, which were coupled in Sections 5.1–5.3.
+
 ---
 
-*Draft v0.3 — 2026-02-27. Figures: figures/. Simulation code: https://github.com/AmberLJC/cloudsim-energy-research. To complete before submission: (1) verify Buyya 2023 / Pasupuleti 2024 exact DOIs; (2) add author names and affiliations; (3) venue-specific formatting (IEEE TCC: 10 pp 2-column; CCGrid: 8 pp).*
+*Draft v0.6 — 2026-02-27. Figures: figures/. Simulation code: https://github.com/AmberLJC/cloudsim-energy-research. To complete before submission: (1) verify Buyya 2023 / Pasupuleti 2024 exact DOIs; (2) add author names and affiliations; (3) venue-specific formatting (IEEE TCC: 10 pp 2-column; CCGrid: 8 pp).*
