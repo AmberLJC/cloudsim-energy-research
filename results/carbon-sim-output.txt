@@ -1,0 +1,48 @@
+===========================================================================
+Carbon-Aware Temporal Deferral — Full Simulation (120 runs)
+===========================================================================
+
+CSV written: results/carbon/results.csv
+
+===========================================================================
+RESULTS SUMMARY
+===========================================================================
+
+Policy       Scenario        Energy (kWh)  Carbon (kgCO2)  C saving  E overhead  Wait (h)
+------------------------------------------------------------------------------------------
+baseline     low_flex              119.09          22.027     0.00%       0.00%      0.00
+baseline     medium_flex           119.09          22.027     0.00%       0.00%      0.00
+baseline     high_flex             119.09          22.027     0.00%       0.00%      0.00
+
+threshold    low_flex              119.09          20.964     4.83%       0.00%      2.90
+threshold    medium_flex           119.09          19.665    10.72%       0.00%      3.81
+threshold    high_flex             119.09          18.609    15.52%       0.00%      4.67
+
+adaptive     low_flex              119.09          21.358     3.04%       0.00%      2.91
+adaptive     medium_flex           119.09          20.336     7.68%       0.00%      4.67
+adaptive     high_flex             119.09          19.309    12.34%       0.00%      6.04
+
+oracle       low_flex              119.09          20.374     7.51%       0.00%      2.61
+oracle       medium_flex           119.09          19.107    13.26%       0.00%      3.43
+oracle       high_flex             119.09          17.968    18.43%       0.00%      4.05
+
+===========================================================================
+STOPPING RULE EVALUATION
+===========================================================================
+
+  low_flex: best carbon saving = 7.51% (policy: oracle)
+  medium_flex: best carbon saving = 13.26% (policy: oracle)
+  high_flex: best carbon saving = 18.43% (policy: oracle)
+
+  Scenarios with ≥5% carbon saving: 3/3
+  Scenarios with ≥2% carbon saving: 3/3
+  Mean best carbon saving: 13.06%
+
+  VERDICT: ✅ VIABLE — Carbon saving ≥ 5% in ≥2/3 scenarios. Proceed to write-up.
+
+ENERGY OVERHEAD (key safety check):
+  threshold: mean energy overhead = 0.00%
+  adaptive: mean energy overhead = 0.00%
+  oracle: mean energy overhead = 0.00%
+
+Summary JSON written: results/carbon/summary.json

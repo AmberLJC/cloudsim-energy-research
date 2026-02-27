@@ -1,0 +1,12 @@
+{
+  "total_runs": 120,
+  "verdict": "\u2705 VIABLE \u2014 Carbon saving \u2265 5% in \u22652/3 scenarios. Proceed to write-up.",
+  "best_per_scenario": {
+    "low_flex": 7.507058434241349,
+    "medium_flex": 13.25687180192398,
+    "high_flex": 18.429332794019274
+  },
+  "mean_best_carbon_saving_pct": 13.064421010061535,
+  "scenarios_above_5pct": 3,
+  "scenarios_above_2pct": 3
+}
