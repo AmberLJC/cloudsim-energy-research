@@ -1,0 +1,47 @@
+=================================================================
+FALSIFICATION CHECK — Direction #8: SLO Headroom Reduction
+=================================================================
+
+[1] BINDING CONSTRAINT ANALYSIS
+    How often do active hosts operate above 70% utilization?
+    (Near U_HIGH=80% → headroom IS binding)
+
+Scenario      Mean active hosts   % time near U_HIGH=0.80  Energy (MJ)
+----------------------------------------------------------------------
+low                        4.47                     39.7%       3.0317
+medium                     4.38                     39.1%       2.9487
+high                       3.73                     38.4%       2.4957
+
+[2] ENERGY SAVINGS FROM RELAXED HEADROOM (U_HIGH: 0.80 → 0.90)
+
+Scenario       Base hosts   Relax hosts   Hosts saved   Energy saving
+----------------------------------------------------------------------
+low                  4.47          4.31          0.16           1.78%
+medium               4.38          4.19          0.19           2.32%
+high                 3.73          3.58          0.16           2.31%
+
+[3] THEORETICAL ESTIMATE VS SIMULATED
+
+  Theoretical (simple): +10% capacity per host → ~9.1% fewer hosts
+  Each host saved → P_idle × T_active = 100W × ~3000s = 300 kJ/run
+
+  low: 0.16 hosts saved, est saving = 1.6%, actual = 1.78%
+  medium: 0.19 hosts saved, est saving = 1.9%, actual = 2.32%
+  high: 0.16 hosts saved, est saving = 1.9%, actual = 2.31%
+
+[4] BINDING CONSTRAINT DIAGNOSIS
+
+  low: 39.7% of active host-steps at util > 0.70 → BINDING — headroom is frequently hit, relaxation will help
+  medium: 39.1% of active host-steps at util > 0.70 → BINDING — headroom is frequently hit, relaxation will help
+  high: 38.4% of active host-steps at util > 0.70 → BINDING — headroom is frequently hit, relaxation will help
+
+=================================================================
+FALSIFICATION VERDICT
+=================================================================
+  Mean energy saving (0.80 → 0.90 headroom): 2.13%
+
+  ⚠️  BORDERLINE — savings 2–5%. May be publishable with variance modeling.
+     Proceed with caution; note that full variance-aware algorithm may do better.
+
+  Key question: Is U_HIGH=80% the bottleneck, or is low utilization the norm?
+  See 'near_ceiling_pct' above for the answer.

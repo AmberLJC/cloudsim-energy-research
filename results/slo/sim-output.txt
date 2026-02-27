@@ -1,0 +1,64 @@
+===========================================================================
+VAR-PABFD vs PABFD — Full Simulation (150 runs)
+===========================================================================
+
+  [15/150] low/VAR_k1_N5 seed 4 done
+  [30/150] low/VAR_k2_N5 seed 9 done
+  [45/150] low/VAR_k2_N10 seed 4 done
+  [60/150] medium/PABFD_baseline seed 9 done
+  [75/150] medium/VAR_k2_N5 seed 4 done
+  [90/150] medium/VAR_k1_N10 seed 9 done
+  [105/150] high/PABFD_baseline seed 4 done
+  [120/150] high/VAR_k1_N5 seed 9 done
+  [135/150] high/VAR_k1_N10 seed 4 done
+  [150/150] high/VAR_k2_N10 seed 9 done
+
+CSV written: results/slo/results.csv
+
+===========================================================================
+RESULTS SUMMARY
+===========================================================================
+
+Config               Scenario    Energy (MJ)  vs baseline  SLA viol %   Migrations   Hosts
+-------------------------------------------------------------------------------------
+PABFD_baseline       low              3.0133        0.00%     0.0000%          2.7    4.44
+PABFD_baseline       medium           2.9300        0.00%     0.0000%          2.5    4.36
+PABFD_baseline       high             2.4710        0.00%     0.0000%          1.3    3.69
+
+VAR_k1_N5            low              2.9484        2.16%     0.0000%          2.5    4.26
+VAR_k1_N5            medium           2.8925        1.28%     0.0000%          1.9    4.26
+VAR_k1_N5            high             2.4464        0.99%     0.0000%          1.1    3.62
+
+VAR_k2_N5            low              2.9001        3.76%     0.0000%          2.2    4.14
+VAR_k2_N5            medium           2.8634        2.27%     0.0000%          1.3    4.17
+VAR_k2_N5            high             2.4253        1.85%     0.0000%          1.2    3.57
+
+VAR_k1_N10           low              2.9430        2.33%     0.0000%          2.4    4.25
+VAR_k1_N10           medium           2.8925        1.28%     0.0000%          1.9    4.26
+VAR_k1_N10           high             2.4466        0.98%     0.0000%          1.2    3.62
+
+VAR_k2_N10           low              2.9009        3.73%     0.0000%          2.3    4.14
+VAR_k2_N10           medium           2.8594        2.41%     0.0000%          1.1    4.17
+VAR_k2_N10           high             2.4187        2.12%     0.0000%          1.2    3.55
+
+===========================================================================
+STOPPING RULE EVALUATION
+===========================================================================
+
+  low: best VAR-PABFD saving = 3.76%
+  medium: best VAR-PABFD saving = 2.41%
+  high: best VAR-PABFD saving = 2.12%
+
+  Scenarios with ≥5% saving: 0/3
+  Scenarios with ≥2% saving: 3/3
+  Mean best saving: 2.76%
+
+  VERDICT: ⚠️  BORDERLINE — Modest effect, may not be publishable standalone
+
+SLA VIOLATION IMPACT:
+  VAR_k1_N5: SLA viol rate 0.0000% (Δ=+0.0000% vs baseline)
+  VAR_k2_N5: SLA viol rate 0.0000% (Δ=+0.0000% vs baseline)
+  VAR_k1_N10: SLA viol rate 0.0000% (Δ=+0.0000% vs baseline)
+  VAR_k2_N10: SLA viol rate 0.0000% (Δ=+0.0000% vs baseline)
+
+Summary JSON written: results/slo/summary.json

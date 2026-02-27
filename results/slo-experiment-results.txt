@@ -1,0 +1,46 @@
+======================================================================
+EXPERIMENT — Direction #8: VAR-PABFD Variance-Aware Headroom
+======================================================================
+
+Scenario: low (churn=0.1)
+  Policy          Energy (MJ)   Active hosts  SLA viol%    Saving%
+  ------------------------------------------------------------
+  pabfd                2.1548           3.33      0.00%      0.00%
+  relax                2.0038           2.94      0.00%      7.01%
+  var_pabfd            2.0119           2.94      0.00%      6.63%
+  oracle               1.9155           2.72      0.00%     11.10%
+
+Scenario: medium (churn=0.2)
+  Policy          Energy (MJ)   Active hosts  SLA viol%    Saving%
+  ------------------------------------------------------------
+  pabfd                1.9740           3.06      0.00%      0.00%
+  relax                1.8320           2.69      0.00%      7.19%
+  var_pabfd            1.8691           2.77      0.00%      5.31%
+  oracle               1.7987           2.60      0.00%      8.88%
+
+Scenario: high (churn=0.4)
+  Policy          Energy (MJ)   Active hosts  SLA viol%    Saving%
+  ------------------------------------------------------------
+  pabfd                1.6311           2.53      0.00%      0.00%
+  relax                1.5174           2.23      0.00%      6.97%
+  var_pabfd            1.5585           2.33      0.00%      4.45%
+  oracle               1.5060           2.20      0.00%      7.67%
+
+======================================================================
+SUMMARY — VAR-PABFD vs PABFD (primary comparison)
+======================================================================
+  Scenario       PABFD (MJ)   VAR-PABFD (MJ)    Saving%      SLA Δ
+  -------------------------------------------------------
+  low                2.1548           2.0119      6.63%     +0.00%
+  medium             1.9740           1.8691      5.31%     +0.00%
+  high               1.6311           1.5585      4.45%     +0.00%
+
+  Mean VAR-PABFD saving: 5.47%
+  Mean ORACLE saving:    9.22%
+
+  VERDICT: ✅ VIABLE — VAR-PABFD exceeds 5% threshold. Proceed to analysis.
+
+  SLA violations:
+    low: PABFD=0.00%, VAR-PABFD=0.00%  (delta=+0.00%)
+    medium: PABFD=0.00%, VAR-PABFD=0.00%  (delta=+0.00%)
+    high: PABFD=0.00%, VAR-PABFD=0.00%  (delta=+0.00%)

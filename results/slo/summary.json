@@ -1,0 +1,12 @@
+{
+  "total_runs": 150,
+  "verdict": "\u26a0\ufe0f  BORDERLINE \u2014 Modest effect, may not be publishable standalone",
+  "mean_best_saving_pct": 2.760986000882218,
+  "scenarios_above_5pct": 0,
+  "scenarios_above_2pct": 3,
+  "best_savings_per_scenario": {
+    "low": 3.756437609897635,
+    "medium": 2.4099355154597664,
+    "high": 2.116584877289252
+  }
+}
