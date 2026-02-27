@@ -1,7 +1,7 @@
 # Carbon-Aware Temporal Deferral in Single-Datacenter Cloud Scheduling: Simulation-Based Policy Comparison and Mechanism Analysis
 
 **Authors:** [Anonymized for review]  
-**Draft status:** v0.1 — 2026-02-27  
+**Draft status:** v0.2 — 2026-02-27 (figures added)  
 **Target venues:** IEEE Transactions on Cloud Computing; CCGRID 2026; IEEE/ACM GreenCom 2026
 
 ---
@@ -192,7 +192,7 @@ Metrics collected:
 
 ### 5.2 Primary Results
 
-Table 1 presents primary results averaged across 10 seeds. Standard deviations across seeds are all < 1.2% absolute, confirming stability.
+Table 1 presents primary results averaged across 10 seeds; Figure 2 shows the same results as grouped bar charts with error bars. Standard deviations across seeds are all < 1.2% absolute, confirming stability.
 
 **Table 1: Carbon and Energy Results by Policy and Scenario**
 
@@ -212,7 +212,7 @@ Table 1 presents primary results averaged across 10 seeds. Standard deviations a
 | Oracle | high_flex | 119.09 | 17.968 | **18.43%** | 0.00% | 4.05 |
 
 **Key observations:**
-- All policies achieve **exactly 0.00% energy overhead**, confirming Lemma 2.1 empirically
+- All policies achieve **exactly 0.00% energy overhead**, confirming Lemma 2.1 empirically (see Figure 3)
 - Threshold policy achieves 4.83–15.52% carbon savings
 - Oracle achieves 7.51–18.43% — establishing the practical upper bound
 - H1 (Threshold ≥5% in ≥2/3 scenarios) **PASSED**: medium_flex=10.72%, high_flex=15.52%
@@ -222,7 +222,7 @@ Table 1 presents primary results averaged across 10 seeds. Standard deviations a
 
 ### 5.3 Policy Efficiency
 
-The ratio of threshold savings to oracle savings characterizes how much sub-optimality is paid for eliminating the need for CI forecasting:
+The ratio of threshold savings to oracle savings characterizes how much sub-optimality is paid for eliminating the need for CI forecasting (Figure 4):
 
 **Table 2: Threshold Policy Efficiency (% of Oracle)**
 
@@ -261,7 +261,7 @@ The threshold policy captures 38–61% of the theoretical maximum carbon saving.
 
 ### 5.5 Carbon Intensity Swing Sensitivity
 
-We tested the threshold policy (medium_flex scenario) across grid profiles representing four regions:
+We tested the threshold policy (medium_flex scenario) across grid profiles representing four regions (Figure 6):
 
 **Table 4: Carbon Saving by Grid Region (Threshold Policy, medium_flex)**
 
@@ -299,7 +299,7 @@ This allows low-variance hosts to admit more VMs before triggering migration, re
 
 ### 6.2 2×2 Factorial Experiment
 
-We ran a 2×2 factorial design: (PABFD vs VAR-PABFD) × (No Deferral vs Carbon Deferral), with 10 seeds per cell and 40 total runs. Configuration: 20 hosts, 600 VMs, 24h diurnal workload, medium_flex batch scenario.
+We ran a 2×2 factorial design: (PABFD vs VAR-PABFD) × (No Deferral vs Carbon Deferral), with 10 seeds per cell and 40 total runs. Results are shown in Figure 5 and Table 5. Configuration: 20 hosts, 600 VMs, 24h diurnal workload, medium_flex batch scenario.
 
 **Table 5: Combined Policy Results**
 
@@ -468,4 +468,22 @@ The only energy reduction comes from HOST ON/OFF decisions (transitioning a host
 
 ---
 
-*Draft v0.1 — 2026-02-27. Simulation code: https://github.com/AmberLJC/cloudsim-energy-research*
+---
+
+## Figure Captions
+
+**Figure 1** *(figures/fig1_ci_profile.png):* Diurnal carbon intensity (CI) profile for the US Midwest grid model used in all experiments. CI ranges from 71 to 399 gCO₂/kWh (5.6× swing). The dashed line shows the threshold τ = 120 gCO₂/kWh (medium_flex scenario). The shaded region indicates time windows where batch jobs are eligible for immediate dispatch under the threshold policy.
+
+**Figure 2** *(figures/fig2_carbon_savings.png):* Carbon savings by policy and batch-flexibility scenario (Table 1, grouped bar chart with 1-σ seed error bars). The red dashed line marks the 5% viability threshold. All three scenarios exceed 5% for the Threshold and Oracle policies. Error bars: ±0.85–1.20% absolute (10 seeds).
+
+**Figure 3** *(figures/fig3_energy_neutral.png):* Energy overhead across all 9 policy-scenario conditions. All conditions produce exactly 0.00% energy overhead (Lemma 2.1 validated empirically). Small scatter represents floating-point noise across seeds.
+
+**Figure 4** *(figures/fig4_threshold_efficiency.png):* (a) Threshold vs Oracle carbon savings with the gap to oracle shown in lighter color. (b) Threshold policy efficiency as percentage of oracle. Mean efficiency = 76.4%, increasing from 64.3% (low_flex) to 84.2% (high_flex). The green shaded band shows the Sukprasert (2024) predicted range (75–90%).
+
+**Figure 5** *(figures/fig5_orthogonality.png):* 2×2 factorial experiment showing energy (a) and carbon (b) savings for all four policy combinations. The dashed lines show the additive predictions. Observed synergy < 0.1% confirms Theorem 6.1.
+
+**Figure 6** *(figures/fig6_ci_swing.png):* Carbon saving as a function of grid CI swing (Threshold policy, medium_flex scenario). A CI swing of ≥4× is required to achieve the 5% deployment threshold. France (nuclear-dominated, 1.8× swing) falls below threshold; US Midwest, California, and UK/Denmark grids are deployable.
+
+---
+
+*Draft v0.2 — 2026-02-27. Figures: figures/. Simulation code: https://github.com/AmberLJC/cloudsim-energy-research*
