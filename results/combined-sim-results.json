@@ -1,0 +1,85 @@
+{
+  "params": {
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "ci_swing": 4.0,
+    "ci_min": 100.0,
+    "ci_max": 400.0,
+    "ci_threshold": 145.0,
+    "batch_fraction": 0.3,
+    "max_defer_hours": 6.0,
+    "var_threshold": 0.005,
+    "u_high_base": 0.8,
+    "u_high_var_low": 0.92
+  },
+  "results": {
+    "PABFD_NoDeferral": {
+      "energy_mean": 53.13241762791453,
+      "energy_std": 1.2596627652803616,
+      "carbon_mean": 3078.357708434959,
+      "carbon_std": 78.43211512294587,
+      "sla_violations_mean": 0.0,
+      "wait_h_mean": 0.004054872854623126,
+      "migrations_mean": 39.1,
+      "energy_saving_pct": 0.0,
+      "carbon_saving_pct": 0.0
+    },
+    "VAR-PABFD_NoDeferral": {
+      "energy_mean": 51.68251762791452,
+      "energy_std": 1.0476566457645429,
+      "carbon_mean": 2999.632703978807,
+      "carbon_std": 65.57166272859068,
+      "sla_violations_mean": 0.0,
+      "wait_h_mean": 0.004054872854623126,
+      "migrations_mean": 34.4,
+      "energy_saving_pct": 2.7288425122184976,
+      "carbon_saving_pct": 2.5573702575382593
+    },
+    "PABFD_CarbonDeferral": {
+      "energy_mean": 51.9250008388311,
+      "energy_std": 1.2208396767710947,
+      "carbon_mean": 2853.5926815264716,
+      "carbon_std": 70.1111271706844,
+      "sla_violations_mean": 18.8,
+      "wait_h_mean": 2.3244236921025574,
+      "migrations_mean": 42.1,
+      "energy_saving_pct": 2.272467248787633,
+      "carbon_saving_pct": 7.30145903098306
+    },
+    "VAR-PABFD_Combined": {
+      "energy_mean": 50.46160083883111,
+      "energy_std": 1.0775111813841491,
+      "carbon_mean": 2775.6420485525077,
+      "carbon_std": 72.45070613998811,
+      "sla_violations_mean": 18.8,
+      "wait_h_mean": 2.3244236921025574,
+      "migrations_mean": 38.8,
+      "energy_saving_pct": 5.026717978065867,
+      "carbon_saving_pct": 9.83367394416136
+    }
+  },
+  "synergy": {
+    "energy_synergy_pct": 0.02540821705973695,
+    "carbon_synergy_pct": -0.02515534435995903,
+    "e_combined": 5.026717978065867,
+    "c_combined": 9.83367394416136
+  },
+  "hypothesis_checks": {
+    "H1: VAR-PABFD energy saving > 5%": false,
+    "H2: Carbon deferral carbon saving > 5%": true,
+    "H3: Combined energy >= VAR-PABFD alone (non-degrade)": true,
+    "H4: Combined carbon >= Deferral alone (non-degrade)": true,
+    "H5: Combined energy+carbon > 10% total": true,
+    "H6: SLA violations == 0 (all policies)": false
+  }
+}

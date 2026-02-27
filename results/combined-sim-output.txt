@@ -1,0 +1,26 @@
+COMBINED VAR-PABFD + CARBON DEFERRAL SIMULATION
+======================================================================
+Seeds: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+CI range: 100.0–400.0 gCO2/kWh (swing=4.0×)
+Threshold: 145.0 gCO2/kWh (15th percentile)
+Batch fraction: 30%, Max defer: 6.0h
+VAR-PABFD: k=2.0, variance threshold=0.005
+
+Policy                          Energy MJ      ΔE%   Carbon g      ΔC%
+-----------------------------------------------------------------
+PABFD_NoDeferral                    53.13     0.00%       3078     0.00%
+VAR-PABFD_NoDeferral                51.68     2.73%       3000     2.56%
+PABFD_CarbonDeferral                51.93     2.27%       2854     7.30%
+VAR-PABFD_Combined                  50.46     5.03%       2776     9.83%
+
+SYNERGY ANALYSIS
+  Energy synergy: +0.03% (observed-additive)
+  Carbon synergy: -0.03% (observed-additive)
+
+HYPOTHESIS CHECKS
+  FAIL: H1: VAR-PABFD energy saving > 5% [2.73%]
+  PASS: H2: Carbon deferral carbon saving > 5% [7.30%]
+  PASS: H3: Combined energy >= VAR-PABFD alone (non-degrade) [5.03% vs 2.73%]
+  PASS: H4: Combined carbon >= Deferral alone (non-degrade) [9.83% vs 7.30%]
+  PASS: H5: Combined energy+carbon > 10% total [14.86%]
+  FAIL: H6: SLA violations == 0 (all policies) []
