@@ -1,7 +1,7 @@
 # Carbon-Aware Temporal Deferral in Single-Datacenter Cloud Scheduling: Simulation-Based Policy Comparison and Mechanism Analysis
 
 **Authors:** [Anonymized for review]  
-**Draft status:** v0.3 — 2026-02-27 (figures + citations complete; Masanet 2020 + IEA 2024 added; README published)  
+**Draft status:** v0.4 — 2026-02-27 (formal 95% CIs added to Section 5.6; all 9 conditions statistically significant; reproducibility checklist added)  
 **Target venues:** IEEE Transactions on Cloud Computing; CCGRID 2026; IEEE/ACM GreenCom 2026
 
 ---
@@ -275,9 +275,32 @@ We tested the threshold policy (medium_flex scenario) across grid profiles repre
 
 **Deployment threshold:** A CI swing of ≥4× is required to reliably exceed 5% carbon savings with a simple threshold policy. France (nuclear-heavy, low CI variability) falls below threshold. Grids with high solar or wind penetration (UK, California, US Midwest) are well-suited for deployment.
 
-### 5.6 Reproducibility
+### 5.6 Statistical Validation and Reproducibility
 
-Standard deviation of carbon savings across 10 seeds: 0.8–1.2% absolute (coefficient of variation < 10% in all scenarios). All conditions show carbon savings in the same direction across all seeds. The simulation is reproducible at code commit `1be49ec`.
+**Table 3: Carbon Savings with 95% Confidence Intervals (t-distribution, n=10 seeds)**
+
+| Policy | Scenario | C Saving (%) | 95% CI | SD | E Overhead (%) | Significant? |
+|--------|----------|-------------|--------|----|----|---|
+| Threshold | low_flex | 4.83 | [4.76, 4.90] | 0.10 | 0.0000 | ✓ |
+| Threshold | medium_flex | 10.72 | [10.61, 10.84] | 0.16 | 0.0000 | ✓ |
+| Threshold | high_flex | 15.52 | [15.30, 15.74] | 0.31 | 0.0000 | ✓ |
+| Adaptive | low_flex | 3.04 | [2.98, 3.10] | 0.08 | 0.0000 | ✓ |
+| Adaptive | medium_flex | 7.68 | [7.60, 7.75] | 0.10 | 0.0000 | ✓ |
+| Adaptive | high_flex | 12.34 | [12.23, 12.45] | 0.16 | 0.0000 | ✓ |
+| Oracle | low_flex | 7.51 | [7.39, 7.62] | 0.16 | 0.0000 | ✓ |
+| Oracle | medium_flex | 13.26 | [13.05, 13.47] | 0.29 | 0.0000 | ✓ |
+| Oracle | high_flex | 18.43 | [18.15, 18.71] | 0.38 | 0.0000 | ✓ |
+
+**Statistical findings:**
+
+1. **All 9 conditions are statistically significant** at α=0.05 (95% CI entirely above zero).
+2. **Tight CIs:** Standard deviation ranges from 0.08% to 0.38% absolute, coefficient of variation < 4% in all cases. This reflects the deterministic CI profile (seed variation comes only from workload phase shifts).
+3. **Energy neutrality confirmed:** All 95% CIs for energy overhead include 0.0000%, consistent with the analytical proof of Lemma 2.1.
+4. **Threshold efficiency monotonically increasing:** 64.3% (low_flex) → 80.8% (medium_flex) → 84.2% (high_flex), as larger batch fractions provide more optimization opportunities within each CI valley.
+
+**Reproducibility:** The simulation is fully reproducible. All random seeds (0–9) are documented in `simulate-carbon.py`. Per-seed results are archived in `results/carbon/results.csv`. CI computations are in `compute-ci-from-csv.py`. The simulation reproduces exactly at code commit `1be49ec` on any machine with Python 3.8+ and NumPy/SciPy.
+
+**Note on wait-time variance:** Wait times are nearly deterministic across seeds (SD < 0.01 h) because the CI profile — which determines deferral timing — is fixed. Only the workload arrival process (seeded Poisson) varies across seeds, but mean wait time is driven by CI valley timing, not arrival noise.
 
 ---
 
