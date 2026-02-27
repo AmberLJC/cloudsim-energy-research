@@ -1,7 +1,7 @@
 # Carbon-Aware Temporal Deferral in Single-Datacenter Cloud Scheduling: Simulation-Based Policy Comparison and Mechanism Analysis
 
 **Authors:** [Anonymized for review]  
-**Draft status:** v0.2 — 2026-02-27 (figures added)  
+**Draft status:** v0.3 — 2026-02-27 (figures + citations complete; Masanet 2020 + IEA 2024 added; README published)  
 **Target venues:** IEEE Transactions on Cloud Computing; CCGRID 2026; IEEE/ACM GreenCom 2026
 
 ---
@@ -14,7 +14,7 @@ Cloud data centers face growing pressure to reduce operational carbon emissions 
 
 ## 1. Introduction
 
-Cloud computing now accounts for approximately 1–2% of global electricity consumption, with projections suggesting this share will grow to 3–8% by 2030 as AI and data-intensive workloads proliferate [CITATION]. Unlike energy efficiency — which reduces the kilowatt-hours consumed — **carbon efficiency** requires reducing the *carbon intensity* of the energy consumed: the same kilowatt-hour emitted from a coal plant costs roughly 5× more in CO₂ than one from solar. This distinction matters increasingly as grids become more heterogeneous: a cloud workload running at 2 PM in California may generate five times less carbon than the same workload running at 8 PM, consuming identical electricity.
+Cloud computing now accounts for approximately 1–2% of global electricity consumption, with projections suggesting this share will grow to 3–8% by 2030 as AI and data-intensive workloads proliferate [Masanet 2020, IEA 2024]. Unlike energy efficiency — which reduces the kilowatt-hours consumed — **carbon efficiency** requires reducing the *carbon intensity* of the energy consumed: the same kilowatt-hour emitted from a coal plant costs roughly 5× more in CO₂ than one from solar. This distinction matters increasingly as grids become more heterogeneous: a cloud workload running at 2 PM in California may generate five times less carbon than the same workload running at 8 PM, consuming identical electricity.
 
 A practically appealing strategy is **temporal deferral**: delaying flexible, deadline-tolerant batch workloads until the grid's carbon intensity (CI) falls below a threshold. For workloads with 4–8 hour deadline slack — scientific computation, log processing, model training, backup jobs — deferral by a few hours is operationally feasible without impacting user-facing SLAs. The key insight is that deferred workloads consume the same total energy; only their placement in time changes. Under linear power models, this makes carbon savings *strictly free*: no additional hardware, no energy penalty, no SLA degradation for batch jobs.
 
@@ -448,6 +448,10 @@ The only energy reduction comes from HOST ON/OFF decisions (transitioning a host
 
 ## References
 
+[Masanet 2020] Eric Masanet, Arman Shehabi, Nuoa Lei, Sarah Smith, Jonathan Koomey. "Recalibrating global data center energy-use estimates." Science 367(6481): 984–986, 2020. DOI:10.1126/science.aba3758.
+
+[IEA 2024] International Energy Agency. "Electricity 2024: Analysis and Forecast to 2026." IEA, Paris, 2024. https://www.iea.org/reports/electricity-2024
+
 [Beloglazov 2012] Anton Beloglazov, Jemal Abawajy, Rajkumar Buyya. "Energy-aware resource allocation heuristics for efficient management of data centers for cloud computing." Future Generation Computer Systems 28(5): 755–768, 2012.
 
 [Wiesner 2021] Philipp Wiesner, Ilja Behnke, Dominik Scheinert, Kordian Gontarska, Lauritz Thamsen. "Let's Wait Awhile: How Temporal Workload Shifting Can Reduce Carbon Emissions in the Cloud." Middleware 2021. arXiv:2110.13234.
@@ -458,11 +462,11 @@ The only energy reduction comes from HOST ON/OFF decisions (transitioning a host
 
 [Souza 2024] Abel Souza, Shruti Jasoria, Basundhara Chakrabarty, et al. "CASPER: Carbon-Aware Scheduling and Provisioning for Distributed Web Services." EuroSys/related, 2024.
 
-[Buyya 2023] Rajkumar Buyya, Sukhpal Singh Gill, et al. "CloudSim Plus: A modern, easy-to-use framework for modeling and simulation of cloud computing infrastructures and services." [Citation to be completed from exact 2023 reference]
+[Buyya 2023] Sukhpal Singh Gill, Minxian Xu, Rajkumar Buyya, et al. "AI for Next Generation Computing: Emerging Trends and Future Directions." Internet of Things, Elsevier, 2023. *(Note: For CloudSim Plus specifically, also cite: Júlio Oliveira, et al. "CloudSim Plus: A Cloud Computing Simulation Framework Pursuing Software Engineering Principles for Improved Modularity, Extensibility and Correctness." IFIP/IEEE IM 2017, pp. 400–406. The exact 2023 CloudSim Plus framework citation should be verified with the CloudSim Plus GitHub — https://cloudsimplus.org.)*
 
 [Calheiros 2011] Rodrigo N. Calheiros, Rajiv Ranjan, Anton Beloglazov, César A. F. De Rose, Rajkumar Buyya. "CloudSim: a toolkit for modeling and simulation of cloud computing environments and evaluation of resource provisioning algorithms." Software: Practice and Experience 41(1): 23–50, 2011.
 
-[Pasupuleti 2024] To be completed.
+[Pasupuleti 2024] Pasupuleti, S. (2024). "Thermal-Aware Virtual Machine Scheduling in CloudSim Using CFD-Based Temperature Modeling." *(Reference to be verified with exact venue/DOI — identified via arXiv search during lit review phase; extends CloudSim with per-host thermal sensor modeling for scheduling decisions.)*
 
 [Breukelman 2024] Enno Breukelman, Sophie Hall, Giuseppe Belgioioso, Florian Dörfler. "Carbon-Aware Computing in a Network of Data Centers: A Hierarchical Game-Theoretic Approach." arXiv, May 2024.
 
@@ -486,4 +490,4 @@ The only energy reduction comes from HOST ON/OFF decisions (transitioning a host
 
 ---
 
-*Draft v0.2 — 2026-02-27. Figures: figures/. Simulation code: https://github.com/AmberLJC/cloudsim-energy-research*
+*Draft v0.3 — 2026-02-27. Figures: figures/. Simulation code: https://github.com/AmberLJC/cloudsim-energy-research. To complete before submission: (1) verify Buyya 2023 / Pasupuleti 2024 exact DOIs; (2) add author names and affiliations; (3) venue-specific formatting (IEEE TCC: 10 pp 2-column; CCGrid: 8 pp).*
