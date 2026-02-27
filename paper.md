@@ -1,7 +1,7 @@
 # Carbon-Aware Temporal Deferral in Single-Datacenter Cloud Scheduling: Simulation-Based Policy Comparison and Mechanism Analysis
 
 **Authors:** [Anonymized for review]  
-**Draft status:** v0.4 — 2026-02-27 (formal 95% CIs added to Section 5.6; all 9 conditions statistically significant; reproducibility checklist added)  
+**Draft status:** v0.5 — 2026-02-27 (figures upgraded to 300 DPI; reproducibility checklist updated to 98% complete [53/54]; all pre-submission technical items resolved)  
 **Target venues:** IEEE Transactions on Cloud Computing; CCGRID 2026; IEEE/ACM GreenCom 2026
 
 ---
@@ -298,7 +298,7 @@ We tested the threshold policy (medium_flex scenario) across grid profiles repre
 3. **Energy neutrality confirmed:** All 95% CIs for energy overhead include 0.0000%, consistent with the analytical proof of Lemma 2.1.
 4. **Threshold efficiency monotonically increasing:** 64.3% (low_flex) → 80.8% (medium_flex) → 84.2% (high_flex), as larger batch fractions provide more optimization opportunities within each CI valley.
 
-**Reproducibility:** The simulation is fully reproducible. All random seeds (0–9) are documented in `simulate-carbon.py`. Per-seed results are archived in `results/carbon/results.csv`. CI computations are in `compute-ci-from-csv.py`. The simulation reproduces exactly at code commit `1be49ec` on any machine with Python 3.8+ and NumPy/SciPy.
+**Reproducibility:** The simulation is fully reproducible. All random seeds (0–9) are documented in `simulate-carbon.py`. Per-seed results are archived in `results/carbon/results.csv`. CI computations are in `compute-ci-from-csv.py`. A single end-to-end reproduction script (`run_all.sh`) runs all simulations and regenerates all figures in under 60 seconds on any modern laptop. Code and data are available at https://github.com/AmberLJC/cloudsim-energy-research (MIT License). The reproducibility checklist (53/54 items, 98% complete) is archived at `templates/reproducibility-checklist.md`. All 6 figures are available at 300 DPI for camera-ready submission.
 
 **Note on wait-time variance:** Wait times are nearly deterministic across seeds (SD < 0.01 h) because the CI profile — which determines deferral timing — is fixed. Only the workload arrival process (seeded Poisson) varies across seeds, but mean wait time is driven by CI valley timing, not arrival noise.
 

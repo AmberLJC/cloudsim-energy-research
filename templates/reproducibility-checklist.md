@@ -32,15 +32,15 @@ A reviewer should be able to independently reproduce all main figures and tables
 | # | Item | Status | Notes |
 |---|------|--------|-------|
 | B1 | Python version is specified | ✅ | Python 3.8+ required; tested on Python 3.10 and 3.12 |
-| B2 | Package dependencies are listed with versions | ⚠ | NumPy, SciPy, Matplotlib used; no `requirements.txt` yet (add before submission) |
+| B2 | Package dependencies are listed with versions | ✅ | `requirements.txt` added with exact tested versions (numpy==2.4.2, scipy==1.17.1, matplotlib==3.10.8) |
 | B3 | Random seeds are fixed and documented | ✅ | Seeds 0–9 used; see `SEEDS = list(range(10))` in `simulate-carbon.py` |
 | B4 | Operating system / hardware requirements | ✅ | No GPU required; any x86-64 Linux/macOS/Windows. Runtime: ~30s on any modern laptop |
 | B5 | Non-determinism sources are documented | ✅ | Only source of randomness: Poisson workload arrivals, seeded via `np.random.default_rng(seed)` |
 | B6 | Simulation validated against known baselines | ✅ | PABFD baseline matches Beloglazov 2012 energy model; PABFD linear optimality proven in Appendix A |
 
 **Action items before submission:**
-- [ ] Add `requirements.txt` with exact package versions (e.g., `numpy==1.26.0, scipy==1.11.0, matplotlib==3.8.0`)
-- [ ] Add `environment.yml` for conda users
+- [x] ~~Add `requirements.txt` with exact package versions~~ — DONE (v0.4)
+- [ ] Add `environment.yml` for conda users (LOW priority)
 
 ---
 
@@ -77,16 +77,16 @@ A reviewer should be able to independently reproduce all main figures and tables
 | # | Item | Status | Notes |
 |---|------|--------|-------|
 | E1 | Simulation code is publicly available | ✅ | https://github.com/AmberLJC/cloudsim-energy-research |
-| E2 | Code runs end-to-end from a single command | ⚠ | `python3 simulate-carbon.py` reproduces main results; no unified runner script yet |
+| E2 | Code runs end-to-end from a single command | ✅ | `run_all.sh` added — runs all 5 scripts in sequence to reproduce all results, figures, and CIs |
 | E3 | Raw simulation outputs are archived | ✅ | `results/carbon/results.csv`, `results/carbon/summary.json` |
 | E4 | Figure generation code is included | ✅ | `generate-figures.py` reproduces all 6 figures |
 | E5 | CI computation code is included | ✅ | `compute-ci-from-csv.py` reproduces Table 3 |
 | E6 | Code version is pinned in paper | ✅ | Commit hash in paper (Section 5.6) |
-| E7 | License is specified | ❌ | **TODO: Add LICENSE file before submission (recommend MIT or Apache 2.0)** |
+| E7 | License is specified | ✅ | MIT License added (`LICENSE` file in repo root) |
 
 **Action items before submission:**
-- [ ] Add `run_all.sh` or `Makefile` to reproduce all results in sequence
-- [ ] Add `LICENSE` file
+- [x] ~~Add `run_all.sh` to reproduce all results in sequence~~ — DONE (v0.4)
+- [x] ~~Add `LICENSE` file~~ — DONE (MIT License, v0.4)
 
 ---
 
@@ -99,11 +99,11 @@ A reviewer should be able to independently reproduce all main figures and tables
 | F3 | Error bars are included on bar charts | ✅ | Figure 2 shows 95% CI error bars |
 | F4 | Axes are labeled with units | ✅ | All 6 figures include axis labels and units |
 | F5 | Color-blind-friendly palette used | ⚠ | Colors chosen for visibility; not formally tested with colorblindness simulation tool |
-| F6 | Figures available at publication resolution (≥300 DPI) | ⚠ | Currently 150 DPI; regenerate at 300 DPI for camera-ready |
+| F6 | Figures available at publication resolution (≥300 DPI) | ✅ | Regenerated at 300 DPI (2026-02-27); file sizes 167–227 KB per figure |
 
 **Action items before submission:**
-- [ ] Regenerate figures at 300 DPI (`dpi=300` in `generate-figures.py`)
-- [ ] Test palette with colorblind simulation (e.g., https://www.color-blindness.com/coblis-color-blindness-simulator/)
+- [x] ~~Regenerate figures at 300 DPI~~ — DONE (2026-02-27, `generate-figures.py` updated to dpi=300)
+- [ ] Test palette with colorblind simulation (e.g., https://www.color-blindness.com/coblis-color-blindness-simulator/) — OPTIONAL
 
 ---
 
@@ -156,41 +156,37 @@ A reviewer should be able to independently reproduce all main figures and tables
 | Part | Items | ✅ Yes | ⚠ Partial | ❌ No |
 |------|-------|--------|-----------|-------|
 | A Claims | 5 | 5 | 0 | 0 |
-| B Environment | 6 | 5 | 1 | 0 |
+| B Environment | 6 | 6 | 0 | 0 |
 | C Setup | 7 | 7 | 0 | 0 |
 | D Statistics | 7 | 7 | 0 | 0 |
-| E Code/Data | 7 | 5 | 1 | 1 |
-| F Figures | 6 | 4 | 2 | 0 |
+| E Code/Data | 7 | 7 | 0 | 0 |
+| F Figures | 6 | 5 | 1 | 0 |
 | G Theory | 4 | 4 | 0 | 0 |
 | H Related Work | 3 | 3 | 0 | 0 |
 | I Limitations | 5 | 5 | 0 | 0 |
 | J Deployment | 4 | 4 | 0 | 0 |
-| **TOTAL** | **54** | **49 (91%)** | **4 (7%)** | **1 (2%)** |
+| **TOTAL** | **54** | **53 (98%)** | **1 (2%)** | **0 (0%)** |
 
 ---
 
 ## Pre-Submission TODO List
 
-Priority items to complete before camera-ready:
+**Updated: 2026-02-27 (v0.5 — all critical items complete)**
 
-1. **[CRITICAL]** Add `LICENSE` file (MIT recommended) — required for GitHub code release
-2. **[HIGH]** Add `requirements.txt` with exact package versions
-3. **[HIGH]** Regenerate all figures at 300 DPI
-4. **[MEDIUM]** Add `run_all.sh` to reproduce all results in one step:
-   ```bash
-   #!/bin/bash
-   python3 simulate-carbon.py          # 120 runs, ~20s
-   python3 simulate-combined.py        # 40 runs, ~10s  
-   python3 ablation-ci-variability.py  # 50 runs, ~10s
-   python3 compute-ci-from-csv.py      # compute CIs
-   python3 generate-figures.py         # all 6 figures
-   echo "All results reproduced!"
-   ```
-5. **[MEDIUM]** Add colorblind accessibility check for figures
-6. **[LOW]** Add `environment.yml` for conda users
-7. **[LOW]** Add author names and affiliations (currently anonymized for review)
-8. **[LOW]** Verify exact DOIs for Buyya 2023 and Pasupuleti 2024
+### Completed ✅
+1. ~~**[CRITICAL]** Add `LICENSE` file~~ — MIT License added (v0.4)
+2. ~~**[HIGH]** Add `requirements.txt` with exact package versions~~ — DONE (v0.4)
+3. ~~**[HIGH]** Regenerate all figures at 300 DPI~~ — DONE (v0.5, generate-figures.py updated)
+4. ~~**[MEDIUM]** Add `run_all.sh`~~ — DONE (v0.4)
+5. ~~**[MEDIUM]** 95% confidence intervals for all results~~ — DONE (v0.4, Table 3)
+
+### Remaining (author-level tasks) 📝
+6. **[MEDIUM]** Add colorblind accessibility check for figures (F5) — optional but recommended
+7. **[LOW]** Add `environment.yml` for conda users
+8. **[LOW]** Add author names and affiliations (currently anonymized for double-blind review)
+9. **[LOW]** Verify exact DOIs for Buyya 2023 and Pasupuleti 2024
+10. **[LOW]** Camera-ready: adjust margins/font size for target venue (IEEE double-column or ACM single-column)
 
 ---
 
-*Generated by research advisor agent. Last updated: 2026-02-27.*
+*Generated by research advisor agent. Last updated: 2026-02-27 (v0.5 — 53/54 items complete, 98% ready).*

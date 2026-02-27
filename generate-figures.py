@@ -32,7 +32,7 @@ plt.rcParams.update({
     'legend.fontsize': 10,
     'xtick.labelsize': 10,
     'ytick.labelsize': 10,
-    'figure.dpi': 150,
+    'figure.dpi': 300,
     'axes.grid': True,
     'grid.alpha': 0.3,
     'axes.spines.top': False,
@@ -119,7 +119,7 @@ ax.annotate('CI max = 399', xy=(20, 399), xytext=(16, 410),
             arrowprops=dict(arrowstyle='->', color='gray', lw=1),
             fontsize=9, color='gray')
 plt.tight_layout()
-plt.savefig('figures/fig1_ci_profile.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/fig1_ci_profile.png', dpi=300, bbox_inches='tight')
 plt.close()
 print("fig1_ci_profile.png  ✓")
 
@@ -153,7 +153,7 @@ ax.set_xticklabels([SCENARIO_LABELS[s] for s in scenarios])
 ax.set_ylim(0, 23)
 ax.legend(framealpha=0.9)
 plt.tight_layout()
-plt.savefig('figures/fig2_carbon_savings.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/fig2_carbon_savings.png', dpi=300, bbox_inches='tight')
 plt.close()
 print("fig2_carbon_savings.png  ✓")
 
@@ -196,7 +196,7 @@ ax.text(4, 1.5, '0.00% overhead in all 9 conditions\n(Lemma 2.1 validated empiri
         ha='center', fontsize=9, style='italic', color='#155724',
         bbox=dict(boxstyle='round', facecolor='#d4edda', alpha=0.7))
 plt.tight_layout()
-plt.savefig('figures/fig3_energy_neutral.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/fig3_energy_neutral.png', dpi=300, bbox_inches='tight')
 plt.close()
 print("fig3_energy_neutral.png  ✓")
 
@@ -245,7 +245,7 @@ ax2.legend(fontsize=9)
 ax2.set_ylim(0, 105)
 fig.suptitle('Figure 4: Threshold Policy Performance Relative to Oracle', fontsize=12)
 plt.tight_layout()
-plt.savefig('figures/fig4_threshold_efficiency.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/fig4_threshold_efficiency.png', dpi=300, bbox_inches='tight')
 plt.close()
 print("fig4_threshold_efficiency.png  ✓")
 
@@ -298,7 +298,7 @@ for ax_i in axes:
 
 fig.suptitle('Figure 5: Orthogonality of VAR-PABFD and Carbon Deferral (2×2 Factorial)', fontsize=12)
 plt.tight_layout()
-plt.savefig('figures/fig5_orthogonality.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/fig5_orthogonality.png', dpi=300, bbox_inches='tight')
 plt.close()
 print("fig5_orthogonality.png  ✓")
 
@@ -339,7 +339,7 @@ ax.fill_betweenx([0, 9.5], 4.5, 4.5 + 3.5, alpha=0.05, color='green', label='')
 ax.text(2.7, 8.5, 'Low CI\nvariability', ha='center', fontsize=8.5, color='#dc3545')
 ax.text(6.5, 8.5, 'Deployable', ha='center', fontsize=8.5, color='#28a745')
 plt.tight_layout()
-plt.savefig('figures/fig6_ci_swing.png', dpi=150, bbox_inches='tight')
+plt.savefig('figures/fig6_ci_swing.png', dpi=300, bbox_inches='tight')
 plt.close()
 print("fig6_ci_swing.png  ✓")
 
