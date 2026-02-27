@@ -1,0 +1,39 @@
+======================================================================
+FALSIFICATION — Direction #16: Scale Hypothesis
+======================================================================
+
+Hypothesis: VAR-PABFD savings grow with simulation scale.
+k=2.0 (best from #8), diurnal arrival pattern at scale B & C.
+
+Running scale A_3600s_10h (3600s, 10 hosts)...
+  Base: 3.2543 MJ, VAR: 3.2322 MJ, saving: 0.68%
+  Hosts: base=4.79, var=4.66, VMs: 35
+
+Running scale B_14400s_20h (14400s, 20 hosts)...
+  Base: 12.1163 MJ, VAR: 11.7325 MJ, saving: 3.17%
+  Hosts: base=4.45, var=4.21, VMs: 105
+
+Running scale C_86400s_50h (86400s, 50 hosts)...
+  Base: 191.1017 MJ, VAR: 183.4701 MJ, saving: 3.99%
+  Hosts: base=11.53, var=10.73, VMs: 1729
+
+
+======================================================================
+SCALE HYPOTHESIS EVALUATION
+======================================================================
+
+Scale                   Savings %  Base E (MJ)   VAR E (MJ)  Hosts saved
+------------------------------------------------------------------------
+A_3600s_10h                 0.68%       3.2543       3.2322         0.13
+B_14400s_20h                3.17%      12.1163      11.7325         0.25
+C_86400s_50h                3.99%     191.1017     183.4701         0.80
+
+  Savings grow with scale: YES
+  Scale C savings: 3.99%
+
+  VERDICT: ⚠️  BORDERLINE — Scale helps but not enough. Pivot to #17 (carbon-aware).
+  DETAIL: Scale extends the effect but not beyond publishable threshold.
+
+  Pre-registration for #16:
+  If VIABLE: full sim = 10 seeds × 2 configs × 3 scenarios × Scale C = 60 runs
+  Metric: energy saving %, mean active hosts, diurnal variance of savings

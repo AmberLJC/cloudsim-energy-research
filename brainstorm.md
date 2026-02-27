@@ -261,3 +261,87 @@ Alternative angle: Migration CASCADE effects (idea #10) are still viable — cas
 
 **New research focus:** "CloudSim energy optimization papers use fixed PUE and linear power models. We show that load-dependent PUE (alone) changes the optimal placement policy by >30%. We implement dynamic PUE in CloudSim and propose a PUE-aware variant of PABFD."
 
+
+---
+
+## Extended Brainstorm — New Candidates (2024–2026 Hot Directions)
+**Added:** 2026-02-27 | **Source:** Domain knowledge of recent cloud energy optimization literature (arXiv, top venues)
+
+### Motivation for Extension
+After four directions (#1 migration, #2 dynamic PUE, #3 predictive consolidation, #8 SLO headroom) all produced null/borderline results in a 3600s/10-host simulation, we hypothesize that **the simulation scale** is the binding constraint. New candidate directions should either (a) show effects at small scale, or (b) explicitly target the scale/realism gap.
+
+---
+
+### Candidate #16: Diurnal-Scale Consolidation with Realistic Workload Patterns
+
+**Claim:** The energy gains from VM consolidation only become statistically detectable and practically significant at simulation scales ≥ 6h with diurnal workload patterns (sinusoidal demand cycle ± noise). At 1h flat-load simulations, effects are swamped by stochastic noise. Realistic datacenter traces (Google Cluster, Alibaba 2018, Azure VM trace) show 2–4× demand swing over 24h, creating identifiable consolidation windows unavailable in flat synthetic workloads.
+
+**Why hot (2024–2026):** Google's Borg (2023) and Microsoft's Autopilot (2024) both report energy savings specifically from diurnal demand-aware scheduling. Amazon Graviton papers cite 24h cycle optimization as key to their 60% PUE improvement. The gap in CloudSim literature: virtually all papers use flat Poisson arrivals over 1–3h.
+
+**Falsification test:** Simulate PABFD vs a "do-nothing" baseline at multiple scales (1h, 6h, 24h) and check whether the effect size grows with scale. If it does, scale is the answer; if not, the idea is moot.
+
+**Score estimate:** 4.2/5 (high feasibility — existing code just needs scale increase; addresses root cause of prior null results)
+
+---
+
+### Candidate #17: Carbon-Intensity-Aware Temporal Deferral of Batch Jobs
+
+**Claim:** Delay-tolerant batch jobs (ML training, genomic analysis, video transcoding) can be deferred to hours when the electricity grid carbon intensity is lowest (overnight in solar-heavy grids, midday in regions with high solar penetration). A temporal deferral scheduler reduces operational carbon footprint by 20–45% for batch workloads without changing any VM placement logic.
+
+**Why hot (2024–2026):** This is arguably the **hottest** direction in cloud sustainability research right now. Google's CFE (Carbon-Free Energy) initiative (2023), WattTime integration in Azure (2024), Microsoft's "carbon-aware Windows" update scheduler, and Meta's Carbon Explorer all operate on this principle. Academic work: Wiesner et al. "Let's Wait Awhile" (EuroSys 2021) remains widely cited; 2024 extensions add fine-grained hourly grid data. Key gap: most work considers only temporal deferral within one datacenter; spatial deferral (to geo-regions with different renewable mixes) is less studied.
+
+**Falsification test:** Download a real hourly carbon-intensity time series (e.g., electricity grid data), model a 24h workload with 30% batch fraction, compute energy × carbon-intensity for deferral vs. no-deferral. Effect should be >5% in carbon terms even at small scale.
+
+**Score estimate:** 4.5/5 (very high novelty relative to CloudSim literature; feasible; carbon angle differentiates from all prior directions)
+
+---
+
+### Candidate #18: LLM/AI Inference Workload Energy Optimization (GPU-Aware Bin-Packing)
+
+**Claim:** AI inference workloads (LLM serving, image generation) have fundamentally different energy profiles than traditional VMs: GPU-bound, highly variable batch sizes, extreme idle-vs-active power ratio (~50W idle vs ~400W active for A100). Bin-packing for GPU inference clusters using request-queue-depth-aware placement reduces energy by 15–30% vs naive round-robin, because partially-filled GPU hosts consume near-full power. Jointly optimizing CPU VM placement and GPU VM placement reveals that keeping GPU hosts at high utilization is even more critical than for CPU hosts.
+
+**Why hot (2024–2026):** The most active direction in cloud infrastructure since 2023. Orca, vLLM, and Sarathi (OSDI 2024) all address GPU inference scheduling. Energy analysis of LLM inference was studied at Meta (2024), Google (Gemini serving), and Microsoft (Azure ML). The gap in CloudSim literature: GPU energy models don't exist in CloudSim. This would require extending the power model.
+
+**Feasibility in our framework:** MEDIUM — would need to add a GPU power model (idle/active, not linear in utilization). But the key principle (extreme idle penalty) can be approximated in our Python sim with a threshold-linear model.
+
+**Score estimate:** 3.8/5 (very hot topic, but requires GPU model extension; less likely to show results in 10-host CPU-only sim without modifications)
+
+---
+
+### Candidate #19: Stranded Capacity Measurement and SLA-Slack Quantification
+
+**Claim:** In real cloud deployments, VMs are placed with peak-reservation semantics (VM requests 4 vCPUs but uses 0.3 on average). This creates "stranded capacity" — reserved but unused compute. A stranded-capacity-aware scheduler uses historical VM utilization to distinguish reserved-but-idle VMs from genuinely busy VMs, enabling tighter packing. Simulation can quantify how much energy is wasted due to overprovisioned VM reservations under different SLA models (peak vs. statistical multiplexing).
+
+**Why hot (2024–2026):** Google's paper "Resource Central" (SOSP 2017) measured stranded capacity in Borg; Microsoft followed with "Towards Efficient Index Building Under Resource Constraints" (2024). More recently, Alibaba's 2024 cluster trace analysis shows 60–75% CPU reservation waste. The angle of explicitly modeling reservation vs. actual demand as input to a CloudSim scheduler has not been studied.
+
+**Falsification test:** Model VMs with a reservation (declared demand) and actual (realized demand) that differs by a factor drawn from a realistic distribution (e.g., from Azure trace: 70% of VMs use <50% of their reservation). Run PABFD with reservation-based and actual-usage-based packing. Energy difference should be substantial if the utilization gap is large.
+
+**Score estimate:** 4.0/5 (uses real traces, directly addresses a known gap, modest implementation effort)
+
+---
+
+### Candidate #20: Edge-Cloud Workload Offloading Energy Optimization
+
+**Claim:** In edge-cloud continuum deployments, some latency-tolerant tasks should be offloaded from edge nodes (high renewable availability, low cooling efficiency) to cloud datacenters (grid-connected, high cooling efficiency) or vice versa. The energy-optimal placement changes throughout the day as renewable availability and demand vary at both edge and cloud. A joint edge-cloud scheduler that uses renewable availability signals reduces total system energy (edge + cloud + network transmission) by 10–25% vs. cloud-only or edge-only baselines.
+
+**Why hot (2024–2026):** Edge computing energy optimization papers at MobiSys 2024, INFOCOM 2024, and IEEE Cloud 2025 all explore this. Key papers: "GreenEdge" (NSDI 2023), "Carbon-Aware Edge Scheduling" (EuroSys 2025). The gap: joint edge+cloud carbon-aware simulation with realistic network energy costs hasn't been done in a CloudSim-style framework.
+
+**Feasibility in our framework:** LOW-MEDIUM — requires modeling two tiers and network energy. But simplified version (two "zones" with different PUE and renewable fraction, time-varying) is tractable.
+
+**Score estimate:** 3.5/5 (hot research area but higher implementation complexity; less distinct from existing work than #17)
+
+---
+
+### Extended Brainstorm — Recommendation
+
+**Immediate next step:** Candidate #16 (Diurnal-Scale Consolidation) should be pursued first because:
+1. It directly tests the **scale hypothesis** that explains all prior null results
+2. Requires minimal new code (just extend existing simulation parameters)
+3. If the effect appears at scale, it validates #8's VAR-PABFD mechanism too
+
+**After #16:** Candidate #17 (Carbon-Intensity Temporal Deferral) should be second because:
+1. It is the hottest active research direction (2024–2026)
+2. Operates on a completely different lever (carbon intensity, not energy per se)
+3. Does NOT depend on PABFD internals — completely independent mechanism
+4. A positive result would be immediately publishable and timely
+

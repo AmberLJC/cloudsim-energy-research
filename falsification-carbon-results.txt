@@ -1,0 +1,37 @@
+=================================================================
+FALSIFICATION CHECK — Direction #17: Carbon-Aware Deferral
+=================================================================
+
+Carbon intensity range: 71–399 gCO2/kWh
+Ratio max/min: 5.6×
+
+[1] WORKLOAD ANALYSIS
+
+Scenario         Base E (kWh)  CA E (kWh)  E saving  Base CO2 (kg)  CA CO2 (kg)  C saving
+------------------------------------------------------------------------------------------
+low_flex               123.40      123.40    -0.00%          23.56        22.68     3.70%
+medium_flex            123.40      123.40    -0.00%          23.56        21.24     9.83%
+high_flex              123.40      123.40    -0.00%          23.56        21.86     7.20%
+
+[2] KEY SENSITIVITY
+
+  Batch fraction 20%: theoretical max carbon saving = 12.7%
+  Batch fraction 30%: theoretical max carbon saving = 19.0%
+  Batch fraction 40%: theoretical max carbon saving = 25.3%
+
+  Mean CI: 193 gCO2/kWh, Min CI: 71, Max CI: 399
+
+[3] VERDICT
+
+  Mean carbon saving: 6.9%
+  Mean energy delta: -0.00% (should be near 0)
+
+  VERDICT: ⚠️  PARTIALLY VIABLE — Carbon savings > 5% in some scenarios.
+
+  Note: This direction changes the optimization METRIC from energy-J to carbon-gCO2.
+  The energy consumption is approximately the same; only carbon changes.
+  This is the hottest research direction in cloud sustainability (2024-2026).
+
+  Key novel contribution: Model carbon-aware deferral in CloudSim-style Python
+  simulation with realistic hourly CI data. Compare against no-deferral baseline.
+  Demonstrate that even a simple threshold policy achieves X% carbon reduction.
