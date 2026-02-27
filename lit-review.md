@@ -190,6 +190,51 @@ Sources queried:
 
 ---
 
+### [P13] Siddik, Shehabi & Marston 2021 — Environmental Footprint of US Data Centers
+
+| Field | Value |
+|-------|-------|
+| **Title** | The environmental footprint of data centers in the United States |
+| **Authors** | Md Abu Bakar Siddik, Arman Shehabi, Landon Marston |
+| **Year** | 2021 |
+| **Venue** | *Environmental Research Letters* (IOP Publishing), DOI: 10.1088/1748-9326/abfba1 |
+| **Key Claim** | Empirical quantification of energy, water, and carbon footprint of US data centers. Uses bottom-up approach to estimate spatially-resolved PUE and energy consumption. US DCs account for ~1.8% of electricity use. PUE values across the US fleet range from 1.2 (hyperscale) to 2.0+ (older enterprise). |
+| **Relevance** | **Empirical grounding for our PUE model.** Our assumption PUE_max=1.8, PUE_min=1.2 is directly supported by this paper's national data (PUE range 1.2–1.9 for the US fleet). Confirms that our PUE model reflects real-world operating ranges. Crucially, this paper shows that PUE varies with facility age, scale, and design — but does NOT address load-dependent PUE at the scheduling level. |
+
+**Dynamic PUE for scheduling:** Not addressed. This is an empirical macro study. Confirms our PUE parameter choice as realistic.
+
+---
+
+### [P14] Shehabi et al. 2016 — United States Data Center Energy Usage Report (LBNL)
+
+| Field | Value |
+|-------|-------|
+| **Title** | United States Data Center Energy Usage Report |
+| **Authors** | Arman Shehabi, Sarah Smith, Dale Sartor, Richard Brown, Magnus Herrlin, Jonathan Koomey, Eric Masanet, Nathaniel Horner, Inês Azevedo, William Lintner |
+| **Year** | 2016 |
+| **Venue** | *Lawrence Berkeley National Laboratory*, LBNL-1005775. DOI: 10.2172/1372902 |
+| **Key Claim** | The definitive national baseline report for US data center energy. Defines PUE as a national metric: 2014 average PUE = 1.58 (all facilities), trend toward 1.47 for new facilities. Energy consumption breakdown: servers (45%), cooling (43%), power (8%), lighting (4%). Load-dependent PUE is not modeled at the scheduler level, but the report establishes that cooling dominates non-compute energy. |
+| **Relevance** | **Foundational empirical reference for our work.** Establishes that cooling ≈ 43% of DC energy is addressable through PUE-aware scheduling. Our D-PABFD proposal is motivated by this finding: if cooling is such a large fraction, load-dependent PUE should matter. However, our null result shows that for linear models, the scheduling decision is already PUE-optimal. |
+
+**Dynamic PUE modeling:** Not addressed. Recommends PUE as a monitoring metric, not as a scheduling input.
+
+---
+
+### [P15] Panwar & Rauthan 2022 — Systematic Review on Energy Management in Cloud Data Centers
+
+| Field | Value |
+|-------|-------|
+| **Title** | A systematic review on effective energy utilization management strategies in cloud data centers |
+| **Authors** | Suraj Singh Panwar, M. M. S. Rauthan |
+| **Year** | 2022 |
+| **Venue** | *Sustainable Computing: Informatics and Systems* (Elsevier), DOI: 10.1016/j.suscom.2021.100524 (indexed via OpenAlex Feb 2026) |
+| **Key Claim** | Comprehensive systematic review of energy management strategies across the cloud stack: hardware design, virtualization, scheduling, and cooling. Identifies VM consolidation (PABFD-class algorithms) as the dominant scheduling intervention. PUE is listed as a monitoring metric. Load-dependent PUE as a scheduling objective is identified as a research gap: "Future work should explore tight coupling between workload schedulers and cooling systems." |
+| **Relevance** | Most recent systematic review explicitly identifying load-dependent PUE scheduling as an open problem (consistent with Buyya 2023 [P6]). Provides a broader context for our contribution. The null result in our study further clarifies WHY this coupling has not been exploited: for standard linear models, PABFD already achieves near-optimal PUE outcomes implicitly. |
+
+**Dynamic PUE modeling:** Identified as future work. No implementation or study found.
+
+---
+
 ## Novelty Assessment
 
 ### Is #1 (Migration-Energy-Aware Consolidation) already published?
