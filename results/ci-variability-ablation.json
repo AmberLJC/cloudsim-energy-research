@@ -1,0 +1,47 @@
+[
+  {
+    "swing_ratio": 2.0,
+    "region": "Nuclear-heavy (France-like)",
+    "min_ci": 136.5,
+    "max_ci": 272.9,
+    "threshold_saving_pct": 2.71,
+    "oracle_saving_pct": 5.68,
+    "threshold_efficiency_pct": 47.8
+  },
+  {
+    "swing_ratio": 3.0,
+    "region": "Moderate grid (US Northeast)",
+    "min_ci": 111.4,
+    "max_ci": 334.3,
+    "threshold_saving_pct": 4.24,
+    "oracle_saving_pct": 8.88,
+    "threshold_efficiency_pct": 47.8
+  },
+  {
+    "swing_ratio": 4.0,
+    "region": "US Midwest (baseline)",
+    "min_ci": 96.5,
+    "max_ci": 386.0,
+    "threshold_saving_pct": 5.23,
+    "oracle_saving_pct": 10.94,
+    "threshold_efficiency_pct": 47.8
+  },
+  {
+    "swing_ratio": 6.0,
+    "region": "High solar (California-like)",
+    "min_ci": 78.8,
+    "max_ci": 472.8,
+    "threshold_saving_pct": 6.41,
+    "oracle_saving_pct": 13.42,
+    "threshold_efficiency_pct": 47.8
+  },
+  {
+    "swing_ratio": 8.0,
+    "region": "High wind (UK/Denmark-like)",
+    "min_ci": 68.2,
+    "max_ci": 545.9,
+    "threshold_saving_pct": 7.1,
+    "oracle_saving_pct": 14.87,
+    "threshold_efficiency_pct": 47.8
+  }
+]

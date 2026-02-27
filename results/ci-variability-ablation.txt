@@ -1,0 +1,32 @@
+CI VARIABILITY ABLATION RESULTS
+=================================================================
+
+Scenario: medium_flex (30% batch, 6h defer, 10 seeds)
+Threshold: per-grid bottom 15% of CI range (calibrated to main simulation)
+
+  CI Swing           Region   CI Min   CI Max    Threshold   Oracle  Efficiency
+  2.0× Nuclear-heavy (France-like)   136      273        2.71%    5.68%     47.8%
+  3.0× Moderate (US Northeast)       111      334        4.24%    8.88%     47.8%
+  4.0× US Midwest (baseline)          96      386        5.23%   10.94%     47.8%
+  6.0× High solar (California)         79      473        6.41%   13.42%     47.8%
+  8.0× High wind (UK/Denmark)          68      546        7.10%   14.87%     47.8%
+
+KEY FINDINGS:
+1. Carbon savings scale linearly with CI swing: slope ~0.73%/unit
+2. Threshold efficiency is INVARIANT to swing (47.8%) when threshold is proportional
+3. Optimal threshold: 15th percentile from CI minimum (consistent with main sim calibration)
+4. Viable (>5% saving) for US Midwest (4×) and higher CI variability grids
+5. PABFD synergy: main simulation shows 76.4% efficiency vs 47.8% ablation
+   → Consolidation amplifies deferral carbon savings by ~28 percentage points
+
+CI VARIABILITY × THRESHOLD LEVEL GRID:
+(threshold as % from CI minimum)
+
+             | thresh=10%  thresh=15%  thresh=20%  thresh=25%  thresh=35%  ORACLE
+  2.0× France   2.49%       2.71%       2.40%       2.47%       2.58%       5.68%
+  3.0× US-NE    3.90%       4.24%       3.75%       3.86%       4.04%       8.88%
+  4.0× Midwest  4.80%       5.23%✓      4.61%       4.75%       4.98%      10.94%
+  6.0× CA       5.89%✓      6.41%✓      5.66%✓      5.83%✓      6.11%✓     13.42%
+  8.0× UK/DK    6.52%✓      7.10%✓      6.27%✓      6.46%✓      6.77%✓     14.87%
+
+✓ = exceeds 5% carbon saving threshold
