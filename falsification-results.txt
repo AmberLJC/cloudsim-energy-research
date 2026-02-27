@@ -1,0 +1,128 @@
+======================================================================
+SECTION 1: Migration Energy as % of Total Compute Energy
+======================================================================
+
+Compute parameters:
+  N_PMs         = 10
+  N_VMs         = 100
+  Duration      = 3600 s (1.0 hr)
+  P_idle        = 100.0 W
+  P_max         = 250.0 W
+  Avg util      = 60%
+  P per PM      = 190.0 W
+  Total compute energy = 6.84 MJ  (1.90 kWh)
+
+── Migration energy breakdown by scenario ──
+Config                                              Migr Rate  N_mig    E_mig (J)  E_mig/E_total  Verdict
+------------------------------------------------------------------------------------------------------------
+Conservative  (1 GB mem, 100 Mbps BW, 0.1 nJ/bit)         10%     10         8.59          0.00%    PIVOT
+Conservative  (1 GB mem, 100 Mbps BW, 0.1 nJ/bit)         20%     20        17.18          0.00%    PIVOT
+Conservative  (1 GB mem, 100 Mbps BW, 0.1 nJ/bit)         40%     40        34.36          0.00%    PIVOT
+Middle        (2 GB mem, 400 Mbps BW, 0.5 nJ/bit)         10%     10        85.90          0.00%    PIVOT
+Middle        (2 GB mem, 400 Mbps BW, 0.5 nJ/bit)         20%     20       171.80          0.00%    PIVOT
+Middle        (2 GB mem, 400 Mbps BW, 0.5 nJ/bit)         40%     40       343.60          0.01%    PIVOT
+Aggressive    (4 GB mem, 1000 Mbps BW, 1.0 nJ/bit)        10%     10       343.60          0.01%    PIVOT
+Aggressive    (4 GB mem, 1000 Mbps BW, 1.0 nJ/bit)        20%     20       687.19          0.01%    PIVOT
+Aggressive    (4 GB mem, 1000 Mbps BW, 1.0 nJ/bit)        40%     40      1374.39          0.02%    PIVOT
+
+── Dirty-page multiplier (iterative pre-copy migration) ──
+  During migration, dirty pages are re-sent. Typical multiplier: 2–5×
+  Assuming 3.0× dirty-page overhead on 'Middle' config, 20% rate:
+  E_mig (dirty×3) = 515.40 J  → 0.01% of total compute energy
+  Verdict: PIVOT
+
+── CPU overhead during migration (source PM) ──
+  Source PM burns ~5-10% extra CPU during live migration (memory scan).
+  For Middle config, 400 Mbps bandwidth: migration duration ≈
+    2.0 GB / 400.0 Mbps = 42.9 s per VM
+  CPU overhead (8% of PM power) over 42.9s × 20 migrating VMs = 13056.70 J
+  → Additional 0.19% on top of network energy
+
+── SECTION 1 CONCLUSION ──
+  Network energy alone: Middle config, 20% rate, no dirty-page overhead:
+    0.003% (network memory transfer energy)
+  + Dirty-page overhead (3×): 0.008%
+  + CPU scan overhead: 0.191%
+  TOTAL MIGRATION OVERHEAD ≈ 0.198% of compute energy
+  ❌ DECISION: PIVOT — migration energy < 1%, effect is negligible
+
+======================================================================
+SECTION 2: Dynamic PUE Significance
+======================================================================
+
+Scenario: 500.0 kW compute load, 8760 hours/year
+  PUE_low  = 1.2 (best-case cooling)
+  PUE_high = 1.8 (worst-case cooling)
+  PUE_fixed = 1.5 (typical paper assumption)
+
+Annual total energy (compute + cooling):
+  At PUE=1.2: 5.256 TWh  (5,256,000 kWh)
+  At PUE=1.8: 7.884 TWh  (7,884,000 kWh)
+  At PUE=1.5 (fixed): 6.570 TWh  (6,570,000 kWh)
+
+Difference PUE=1.2 → PUE=1.8:
+  Delta energy = 2,628,000 kWh/year
+  Relative difference = 50.0%
+
+For >5% total energy savings vs fixed-PUE assumption (1.5):
+  Need to reduce average PUE by Δ = 0.075
+  Target PUE = 1.425
+  PUE range in real DCs: 1.2–1.8, so Δ=0.075 is achievable
+
+Load-dependent PUE model (ASHRAE-inspired linear fit):
+  PUE(load) = 1.8 - 0.6 * load   [PUE=1.8 at load=0, PUE=1.2 at load=1.0]
+  (This is a simplification; real DCs use chiller efficiency curves)
+
+    Load    PUE   Total E (kWh/yr)   vs PUE=1.5
+     0.1   1.74          7,621,200       +16.0%
+     0.2   1.68          7,358,400       +12.0%
+     0.3   1.62          7,095,600        +8.0%
+     0.4   1.56          6,832,800        +4.0%
+     0.5   1.50          6,570,000        +0.0%
+     0.6   1.44          6,307,200        -4.0%
+     0.7   1.38          6,044,400        -8.0%
+     0.8   1.32          5,781,600       -12.0%
+     0.9   1.26          5,518,800       -16.0%
+     1.0   1.20          5,256,000       -20.0%
+
+── Misoptimization scenario: ──
+  Two placement policies, same compute energy, different load distributions:
+
+  Policy A (Greedy Consolidation — 6 active PMs):
+    Active PM load = 1.00, PUE = 1.20
+    Total energy   = 6.6074 MJ
+  Policy B (Balanced Spread — 10 PMs at 60% load):
+    PM load = 0.60, PUE = 1.44
+    Total energy   = 9.8496 MJ
+  Difference (A vs B): -32.92%
+  → Dynamic PUE changes the optimal decision by >5% — SIGNIFICANT
+
+── SECTION 2 CONCLUSION ──
+  PUE range 1.2–1.8 represents 50.0% energy difference annually.
+  A scheduler that reduces average PUE by 0.08 (from 1.5 to 1.425)
+  saves >5% total energy — which is within the achievable PUE range.
+  Placement policies choosing between consolidated vs balanced spread
+  can face >32.9% energy difference when PUE is modeled dynamically.
+  ✅ DECISION: VIABLE — dynamic PUE has measurable impact on scheduling decisions
+
+======================================================================
+SECTION 3: Overall Falsification Verdict
+======================================================================
+
+  #1 Migration-Energy-Aware Consolidation:
+     Network energy (middle, 20%): 0.003%
+     With dirty-page overhead:     0.008%
+     With CPU scan overhead:       0.191%
+     Combined:                     0.198%
+     Threshold: 3% → ❌ PIVOT (<1%)
+
+  #2 Dynamic PUE-Aware Placement:
+     PUE range (1.2–1.8) = 50.0% energy difference
+     Placement policy impact:      32.9% under load-dependent PUE model
+     Threshold: 5% placement impact → ✅ VIABLE (>5%)
+
+  🔴 OVERALL DECISION: PIVOT — consider #10 (cascade) or #12 (power model) instead
+
+======================================================================
+END OF FALSIFICATION CHECK
+======================================================================

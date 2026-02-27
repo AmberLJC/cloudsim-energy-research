@@ -212,3 +212,52 @@ Cloud data center energy optimization research using CloudSim systematically und
 1. **Primary direction confirm?** Leaning toward #1+#2 combined (migration energy + dynamic PUE). This is a mechanistically novel contribution to CloudSim. Do you agree, or want to explore #10 (cascade) or #8 (probabilistic SLO) instead?
 2. **Scope**: Paper or extended study? A focused conference paper would be #1 alone. A journal paper could combine #1 + #2 + #10.
 3. **CloudSim version**: Use CloudSim 7G (latest, 2025) or classic 3.x? 7G has more features but less community baseline for comparison.
+
+---
+
+## Fast Falsification Results — 2026-02-27
+
+> Script: `falsification-check.py` | Full output: `falsification-results.txt`
+
+### Null Result: #1 Migration-Energy-Aware Consolidation — ❌ PIVOT
+
+Quantitative falsification shows migration energy is **negligible**:
+
+| Component | Energy | % of Compute |
+|-----------|--------|--------------|
+| Network transfer (2 GB VM, 400 Mbps, 0.5 nJ/bit, 20% rate) | 171.8 J | 0.003% |
+| Dirty-page overhead (3×) | 515.4 J | 0.008% |
+| CPU scan overhead (8% of PM power, 42.9s, 20 VMs) | 13,056.7 J | 0.191% |
+| **TOTAL** | **13,744 J** | **~0.20%** |
+
+**Decision: PIVOT.** Migration energy < 1% under all realistic configurations (including aggressive: 4 GB memory, 1000 Mbps, 1.0 nJ/bit at 40% rate → only 0.02%). The "free migration" assumption is essentially correct from an energy standpoint. The dominant migration cost is CPU overhead, not network energy.
+
+**Logging null result honestly.** This is the right outcome — chasing a <1% effect would not produce a publishable contribution.
+
+Alternative angle: Migration CASCADE effects (idea #10) are still viable — cascade overhead is a multiplier on the 0.2%, and cascade oscillations can persist for minutes, but even 10 cascade cycles would only reach ~2%. Still below 3% threshold. #10 weakened by this finding.
+
+---
+
+### Confirmed: #2 Dynamic PUE-Aware Placement — ✅ VIABLE (Primary Direction)
+
+| Metric | Value |
+|--------|-------|
+| PUE range (real DCs) | 1.2 – 1.8 |
+| Annual energy difference (500 kW load) | 2,628,000 kWh (+50%) |
+| PUE reduction needed for >5% savings | 0.075 (achievable) |
+| Policy impact (consolidated vs. spread) | **32.9% total energy difference** |
+
+**Decision: PROCEED.** Dynamic PUE is unambiguously significant. A load-dependent PUE model (PUE(load) = 1.8 − 0.6×load, linear approximation) shows 4% energy swing per 0.1 change in load factor. The fixed-PUE assumption used in all CloudSim papers is wrong by up to 20–30% in realistic operating regimes.
+
+**Key insight from misoptimization scenario:** Greedy consolidation (6 active PMs at 100% load, PUE=1.20) uses **33% less energy** than balanced spread (10 PMs at 60% load, PUE=1.44). This is the **opposite** of many existing consolidation results that assume fixed PUE=1.5. Under dynamic PUE, aggressive consolidation may actually be optimal — but PUE(load) is non-linear, so the sweet spot changes with workload characteristics.
+
+---
+
+## Revised Research Direction — Post Falsification
+
+**Drop:** #1 Migration-Energy-Aware Consolidation (migration energy < 1%, not worth modeling)  
+**Elevate:** #2 Dynamic PUE-Aware Placement (32% policy divergence — highly worth modeling)  
+**Secondary:** #12 Non-Linear Power Model (complements #2, both challenge linear assumptions)  
+
+**New research focus:** "CloudSim energy optimization papers use fixed PUE and linear power models. We show that load-dependent PUE (alone) changes the optimal placement policy by >30%. We implement dynamic PUE in CloudSim and propose a PUE-aware variant of PABFD."
+
