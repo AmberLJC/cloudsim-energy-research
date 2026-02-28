@@ -373,3 +373,77 @@ The research has been ready for submission for 7 cycles. Additional technical cy
 > The pattern has been: supervisor identifies a gap, worker fixes it, paper version increments, next cycle finds another gap. But the paper's actual scientific contribution has not changed since v0.2. The value of the last 8 cycles of polish has been marginal. Has this project taught us anything about research process? Yes: autonomous research loops without an external forcing function (a real deadline, a real submission) will cycle indefinitely on polish. The HotCarbon CFP opening is the external forcing function. When it opens, submit immediately — do not spend another 12 cycles re-reviewing the paper.
 
 *Supervisor: auto-generated advisory cycle 13 | 2026-02-28 10:29 UTC*
+
+---
+
+## CYCLE 14 CRITIQUE | 2026-02-28 10:49 UTC
+
+### Status entering cycle 14
+Paper at HotCarbon v1.0-final. Cycle 13 directive complete (Open Problems section added, commit `aae9bb9`). Cycle 13 declared "FINAL TECHNICAL CYCLE." HotCarbon 2026 CFP still not open. arXiv preprint not posted.
+
+---
+
+### LENS 1 — VALIDITY (Moderate): Cycle 13 arXiv novelty check was never documented
+
+Cycle 13 directive explicitly tasked the worker with: "Quick targeted arXiv search for Jan–Feb 2026 papers on 'server lifecycle carbon optimization,' 'GPU embodied carbon refresh cycle,' 'hardware replacement policy carbon'." The commit message (`open problems section + cycle 13 supervisor notes`) does not mention a search result. The Related Work section has no 2026 citations. Either:
+
+(a) The search was done and found nothing new — plausible, but it should appear as a 1-line note in supervisor-notes.md so future reviewers know it was checked.
+(b) The task was silently skipped.
+
+The embodied carbon + AI hardware space is moving fast. If a January or February 2026 paper appeared on arXiv covering DP-based server lifecycle carbon optimization, the paper's novelty claim needs to be updated before submission. This is the one remaining technical uncertainty.
+
+**Worker task dispatched (minimal):** Run arXiv search Jan-Feb 2026. Document result in this file. Fix reference numbering gap (see below). Commit.
+
+---
+
+### LENS 2 — SCOPE (Structural, not blocking): DP contribution is philosophically self-undermining
+
+The paper leads with "T* is invalid, use DP." But the results show Fixed-4yr captures 89% of DP savings. Conclusion: DP is theoretically correct and practically unnecessary.
+
+For HotCarbon as a position paper venue, this is actually the ideal structure: "the formula is wrong, and the fix is trivially simple." But Section 1.3 Contributions still lists "(3) A practical 2-parameter threshold heuristic..." in third place. It should be first: the fixed-4yr heuristic is the actionable contribution; DP is the validation mechanism. The abstract correctly leads with T* invalidity; Section 1.3 should mirror that priority ordering.
+
+This is a **non-blocking** suggestion. The substance is correct. Only the presentation ordering within contributions is suboptimal. Fix when condensing for HotCarbon submission if page pressure forces cuts.
+
+---
+
+### BUG (Trivial, must fix): Reference list has a numbering gap
+
+The reference list jumps from [7] (Bellman 1957) to [9] (Bashir 2021). Reference [8] does not exist in either the body text or the reference list. This is a cleanup artifact — [8] was deleted at some point without renumbering. A reviewer will notice this in the first pass.
+
+**Fix:** Either renumber [9] and [10] to [8] and [9] (and update all body citations), or insert a real [8] paper. Given that the Deployment Decision Matrix and Open Problems reference the same existing set, renaming is cleaner.
+
+---
+
+### CYCLE 14 DIRECTIVE
+
+**Spawn minimal worker for two tasks only:**
+
+1. **arXiv search (5 min):** Search Jan-Feb 2026 papers on (a) "embodied carbon server refresh optimization" (b) "GPU lifecycle carbon dynamic programming" (c) "hardware replacement policy carbon 2026". Document: found/not found, with titles if found. Append result to this file.
+
+2. **Fix reference numbering:** Renumber [9] Bashir → [8], [10] Pierskalla → [9], update all body citations. Commit as "006 fix reference numbering gap + cycle 14 novelty check."
+
+**No other changes to the paper.** The paper is technically complete.
+
+---
+
+### STRATEGIC DIRECTIVE — FINAL BEFORE CFP
+
+**This is the last supervisor cycle before HotCarbon CFP opens.** The research is done. The paper is ready. The arXiv preprint is the ONLY action remaining that Amber controls, and it is the ONLY action with increasing urgency (priority risk grows weekly).
+
+**For Amber — concrete arXiv submission steps:**
+1. Convert paper-hotcarbon.md (or paper.md for full version) to PDF. Options: (a) paste into Overleaf with ACM two-column template, (b) use Pandoc with LaTeX (`pandoc paper.md -o paper.pdf --pdf-engine=xelatex`), (c) ask a worker to do the conversion.
+2. Create arXiv account at arxiv.org → submit under category **cs.DC** (Distributed, Parallel, and Cluster Computing), cross-list **cs.LG**.
+3. Submit preprint. It goes public the next business day.
+4. Share the arXiv link when HotCarbon CFP opens — include it in the submission.
+
+**After cycle 14, the supervisor will not re-engage on this paper until:**
+- HotCarbon 2026 CFP is published (~May 2026), OR
+- Amber posts the arXiv preprint and wants a submission readiness check.
+
+---
+
+### THE UNCOMFORTABLE QUESTION (cycle 14)
+
+> Six supervisor cycles have flagged arXiv as the highest-leverage unblocked action. Zero cycles have resulted in a submission. The most plausible explanation is that the barrier is not technical (the paper is done) but mechanical: converting a Markdown file to PDF and uploading it to a website. If that is the actual barrier, say so — it can be solved in one worker session. If the barrier is something else (scope uncertainty, co-author dependency, target venue indecision), name it. A paper that exists only in a GitHub repo has zero priority protection. A paper on arXiv has a timestamp. The difference between those two states is uploading a PDF.
+
+*Supervisor: auto-generated advisory cycle 14 | 2026-02-28 10:49 UTC*
