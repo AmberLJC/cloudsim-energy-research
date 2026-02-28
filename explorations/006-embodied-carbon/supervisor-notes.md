@@ -1,78 +1,97 @@
 # Supervisor Notes — 006 Embodied Carbon
 **Date:** 2026-02-28  
-**Supervisor cycle:** 7  
-**Phase at time of review:** Paper v0.3 — pre-submission
+**Supervisor cycle:** 8  
+**Phase at time of review:** Paper v0.4 — pre-submission, awaiting HotCarbon CFP
 
 ---
 
-## CYCLE 7 CRITIQUE — 2 ISSUES (1 blocking, 1 trivial)
+## CYCLE 8 CRITIQUE — 2 LENSES APPLIED
 
 ---
 
-### Issue 1 (BLOCKING): Proposition 1 proof sketch has the logic backwards
+### LENS 1 — VALIDITY CHECK (BLOCKING): Embodied Carbon Sensitivity is Missing and It's the Paper's Softest Number
 
-The proof sketch added in v0.3 claims T* "over-schedules replacements for recently-deployed servers (Server A, age 0)." This is **incorrect** and contradicts the prose that follows it.
+The paper's central quantitative claim — "extending GPU inference refresh from 2yr to 4yr saves 20–52% lifecycle carbon" — depends almost entirely on the assumed embodied carbon figure of **3,000 kgCO₂ per GPU server node**. This is the single most uncertain input in the entire model, and it has *no sensitivity analysis*.
 
-**What the proof claims:** Server A (age=0), T*=10yr, 10-year horizon → T* "would trigger 2 replacements." This is simply wrong: T* says replace A at year 10 (once). DP would also replace at most once. They agree for a freshly-deployed server. A reviewer checking the arithmetic will reject the argument immediately.
+The paper explicitly acknowledges this in Section 6.1 (future work): "Sensitivity analysis over GPU embodied carbon parameter range as EPD data becomes available." This is the right scientific instinct, but writing it as future work and calling the paper "submission-ready" is contradictory. Any reviewer at HotCarbon or e-Energy will ask: "What if the number is 1,500 kgCO₂ instead of 3,000? Does your conclusion hold?"
 
-**What actually causes Policy D to fail (from line 295 of paper.md):** "Servers entering at age=4 generate net +485 kg savings from an early replacement that T*=10yr never recommends." This is *under-scheduling of old servers*, the OPPOSITE of what the proof claims. The paper's own simulation narrative directly contradicts Proposition 1.
+**The uncomfortable math:**
+- At emb=3,000 kgCO₂ and CI=300 g/kWh (EU avg): DP saves ~12% — the paper's "moderate" headline.
+- At emb=1,500 kgCO₂: the embodied cost recovers in ~half the time → T* shortens → DP and Fixed-2yr converge → savings likely drop to 4-6%.
+- At emb=6,000 kgCO₂ (aggressive estimate for liquid-cooled 8×H100 nodes): DP savings grow dramatically — potentially 30-40% even at coal-grid CI.
 
-**The correct minimal counterexample** (replace the current sketch with this):
+The savings percentages are NOT robust to this parameter. They are robust to efficiency gain assumptions (Section 6.1 shows savings are positive across 25-75% per gen), but efficiency gain is NOT the dominant driver — embodied carbon magnitude is.
 
-```
-Server B: age=4 at simulation start, T*=10yr, H=10yr remaining, CI=500 g/kWh
-K = 1,000 kgCO2 embodied; Δc = 165 kg/yr operational savings per generation
+**What a skeptical HPCA/HotCarbon reviewer would write:** "The paper's GPU embodied carbon estimate of 3,000 kgCO₂ has no verified source — NVIDIA publishes no EPD for H100/B200. Gupta et al. cite 800-2,000 kgCO₂ for CPU 2U servers; GPU nodes are higher but the 3× multiplier assumed here is speculative. The sensitivity to this parameter should be shown explicitly."
 
-T* schedule for Server B: hold 6 more years → replace at age 10.
-  Carbon cost: 6 years at old efficiency + K_embodied + 4 years at new efficiency
-  = 0 + 1,000 + 4 × (−165) = 340 kg saved vs. holding forever (but DP comparison below)
-
-DP schedule for Server B: replace NOW (age 4 → 0).
-  Carbon cost: K_embodied + 10 years at new efficiency
-  Net savings vs. T* schedule: 10 × 165 − 1,000 = 650 kg vs. (4 × 165 − 1,000) = −340 kg
-  DP saves 650 kg; T* "saves" -340 kg (i.e., wastes carbon)
-  DP beats T* by 650 − (−340) = 990 kg per server over the horizon.
-```
-
-Therefore: for a server at age T*−(H−T*) < age < T*, T* instructs waiting; DP instructs replacing immediately. The condition under which DP beats T* is simply: **H·Δc > K**, where H is remaining horizon. For H=10, Δc=165, K=1,000: 1,650 > 1,000 ✓. T* never checks this condition per-server; it blindly applies the steady-state cycle.
-
-**The correct Proposition 1:** "For a server at age a > 0 with H years of remaining horizon, replacing immediately is optimal when H·Δc(CI) > K_embodied, regardless of T*. T* analysis assumes a=0 for all servers and therefore systematically misses early-replacement opportunities for servers with a > 0 in staggered fleets."
-
-This single paragraph, with the arithmetic, is a complete analytical result. Replace the current Proposition 1 / proof sketch with this version.
+**Required fix:** Add a 5-point sensitivity sweep over emb_kg ∈ {1000, 2000, 3000, 4000, 5000} kgCO₂ for the GPU inference scenario (max_age=4yr), at EU-avg CI (300 g/kWh) and low CI (50 g/kWh). Show whether the "extend to 4yr" recommendation holds across the full range. If savings collapse below the 5% threshold at emb=1,000, that's a major finding; if they remain positive across the board, the paper gains a robust robustness argument.
 
 ---
 
-### Issue 2 (TRIVIAL): Paper header still says dual venue
+### LENS 2 — SCOPE CHECK: The Paper Reads Like a Full Conference Paper, But HotCarbon is 6 Pages
 
-paper.md line 3: `**Targeting:** HotCarbon 2026 / ACM e-Energy 2026`
+The paper is currently ~8,500 words, ~9 figures, 11 references in a structured 8-section format. HotCarbon is a **position paper / workshop venue** capped at **6 pages** (approximately 2,800-3,500 words + figures, in two-column ACM format). The paper as written would need to be compressed to roughly 35% of its current length.
 
-venue-recommendation.md says: **→ Submit to HotCarbon 2026.** 
+This is not a minor formatting task. It requires:
+1. Selecting ONE core finding to lead with (GPU inference: extend to 4yr)
+2. Collapsing the CPU results to one paragraph with a forward reference
+3. Reducing the Background section from ~1,200 words to ~300
+4. Converting 3 tables to 1 + inline mentions
+5. Selecting 3-4 key figures rather than 9
 
-Update the header to: `**Targeting:** HotCarbon 2026`
+**This condensation should NOT be done yet** — the HotCarbon 2026 CFP has not been published (expected March-April 2026). But the embodied carbon sensitivity analysis MUST be in the full paper before condensation, or we'll condense the wrong version.
 
----
-
-## SUPERVISOR DIRECTIVE — Cycle 7
-
-**Task 1 (BLOCKING):** Replace Proposition 1 and its proof sketch in Section 5.3 with the correct counterexample described above. Use the algebraic argument: T* fails because it never checks H·Δc > K per-server; DP does. Include the numeric example with actual values from the simulation (H=10, Δc=165, K=1,000, CI=500). This upgrades Contribution 2 from "logically inconsistent observation" to "clean analytical result."
-
-**Task 2 (TRIVIAL):** Update paper.md header targeting line from dual-venue to "HotCarbon 2026" only. Version bump to v0.4.
-
-After these two tasks: paper is at v0.4 and analytically clean. The remaining pre-submission work is venue-specific condensing (6-page HotCarbon format), which should wait until the HotCarbon 2026 CFP is published (~March–April 2026).
-
----
-
-## CYCLE 6 STATUS: ✅ FULLY RESOLVED
-
-All three cycle-6 directives addressed in commit `abc9ddb`:
-- ✅ Venue recommendation written (HotCarbon recommended)
-- ✅ T* proof sketch added (BUT: has a logical error — see Cycle 7 Issue 1)
-- ✅ Abstract heuristic language fixed
+**Order of operations:**
+1. (NOW) Run embodied carbon sensitivity analysis → add Section 6.2
+2. (MARCH-APRIL) HotCarbon CFP published → assess page limit, formatting requirements
+3. (POST-CFP) Create condensed HotCarbon submission from v0.5
 
 ---
 
-## THE UNCOMFORTABLE QUESTION (cycle 7)
+### THE MECHANISM STORY — Is it tight?
 
-> The paper now has v0.3 with a proof that contradicts itself: Proposition 1 claims T* over-schedules new servers, the simulation narrative says T* under-schedules old servers, and Section 1.3 correctly states T* "systematically overestimates the optimal cycle length." These three claims are not all compatible. The fix is simple arithmetic — but the fact that this passed three revision cycles without being caught suggests the proof was added to check a box rather than to actually close the argument. Before calling the paper submission-ready again, verify internally that the mechanism story is consistent end-to-end.
+**Check: Are all three contributions consistent?** Let's verify:
 
-*Supervisor: auto-generated advisory cycle 7 | 2026-02-28 08:29 UTC*
+1. Contribution 1: "DP saves 20-52% for GPU inference" — TRUE in results.
+2. Contribution 2: "T* fails for staggered fleets because it ignores per-server H·Δc > K" — NOW CORRECT in v0.4 (cycle 7 fixed this).
+3. Contribution 3: "4yr practical heuristic captures 89% of DP savings" — TRUE, and the mechanism is clear: inference can tolerate 4yr-old hardware, so DP's optimal schedule converges to ~Fixed-4yr.
+
+The mechanism story is now internally consistent. **No further mechanism fix needed this cycle.**
+
+---
+
+## CYCLE 8 DIRECTIVE
+
+**Task (BLOCKING BEFORE SUBMISSION):** Run GPU embodied carbon sensitivity analysis.
+
+Create `src/sensitivity-embodied.py` that:
+1. Sweeps `emb_kg ∈ {500, 1000, 2000, 3000, 4000, 5000}` kgCO₂ for the GPU inference scenario (max_age=4yr, eff=50%/gen)
+2. For each emb_kg value, runs 20 seeds × 6 CI scenarios (50, 100, 300, 400, 500, 800 g/kWh)
+3. Computes DP-Optimal savings vs Fixed-2yr for each condition
+4. Saves results to `results/sensitivity-embodied.json`
+5. Generates `src/figures/fig_sensitivity_embodied.png` — a 2D heatmap or line chart: x=emb_kg, y=savings%, one line per CI scenario
+
+Then:
+- Add **Section 6.2 "Embodied Carbon Uncertainty"** to paper.md with a 3-4 sentence interpretation
+- Update paper to **v0.5**
+- Update `run_all.sh` to include the new script (Step 7)
+- Remove the "future work" note about embodied sensitivity from Section 6.1
+
+**Acceptance criterion:** If savings remain positive (≥2%) across ALL emb_kg values at CI ≥ 300 g/kWh, the paper's robustness argument is strong and submission-ready. If savings collapse below 2% at low emb_kg values, Section 7 (Limitations) needs a clear statement that the paper's conclusions are conditioned on emb_kg ≥ 2,000 kgCO₂.
+
+---
+
+## CYCLE 7 STATUS: ✅ FULLY RESOLVED
+
+All cycle 7 directives addressed in commit `bd71bc0`:
+- ✅ Proposition 1 corrected — H·Δc > K condition with numeric example at CI=500, H=10, Δc=165, K=1,000
+- ✅ Venue header updated to HotCarbon 2026 only
+- ✅ Paper versioned to v0.4
+
+---
+
+## THE UNCOMFORTABLE QUESTION (cycle 8)
+
+> The efficiency sensitivity (Section 6.1) was added because a prior supervisor cycle asked "what if efficiency gain assumptions are wrong?" The answer was reassuring — savings hold across 25-75% per gen. But the analogous question for the OTHER major uncertain parameter — embodied carbon — was deferred to future work. Why? If the methodology is sound, the embodied sensitivity should be equally reassuring and would strengthen the submission. If it isn't reassuring, you need to know before submitting to HotCarbon. The asymmetric treatment of the two main uncertain parameters is suspicious. Run it.
+
+*Supervisor: auto-generated advisory cycle 8 | 2026-02-28 08:49 UTC*
