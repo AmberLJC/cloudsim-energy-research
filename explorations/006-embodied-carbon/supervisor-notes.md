@@ -95,3 +95,49 @@ All cycle 7 directives addressed in commit `bd71bc0`:
 > The efficiency sensitivity (Section 6.1) was added because a prior supervisor cycle asked "what if efficiency gain assumptions are wrong?" The answer was reassuring — savings hold across 25-75% per gen. But the analogous question for the OTHER major uncertain parameter — embodied carbon — was deferred to future work. Why? If the methodology is sound, the embodied sensitivity should be equally reassuring and would strengthen the submission. If it isn't reassuring, you need to know before submitting to HotCarbon. The asymmetric treatment of the two main uncertain parameters is suspicious. Run it.
 
 *Supervisor: auto-generated advisory cycle 8 | 2026-02-28 08:49 UTC*
+
+---
+
+## CYCLE 9 CRITIQUE | 2026-02-28 09:09 UTC
+
+### Status entering cycle 9
+Cycle 8 directive COMPLETE: `sensitivity-embodied.py` run, Section 6.2 added, paper versioned to v0.5. Git: `f5aacd3`. Paper is 526 lines, content-rich, targeting HotCarbon 2026 (6 pages).
+
+---
+
+### LENS 1 — VALIDITY CHECK: "2-year industry norm" is asserted without evidence (BLOCKING)
+
+The paper's headline claim — that the 2-year GPU refresh cycle is carbon-suboptimal — depends entirely on the empirical premise that this is actually the industry norm. The abstract leads with it. Section 1 says it is "cost-driven (procurement simplicity, vendor incentives)." Neither has a citation.
+
+**The issue:** GPU chip *announcement* cadence (H100→H200→B200 at ~18 months) ≠ fleet *replacement* cadence. Cloud providers don't replace entire GPU fleets every 2 years — they add new capacity while older GPUs run inference for 3-5 years. The 2yr figure is a modeling assumption, not a documented fact.
+
+A HotCarbon reviewer will immediately ask: *What is the source for "2-year industry norm"?* Without a citation, the paper's framing shifts from "the industry is doing something wrong" to "if the industry did X, Y would be better" — a weaker claim.
+
+**Required fix:** Either find a citation (Acun 2023 Meta, ISSCC cost analyses, vendor sustainability reports) or reframe the 2yr as an explicit conservative modeling assumption with the justification that chip release cadence has been ~18 months (NVIDIA announcements), while actual fleet turnover may range 2-4 years.
+
+---
+
+### LENS 2 — IMPACT CHECK: Section 6.2 muddies the deployment recommendation (BLOCKING)
+
+The Cycle 8 sensitivity analysis revealed that Fixed-4yr can perform WORSE than the industry norm (-40.9% at emb=500, coal grid). This is mentioned in Section 6.2 and Limitations, but there's no decision rule for when NOT to use Fixed-4yr.
+
+Without a clear deployment decision matrix, a practitioner could apply Fixed-4yr on a high-CI grid with lightweight hardware and get worse outcomes than doing nothing. This is a liability for a workshop paper aimed at practitioners.
+
+**Required fix:** Add a Deployment Decision Table (CI regime × emb_kg regime → recommended policy) to Section 7.1. This closes the recommendation safely.
+
+---
+
+### CYCLE 9 DIRECTIVE
+
+**Worker spawned** to:
+1. Fix citation gap for 2yr norm assumption (search Acun 2023 / NVIDIA cadence; add citation or caveat)
+2. Add Deployment Decision Matrix to Section 7.1
+3. Bump paper to v0.6 and commit
+
+---
+
+### THE UNCOMFORTABLE QUESTION (cycle 9)
+
+> Section 6.2 showed that Fixed-4yr *hurts* on coal grids with low emb_kg. That's a critical finding. But the paper's headline recommendation in the abstract is still "simply extend from 2 to 4 years" — without qualification. A reader who only reads the abstract and adopts Fixed-4yr on a coal grid with low-spec servers has been misled by the paper. The abstract needs to match the nuance of the results. Does it?
+
+*Supervisor: auto-generated advisory cycle 9 | 2026-02-28 09:09 UTC*
