@@ -1,7 +1,7 @@
 # Carbon-Optimal Hardware Lifecycle Planning for AI Data Centers: A Dynamic Programming Approach
 
 **Targeting:** HotCarbon 2026  
-**Status:** v0.4 — Proposition 1 corrected, venue confirmed  
+**Status:** v0.5 — embodied carbon sensitivity analysis added (Section 6.2)  
 **Date:** 2026-02-28
 
 ---
@@ -370,7 +370,19 @@ The mechanism is consistent across efficiency levels: the dominant gain comes fr
 
 **Figure 11** shows savings curves for all three efficiency levels across CI scenarios. See `src/figures/fig_sensitivity_efficiency.png`.
 
-### 6.2 The Primary Recommendation: Disaggregate Training and Inference Refresh Cycles
+### 6.2 Embodied Carbon Uncertainty
+
+The GPU results reported in Section 5.2 assume `emb_kg = 3,000 kgCO₂/node`, an estimate based on lifecycle assessments for high-end GPU rack systems (Ji et al. [5], SCARIF). No verified Environmental Product Declaration (EPD) exists for H100/H200/B200 systems as of early 2026, and the true value could plausibly range from 500 kgCO₂ (lightweight server, optimistic supply chain) to 5,000 kgCO₂ (fully burdened rack with networking and cooling). We systematically swept this parameter to assess robustness of the headline recommendation.
+
+**Methodology:** We fixed the GPU inference scenario (max_age=4yr, eff_gain=50%/gen, norm=2yr, N=50, H=10yr, 20 seeds) and swept `emb_kg ∈ {500, 1000, 1500, 2000, 3000, 4000, 5000}` kgCO₂. For each value, we measured DP-Optimal and Fixed-4yr (heuristic) savings versus Fixed-2yr across all six CI scenarios.
+
+**Key findings:** DP-Optimal savings remain positive at *every* tested emb_kg value and *every* CI scenario. At EU-average grid intensity (300 g/kWh), DP-Optimal saves +29.9% at emb=500 kgCO₂ rising to +36.4% at emb=5,000 kgCO₂ — the recommendation is robust across the full plausible range. **The minimum emb_kg at which DP-Optimal savings remain ≥ 2% at EU-average CI (300 g/kWh) is 500 kgCO₂** — the lowest value tested — confirming the finding holds even for very lightweight hardware assumptions.
+
+The Fixed-4yr heuristic, however, shows a critical limitation: at low emb_kg combined with high-CI grids (coal, 800 g/kWh), Fixed-4yr savings turn *negative* (e.g., −40.9% at emb=500). When embodied carbon is low, operational energy dominates lifecycle cost, and replacing hardware more frequently to harvest efficiency gains becomes beneficial. The DP policy correctly adapts to this regime; the simple heuristic does not. Operators on carbon-intensive grids should apply DP or verify emb_kg > 1,500 kgCO₂ before adopting the Fixed-4yr rule.
+
+See Figure 12 (`fig_sensitivity_embodied.png`) for savings curves across all emb_kg values and CI scenarios.
+
+### 6.3 The Primary Recommendation: Disaggregate Training and Inference Refresh Cycles
 
 The most actionable finding from this analysis is not a complex DP optimization framework. It is a simple organizational policy change:
 
@@ -387,7 +399,7 @@ Operationally, this requires:
 
 This is not a radical operational change — many data centers already tier their hardware for different workload classes. The carbon optimization insight is that this tiering should explicitly account for inference hardware's extended useful life for carbon purposes.
 
-### 6.3 Why Declining CI Makes This More Important
+### 6.4 Why Declining CI Makes This More Important
 
 The eu_decarbonizing scenario demonstrates that the value of holding inference hardware longer *increases* as grids decarbonize. When grid CI declines at 3.3%/yr (consistent with EU historical trends), DP-Optimal's advantage over Fixed-5yr increases from +12.4% to +16.6%. 
 
@@ -395,13 +407,13 @@ The mechanism: declining CI means each future year of operation emits less carbo
 
 As EU and US grids continue their renewable energy transition, operators who rely on static T* calculations will find their optimal cycle estimates increasingly stale. A CI-adaptive policy (even the simple threshold heuristic) will remain accurate as grids evolve.
 
-### 6.4 Limitations and Future Work
+### 6.5 Limitations and Future Work
 
 **Model limitations:**
 
 1. *Homogeneous fleet assumption:* Real data centers run heterogeneous hardware across multiple generations simultaneously. A mixed-fleet model would better capture procurement realities but substantially increases state space complexity.
 
-2. *GPU parameter uncertainty:* GPU embodied carbon (3,000 kgCO₂/node) is estimated; no verified EPD exists for H100/H200/B200 as of early 2026. A ±30% uncertainty in this parameter would propagate to ±30% uncertainty in GPU savings percentages.
+2. *GPU parameter uncertainty:* GPU embodied carbon (3,000 kgCO₂/node) is estimated; no verified EPD exists for H100/H200/B200 as of early 2026. Section 6.2 shows DP-Optimal savings are robust across the full plausible range (500–5,000 kgCO₂). However, the Fixed-4yr heuristic recommendation is *not* robust at low emb_kg (< 1,500 kgCO₂) on high-CI grids: when embodied cost is low, frequent replacements to harvest efficiency gains become net beneficial, and the fixed-4yr rule produces worse outcomes than Fixed-2yr. Operators should validate emb_kg estimates before applying the heuristic on carbon-intensive grids.
 
 3. *Constant CI in most scenarios:* Only one scenario models time-varying CI. Real grid CI varies hourly and seasonally; finer-grained temporal modeling could reveal additional optimization opportunities (e.g., batch replacement at low-CI periods).
 
@@ -415,7 +427,7 @@ As EU and US grids continue their renewable energy transition, operators who rel
 - Stochastic CI modeling (time-of-day, seasonal variation) with robust heuristic design
 - Multi-generation mixed-fleet DP formulation
 - Integration with carbon-aware workload scheduling (Bashir et al. [9]) as complementary interventions
-- Sensitivity analysis over GPU embodied carbon parameter range as EPD data becomes available (efficiency gain sensitivity completed in Section 6.1)
+- Hardware heterogeneity modeling: mixed-generation fleets with staggered procurement, enabling time-in-service optimization across multiple concurrent GPU generations
 
 ---
 

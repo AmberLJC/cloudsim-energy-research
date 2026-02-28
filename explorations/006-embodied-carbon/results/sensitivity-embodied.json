@@ -1,0 +1,514 @@
+{
+  "metadata": {
+    "script": "sensitivity-embodied.py",
+    "scenario": "GPU inference (max_age=4yr, eff_gain=0.50, norm=2yr, H=10yr, N=50)",
+    "sweep_parameter": "emb_kg (kgCO\u2082)",
+    "emb_kg_values": [
+      500,
+      1000,
+      1500,
+      2000,
+      3000,
+      4000,
+      5000
+    ],
+    "ci_scenarios": {
+      "nuclear_fr": 50,
+      "norway_hydro": 100,
+      "eu_avg": 300,
+      "us_avg": 400,
+      "uk_grid": 500,
+      "coal_pl": 800
+    },
+    "seeds": 20,
+    "policies": {
+      "fixed_2": "Fixed-2yr (AI industry norm baseline)",
+      "dp_optimal": "DP-Optimal (backward-induction, globally optimal)",
+      "fixed_4": "Fixed-4yr (paper heuristic recommendation)"
+    }
+  },
+  "acceptance_criterion": {
+    "question": "Min emb_kg where DP savings \u2265 2% at EU avg CI (300 g/kWh)",
+    "answer_kg": 500,
+    "min_emb_for_5pct_dp_eu_avg": 500,
+    "min_emb_for_5pct_heuristic4_eu_avg": 1000
+  },
+  "results": {
+    "500": {
+      "nuclear_fr": {
+        "ci": 50,
+        "fixed2_mean": 156733.3390625,
+        "fixed2_std": 1382.0989113515998,
+        "dp_mean": 117793.75,
+        "dp_std": 0.0,
+        "fixed4_mean": 108394.7625,
+        "fixed4_std": 288.1405687225421,
+        "dp_savings_pct": 24.844483819088538,
+        "heuristic4_savings_pct": 30.84128549269546
+      },
+      "norway_hydro": {
+        "ci": 100,
+        "fixed2_mean": 175116.678125,
+        "fixed2_std": 1009.9173434183162,
+        "dp_mean": 135587.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 141789.525,
+        "fixed4_std": 576.2811374450843,
+        "dp_savings_pct": 22.573051606645762,
+        "heuristic4_savings_pct": 19.03139865479333
+      },
+      "eu_avg": {
+        "ci": 300,
+        "fixed2_mean": 248650.034375,
+        "fixed2_std": 478.80892831481793,
+        "dp_mean": 174275.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 275368.575,
+        "fixed4_std": 1728.8434123352527,
+        "dp_savings_pct": 29.911531909475524,
+        "heuristic4_savings_pct": -10.745440149308253
+      },
+      "us_avg": {
+        "ci": 400,
+        "fixed2_mean": 285416.7125,
+        "fixed2_std": 1223.172064181385,
+        "dp_mean": 190700.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 342158.1,
+        "fixed4_std": 2305.124549780337,
+        "dp_savings_pct": 33.18541218920389,
+        "heuristic4_savings_pct": -19.880190968144497
+      },
+      "uk_grid": {
+        "ci": 500,
+        "fixed2_mean": 322183.390625,
+        "fixed2_std": 1967.535200047952,
+        "dp_mean": 207125.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 408947.625,
+        "fixed4_std": 2881.405687225421,
+        "dp_savings_pct": 35.71208012982901,
+        "heuristic4_savings_pct": -26.930076751221417
+      },
+      "coal_pl": {
+        "ci": 800,
+        "fixed2_mean": 432483.425,
+        "fixed2_std": 4200.624607647653,
+        "dp_mean": 256762.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 609316.2,
+        "fixed4_std": 4610.249099560674,
+        "dp_savings_pct": 40.63067272462523,
+        "heuristic4_savings_pct": -40.88775772158204
+      }
+    },
+    "1000": {
+      "nuclear_fr": {
+        "ci": 50,
+        "fixed2_mean": 295083.3390625,
+        "fixed2_std": 3136.379390636483,
+        "dp_mean": 183394.7625,
+        "dp_std": 288.14056872254207,
+        "fixed4_mean": 183394.7625,
+        "fixed4_std": 288.14056872254207,
+        "dp_savings_pct": 37.8498416472249,
+        "heuristic4_savings_pct": 37.8498416472249
+      },
+      "norway_hydro": {
+        "ci": 100,
+        "fixed2_mean": 313466.678125,
+        "fixed2_std": 2764.1978227031996,
+        "dp_mean": 235587.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 216789.525,
+        "fixed4_std": 576.2811374450843,
+        "dp_savings_pct": 24.844483819088538,
+        "heuristic4_savings_pct": 30.84128549269546
+      },
+      "eu_avg": {
+        "ci": 300,
+        "fixed2_mean": 387000.034375,
+        "fixed2_std": 1275.4715509700654,
+        "dp_mean": 317753.125,
+        "dp_std": 0.0,
+        "fixed4_mean": 350368.575,
+        "fixed4_std": 1728.8434123352527,
+        "dp_savings_pct": 17.8932566470783,
+        "heuristic4_savings_pct": 9.465492537787318
+      },
+      "us_avg": {
+        "ci": 400,
+        "fixed2_mean": 423766.7125,
+        "fixed2_std": 531.1084151034984,
+        "dp_mean": 340337.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 417158.1,
+        "fixed4_std": 2305.124549780337,
+        "dp_savings_pct": 19.687533267493258,
+        "heuristic4_savings_pct": 1.5594930666008946
+      },
+      "uk_grid": {
+        "ci": 500,
+        "fixed2_mean": 460533.390625,
+        "fixed2_std": 213.25472076306863,
+        "dp_mean": 332125.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 483947.625,
+        "fixed4_std": 2881.405687225421,
+        "dp_savings_pct": 27.88253647596196,
+        "heuristic4_savings_pct": -5.0841556446589085
+      },
+      "coal_pl": {
+        "ci": 800,
+        "fixed2_mean": 570833.425,
+        "fixed2_std": 2446.34412836277,
+        "dp_mean": 381400.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 684316.2,
+        "fixed4_std": 4610.249099560674,
+        "dp_savings_pct": 33.18541218920389,
+        "heuristic4_savings_pct": -19.880190968144497
+      }
+    },
+    "1500": {
+      "nuclear_fr": {
+        "ci": 50,
+        "fixed2_mean": 433433.3390625,
+        "fixed2_std": 4890.659869921366,
+        "dp_mean": 258394.7625,
+        "dp_std": 288.14056872254207,
+        "fixed4_mean": 258394.7625,
+        "fixed4_std": 288.14056872254207,
+        "dp_savings_pct": 40.384197704104125,
+        "heuristic4_savings_pct": 40.384197704104125
+      },
+      "norway_hydro": {
+        "ci": 100,
+        "fixed2_mean": 451816.678125,
+        "fixed2_std": 4518.478301988082,
+        "dp_mean": 291789.525,
+        "dp_std": 576.2811374450841,
+        "fixed4_mean": 291789.525,
+        "fixed4_std": 576.2811374450841,
+        "dp_savings_pct": 35.41860247149325,
+        "heuristic4_savings_pct": 35.41860247149325
+      },
+      "eu_avg": {
+        "ci": 300,
+        "fixed2_mean": 525350.034375,
+        "fixed2_std": 3029.7520302549487,
+        "dp_mean": 406762.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 425368.575,
+        "fixed4_std": 1728.8434123352527,
+        "dp_savings_pct": 22.57305160664577,
+        "heuristic4_savings_pct": 19.03139865479333
+      },
+      "us_avg": {
+        "ci": 400,
+        "fixed2_mean": 562116.7125,
+        "fixed2_std": 2285.3888943883817,
+        "dp_mean": 465337.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 492158.1,
+        "fixed4_std": 2305.124549780337,
+        "dp_savings_pct": 17.216924945991536,
+        "heuristic4_savings_pct": 12.44556707607231
+      },
+      "uk_grid": {
+        "ci": 500,
+        "fixed2_mean": 598883.390625,
+        "fixed2_std": 1541.0257585218146,
+        "dp_mean": 487921.875,
+        "dp_std": 0.0,
+        "fixed4_mean": 558947.625,
+        "fixed4_std": 2881.405687225421,
+        "dp_savings_pct": 18.528066959612886,
+        "heuristic4_savings_pct": 6.668370879900791
+      },
+      "coal_pl": {
+        "ci": 800,
+        "fixed2_mean": 709183.425,
+        "fixed2_std": 692.0636490778865,
+        "dp_mean": 506400.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 759316.2,
+        "fixed4_std": 4610.249099560674,
+        "dp_savings_pct": 28.59393181672288,
+        "heuristic4_savings_pct": -7.069084419168413
+      }
+    },
+    "2000": {
+      "nuclear_fr": {
+        "ci": 50,
+        "fixed2_mean": 571783.3390625,
+        "fixed2_std": 6644.940349206249,
+        "dp_mean": 333394.7625,
+        "dp_std": 288.14056872254207,
+        "fixed4_mean": 333394.7625,
+        "fixed4_std": 288.14056872254207,
+        "dp_savings_pct": 41.69211662469278,
+        "heuristic4_savings_pct": 41.69211662469278
+      },
+      "norway_hydro": {
+        "ci": 100,
+        "fixed2_mean": 590166.678125,
+        "fixed2_std": 6272.758781272966,
+        "dp_mean": 366789.525,
+        "dp_std": 576.2811374450841,
+        "fixed4_mean": 366789.525,
+        "fixed4_std": 576.2811374450841,
+        "dp_savings_pct": 37.8498416472249,
+        "heuristic4_savings_pct": 37.8498416472249
+      },
+      "eu_avg": {
+        "ci": 300,
+        "fixed2_mean": 663700.034375,
+        "fixed2_std": 4784.032509539832,
+        "dp_mean": 506762.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 500368.575,
+        "fixed4_std": 1728.8434123352527,
+        "dp_savings_pct": 23.6458529827841,
+        "heuristic4_savings_pct": 24.60922870507423
+      },
+      "us_avg": {
+        "ci": 400,
+        "fixed2_mean": 700466.7125,
+        "fixed2_std": 4039.669373673265,
+        "dp_mean": 542350.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 567158.1,
+        "fixed4_std": 2305.124549780337,
+        "dp_savings_pct": 22.573051606645762,
+        "heuristic4_savings_pct": 19.03139865479333
+      },
+      "uk_grid": {
+        "ci": 500,
+        "fixed2_mean": 737233.390625,
+        "fixed2_std": 3295.306237806698,
+        "dp_mean": 612921.875,
+        "dp_std": 0.0,
+        "fixed4_mean": 633947.625,
+        "fixed4_std": 2881.405687225421,
+        "dp_savings_pct": 16.861894375078855,
+        "heuristic4_savings_pct": 14.009914219625625
+      },
+      "coal_pl": {
+        "ci": 800,
+        "fixed2_mean": 847533.425,
+        "fixed2_std": 1062.2168302069967,
+        "dp_mean": 680675.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 834316.2,
+        "fixed4_std": 4610.249099560674,
+        "dp_savings_pct": 19.687533267493258,
+        "heuristic4_savings_pct": 1.5594930666008946
+      }
+    },
+    "3000": {
+      "nuclear_fr": {
+        "ci": 50,
+        "fixed2_mean": 848483.3390625,
+        "fixed2_std": 10153.501307776016,
+        "dp_mean": 483394.7625,
+        "dp_std": 288.14056872254207,
+        "fixed4_mean": 483394.7625,
+        "fixed4_std": 288.14056872254207,
+        "dp_savings_pct": 43.02837306928042,
+        "heuristic4_savings_pct": 43.02837306928042
+      },
+      "norway_hydro": {
+        "ci": 100,
+        "fixed2_mean": 866866.678125,
+        "fixed2_std": 9781.319739842733,
+        "dp_mean": 516789.525,
+        "dp_std": 576.2811374450841,
+        "fixed4_mean": 516789.525,
+        "fixed4_std": 576.2811374450841,
+        "dp_savings_pct": 40.384197704104125,
+        "heuristic4_savings_pct": 40.384197704104125
+      },
+      "eu_avg": {
+        "ci": 300,
+        "fixed2_mean": 940400.034375,
+        "fixed2_std": 8292.593468109599,
+        "dp_mean": 706762.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 650368.575,
+        "fixed4_std": 1728.8434123352527,
+        "dp_savings_pct": 24.844483819088552,
+        "heuristic4_savings_pct": 30.84128549269547
+      },
+      "us_avg": {
+        "ci": 400,
+        "fixed2_mean": 977166.7125,
+        "fixed2_std": 7548.230332243032,
+        "dp_mean": 742350.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 717158.1,
+        "fixed4_std": 2305.124549780337,
+        "dp_savings_pct": 24.030363447322202,
+        "heuristic4_savings_pct": 26.608418929333926
+      },
+      "uk_grid": {
+        "ci": 500,
+        "fixed2_mean": 1013933.390625,
+        "fixed2_std": 6803.867196376465,
+        "dp_mean": 777937.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 783947.625,
+        "fixed4_std": 2881.405687225421,
+        "dp_savings_pct": 23.275285418850785,
+        "heuristic4_savings_pct": 22.682531984002832
+      },
+      "coal_pl": {
+        "ci": 800,
+        "fixed2_mean": 1124233.425,
+        "fixed2_std": 4570.777788776763,
+        "dp_mean": 930675.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 984316.2,
+        "fixed4_std": 4610.249099560674,
+        "dp_savings_pct": 17.216924945991536,
+        "heuristic4_savings_pct": 12.44556707607231
+      }
+    },
+    "4000": {
+      "nuclear_fr": {
+        "ci": 50,
+        "fixed2_mean": 1125183.3390625,
+        "fixed2_std": 13662.062266345783,
+        "dp_mean": 633394.7625,
+        "dp_std": 288.14056872254207,
+        "fixed4_mean": 633394.7625,
+        "fixed4_std": 288.14056872254207,
+        "dp_savings_pct": 43.70741722609021,
+        "heuristic4_savings_pct": 43.70741722609021
+      },
+      "norway_hydro": {
+        "ci": 100,
+        "fixed2_mean": 1143566.678125,
+        "fixed2_std": 13289.880698412499,
+        "dp_mean": 666789.525,
+        "dp_std": 576.2811374450841,
+        "fixed4_mean": 666789.525,
+        "fixed4_std": 576.2811374450841,
+        "dp_savings_pct": 41.69211662469278,
+        "heuristic4_savings_pct": 41.69211662469278
+      },
+      "eu_avg": {
+        "ci": 300,
+        "fixed2_mean": 1217100.034375,
+        "fixed2_std": 11801.154426679366,
+        "dp_mean": 800368.575,
+        "dp_std": 1728.8434123352527,
+        "fixed4_mean": 800368.575,
+        "fixed4_std": 1728.8434123352527,
+        "dp_savings_pct": 34.239704839791436,
+        "heuristic4_savings_pct": 34.239704839791436
+      },
+      "us_avg": {
+        "ci": 400,
+        "fixed2_mean": 1253866.7125,
+        "fixed2_std": 11056.791290812798,
+        "dp_mean": 942350.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 867158.1,
+        "fixed4_std": 2305.124549780337,
+        "dp_savings_pct": 24.844483819088538,
+        "heuristic4_savings_pct": 30.84128549269546
+      },
+      "uk_grid": {
+        "ci": 500,
+        "fixed2_mean": 1290633.390625,
+        "fixed2_std": 10312.428154946232,
+        "dp_mean": 977937.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 933947.625,
+        "fixed4_std": 2881.405687225421,
+        "dp_savings_pct": 24.2280955146817,
+        "heuristic4_savings_pct": 27.63648982088337
+      },
+      "coal_pl": {
+        "ci": 800,
+        "fixed2_mean": 1400933.425,
+        "fixed2_std": 8079.33874734653,
+        "dp_mean": 1084700.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 1134316.2,
+        "fixed4_std": 4610.249099560674,
+        "dp_savings_pct": 22.573051606645762,
+        "heuristic4_savings_pct": 19.03139865479333
+      }
+    },
+    "5000": {
+      "nuclear_fr": {
+        "ci": 50,
+        "fixed2_mean": 1401883.3390625,
+        "fixed2_std": 17170.62322491555,
+        "dp_mean": 783394.7625,
+        "dp_std": 288.14056872254207,
+        "fixed4_mean": 783394.7625,
+        "fixed4_std": 288.14056872254207,
+        "dp_savings_pct": 44.11840552838798,
+        "heuristic4_savings_pct": 44.11840552838798
+      },
+      "norway_hydro": {
+        "ci": 100,
+        "fixed2_mean": 1420266.678125,
+        "fixed2_std": 16798.441656982264,
+        "dp_mean": 816789.525,
+        "dp_std": 576.2811374450841,
+        "fixed4_mean": 816789.525,
+        "fixed4_std": 576.2811374450841,
+        "dp_savings_pct": 42.49041130231227,
+        "heuristic4_savings_pct": 42.49041130231227
+      },
+      "eu_avg": {
+        "ci": 300,
+        "fixed2_mean": 1493800.034375,
+        "fixed2_std": 15309.715385249132,
+        "dp_mean": 950368.575,
+        "dp_std": 1728.8434123352527,
+        "fixed4_mean": 950368.575,
+        "fixed4_std": 1728.8434123352527,
+        "dp_savings_pct": 36.37913019612225,
+        "heuristic4_savings_pct": 36.37913019612225
+      },
+      "us_avg": {
+        "ci": 400,
+        "fixed2_mean": 1530566.7125,
+        "fixed2_std": 14565.352249382564,
+        "dp_mean": 1017158.1,
+        "dp_std": 2305.124549780337,
+        "fixed4_mean": 1017158.1,
+        "fixed4_std": 2305.124549780337,
+        "dp_savings_pct": 33.543693868881256,
+        "heuristic4_savings_pct": 33.543693868881256
+      },
+      "uk_grid": {
+        "ci": 500,
+        "fixed2_mean": 1567333.390625,
+        "fixed2_std": 13820.989113515998,
+        "dp_mean": 1177937.5,
+        "dp_std": 0.0,
+        "fixed4_mean": 1083947.625,
+        "fixed4_std": 2881.405687225421,
+        "dp_savings_pct": 24.844483819088545,
+        "heuristic4_savings_pct": 30.84128549269546
+      },
+      "coal_pl": {
+        "ci": 800,
+        "fixed2_mean": 1677633.425,
+        "fixed2_std": 11587.899705916296,
+        "dp_mean": 1284700.0,
+        "dp_std": 0.0,
+        "fixed4_mean": 1284316.2,
+        "fixed4_std": 4610.249099560674,
+        "dp_savings_pct": 23.421888187522256,
+        "heuristic4_savings_pct": 23.444765652544152
+      }
+    }
+  }
+}
