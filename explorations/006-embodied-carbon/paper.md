@@ -1,7 +1,7 @@
 # Carbon-Optimal Hardware Lifecycle Planning for AI Data Centers: A Dynamic Programming Approach
 
 **Targeting:** HotCarbon 2026  
-**Status:** v0.8 — Fixed-3yr baseline, institutional barriers, HotCarbon condensed version  
+**Status:** v0.9 — HotCarbon T* reframe + 3yr baseline resolution  
 **Date:** 2026-02-28
 
 ---
@@ -399,7 +399,7 @@ Section 5.2 benchmarks DP-Optimal against the Fixed-2yr industry norm. However, 
 
 *All values: GPU inference fleet, max_age=4yr, eff_gain=50%/gen, emb=3,000 kgCO₂/node, 50 servers, 10yr horizon, 20 Monte Carlo seeds.*
 
-Against a Fixed-3yr baseline, DP-Optimal savings range from **+7.2% to +22.9%** across the six CI scenarios. Savings exceed 15% on clean-grid deployments (nuclear and hydro) but narrow to 7–11% on moderate-to-high-CI grids (EU average through coal). The core qualitative finding — DP-Optimal outperforms any fixed-cycle policy — holds robustly; however, readers should note that the magnitude of savings depends on the assumed baseline: if incumbent refresh cycles are already 3 years (not 2), the lifecycle carbon benefit of adopting DP-Optimal is more modest on carbon-intensive grids. The most significant practical implication remains the move from Fixed-2yr to Fixed-3yr or Fixed-4yr itself: that step captures the majority of achievable savings regardless of whether DP-Optimal or a longer fixed cycle is used.
+Against a Fixed-3yr baseline, DP-Optimal savings range from **+7.2% to +22.9%** across the six CI scenarios. Savings exceed 15% on clean-grid deployments (nuclear and hydro) but narrow to 7–11% on moderate-to-high-CI grids (EU average through coal). The core qualitative finding — DP-Optimal outperforms any fixed-cycle policy — holds robustly; however, readers should note that the magnitude of savings depends on the assumed baseline: if incumbent refresh cycles are already 3 years (not 2), the lifecycle carbon benefit of adopting DP-Optimal is more modest on carbon-intensive grids. The most significant practical implication remains the move from Fixed-2yr to Fixed-3yr or Fixed-4yr itself: that step captures the majority of achievable savings regardless of whether DP-Optimal or a longer fixed cycle is used. In summary, the most robust policy recommendation requires no CI monitoring: simply extending GPU inference refresh from 2 to 4 years, regardless of grid intensity, captures the majority of achievable lifecycle carbon savings.
 
 ### 6.4 The Primary Recommendation: Disaggregate Training and Inference Refresh Cycles
 
