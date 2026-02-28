@@ -1,0 +1,510 @@
+{
+  "metadata": {
+    "script": "simulate-lifecycle-v3.py",
+    "version": "v3",
+    "changes": [
+      "Change A: GPU max_useful_age_yr constraint (unconstrained/inference-4yr/training-2yr)",
+      "Change B: eu_decarbonizing CI scenario with time-varying DP backward induction",
+      "Change C: Policy D marked as theoretical (zero-age baseline) \u2014 not a deployment recommendation"
+    ],
+    "cpu_fleet": {
+      "fleet_size": 50,
+      "horizon": 10,
+      "eff_gain": 0.15,
+      "emb_kg": 1000.0,
+      "seeds": 20,
+      "policies": {
+        "A": "Fixed-5yr (industry norm)",
+        "B_dp": "DP-Optimal (backward induction, globally optimal)",
+        "D": "Fixed-T_star (THEORETICAL ONLY \u2014 zero-age baseline, invalid for staggered fleets)"
+      }
+    },
+    "gpu_fleet": {
+      "fleet_size": 50,
+      "horizon": 10,
+      "eff_gain": 0.5,
+      "emb_kg": 3000.0,
+      "refresh_norm": 2,
+      "seeds": 20,
+      "policies": {
+        "GPU_A": "Fixed-2yr (AI industry norm)",
+        "GPU_B": "DP-Optimal (with max_useful_age_yr hard constraint when set)"
+      },
+      "subcases": {
+        "gpu_unconstrained": "max_useful_age_yr=None (theoretical, v2 comparison)",
+        "gpu_inference": "max_useful_age_yr=4 (inference workloads)",
+        "gpu_training": "max_useful_age_yr=2 (training \u2014 latest gen required)"
+      }
+    }
+  },
+  "cpu_fleet": {
+    "nuclear_fr": {
+      "ci": 50,
+      "ci_schedule": null,
+      "t_star": 10,
+      "t_star_note": "theoretical_zero_age_baseline",
+      "policy_A": {
+        "mean_carbon": 138095.4598750001,
+        "std_carbon": 2327.323516295323,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 54750.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_D_theoretical": {
+        "mean_carbon": 93694.16750000001,
+        "std_carbon": 2446.6515275869933,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 60.35351194778013,
+      "D_saves_vs_A_pct_theoretical": 32.15260835887784
+    },
+    "norway_hydro": {
+      "ci": 100,
+      "ci_schedule": null,
+      "t_star": 10,
+      "t_star_note": "theoretical_zero_age_baseline",
+      "policy_A": {
+        "mean_carbon": 185490.91975000003,
+        "std_carbon": 2078.8339034191586,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 109500.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_D_theoretical": {
+        "mean_carbon": 146688.335,
+        "std_carbon": 2306.568618050417,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 40.967460753560694,
+      "D_saves_vs_A_pct_theoretical": 20.918859425732094
+    },
+    "eu_avg": {
+      "ci": 300,
+      "ci_schedule": null,
+      "t_star": 10,
+      "t_star_note": "theoretical_zero_age_baseline",
+      "policy_A": {
+        "mean_carbon": 375072.75925,
+        "std_carbon": 1388.8203562896188,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 328500.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_D_theoretical": {
+        "mean_carbon": 358665.005,
+        "std_carbon": 1799.2757176083298,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 12.416993263687678,
+      "D_saves_vs_A_pct_theoretical": 4.374552362269427
+    },
+    "us_avg": {
+      "ci": 400,
+      "ci_schedule": null,
+      "t_star": 10,
+      "t_star_note": "theoretical_zero_age_baseline",
+      "policy_A": {
+        "mean_carbon": 469863.6789999998,
+        "std_carbon": 1387.27905198594,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 422039.5000000001,
+        "std_carbon": 0.0,
+        "mean_replacements": 100.0
+      },
+      "policy_D_theoretical": {
+        "mean_carbon": 464653.33999999997,
+        "std_carbon": 1595.076373218529,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 10.1783093985436,
+      "D_saves_vs_A_pct_theoretical": 1.108904397779566
+    },
+    "uk_grid": {
+      "ci": 500,
+      "ci_schedule": null,
+      "t_star": 10,
+      "t_star_note": "theoretical_zero_age_baseline",
+      "policy_A": {
+        "mean_carbon": 564654.59875,
+        "std_carbon": 1647.7220488066132,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 502549.3749999999,
+        "std_carbon": 0.0,
+        "mean_replacements": 100.0
+      },
+      "policy_D_theoretical": {
+        "mean_carbon": 570641.675,
+        "std_carbon": 1443.3813579144635,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 10.998798891833186,
+      "D_saves_vs_A_pct_theoretical": -1.0603077108118641
+    },
+    "coal_pl": {
+      "ci": 800,
+      "ci_schedule": null,
+      "t_star": 2,
+      "t_star_note": "theoretical_zero_age_baseline",
+      "policy_A": {
+        "mean_carbon": 849027.3579999998,
+        "std_carbon": 3139.2138940053164,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 711642.5824999998,
+        "std_carbon": 0.0,
+        "mean_replacements": 200.0
+      },
+      "policy_D_theoretical": {
+        "mean_carbon": 819596.7181352499,
+        "std_carbon": 2941.3403863078383,
+        "mean_replacements": 240.7
+      },
+      "Bdp_saves_vs_A_pct": 16.181430928636818,
+      "D_saves_vs_A_pct_theoretical": 3.4663947618929223
+    },
+    "eu_decarbonizing": {
+      "ci": null,
+      "ci_schedule": [
+        300.0,
+        290.0,
+        280.0,
+        270.0,
+        260.0,
+        250.0,
+        240.0,
+        230.0,
+        220.0,
+        210.0,
+        200.0
+      ],
+      "ci_mean": 255.0,
+      "ci_note": "300\u2192200 g/kWh linear decline over 10yr",
+      "t_star": 10,
+      "t_star_note": "analytical reference at mean CI=250",
+      "policy_A": {
+        "mean_carbon": 334954.8199375,
+        "std_carbon": 1504.3013838872491,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 279225.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "Bdp_saves_vs_A_pct": 16.638011045160884,
+      "comparison_vs_static_eu_avg": {
+        "static_eu_avg_save_pct": 12.416993263687678,
+        "decarbonizing_save_pct": 16.638011045160884,
+        "delta_pct": 4.221017781473206
+      }
+    }
+  },
+  "gpu_fleet_unconstrained": {
+    "nuclear_fr": {
+      "ci": 50,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": null,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 698483.3390625,
+        "std_carbon": 10153.501307776016,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 54750.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "GPU_B_saves_vs_A_pct": 92.16158826730425
+    },
+    "norway_hydro": {
+      "ci": 100,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": null,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 716866.678125,
+        "std_carbon": 9781.319739842733,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 109500.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "GPU_B_saves_vs_A_pct": 84.72519321355504
+    },
+    "eu_avg": {
+      "ci": 300,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": null,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 790400.034375,
+        "std_carbon": 8292.593468109599,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 314250.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 50.0
+      },
+      "GPU_B_saves_vs_A_pct": 60.24165152668678
+    },
+    "us_avg": {
+      "ci": 400,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": null,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 827166.7125,
+        "std_carbon": 7548.230332243032,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 369000.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 50.0
+      },
+      "GPU_B_saves_vs_A_pct": 55.38988762195868
+    },
+    "uk_grid": {
+      "ci": 500,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": null,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 863933.390625,
+        "std_carbon": 6803.867196376465,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 423750.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 50.0
+      },
+      "GPU_B_saves_vs_A_pct": 50.95107972462504
+    },
+    "coal_pl": {
+      "ci": 800,
+      "gpu_t_star": 5,
+      "max_useful_age_yr": null,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 974233.425,
+        "std_carbon": 4570.777788776763,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 540900.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 100.0
+      },
+      "GPU_B_saves_vs_A_pct": 44.479424938638296
+    }
+  },
+  "gpu_fleet_inference": {
+    "nuclear_fr": {
+      "ci": 50,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 4,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 698483.3390625,
+        "std_carbon": 10153.501307776016,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 333394.7625,
+        "std_carbon": 288.14056872254207,
+        "mean_replacements": 100.0
+      },
+      "GPU_B_saves_vs_A_pct": 52.26875948859706
+    },
+    "norway_hydro": {
+      "ci": 100,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 4,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 716866.678125,
+        "std_carbon": 9781.319739842733,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 366789.525,
+        "std_carbon": 576.2811374450841,
+        "mean_replacements": 100.0
+      },
+      "GPU_B_saves_vs_A_pct": 48.83434588432035
+    },
+    "eu_avg": {
+      "ci": 300,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 4,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 790400.034375,
+        "std_carbon": 8292.593468109599,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 556762.5,
+        "std_carbon": 0.0,
+        "mean_replacements": 150.0
+      },
+      "GPU_B_saves_vs_A_pct": 29.559403367150196
+    },
+    "us_avg": {
+      "ci": 400,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 4,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 827166.7125,
+        "std_carbon": 7548.230332243032,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 592350.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 150.0
+      },
+      "GPU_B_saves_vs_A_pct": 28.38807569882716
+    },
+    "uk_grid": {
+      "ci": 500,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 4,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 863933.390625,
+        "std_carbon": 6803.867196376465,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 627937.5,
+        "std_carbon": 0.0,
+        "mean_replacements": 150.0
+      },
+      "GPU_B_saves_vs_A_pct": 27.316445131756307
+    },
+    "coal_pl": {
+      "ci": 800,
+      "gpu_t_star": 5,
+      "max_useful_age_yr": 4,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 974233.425,
+        "std_carbon": 4570.777788776763,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 780675.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 200.0
+      },
+      "GPU_B_saves_vs_A_pct": 19.86776680342291
+    }
+  },
+  "gpu_fleet_training": {
+    "nuclear_fr": {
+      "ci": 50,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 2,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 698483.3390625,
+        "std_carbon": 10153.501307776016,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 698483.3390625,
+        "std_carbon": 10153.501307776016,
+        "mean_replacements": 226.7
+      },
+      "GPU_B_saves_vs_A_pct": 0.0
+    },
+    "norway_hydro": {
+      "ci": 100,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 2,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 716866.678125,
+        "std_carbon": 9781.319739842733,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 716866.678125,
+        "std_carbon": 9781.319739842733,
+        "mean_replacements": 226.7
+      },
+      "GPU_B_saves_vs_A_pct": 0.0
+    },
+    "eu_avg": {
+      "ci": 300,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 2,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 790400.034375,
+        "std_carbon": 8292.593468109599,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 813646.875,
+        "std_carbon": 0.0,
+        "mean_replacements": 250.0
+      },
+      "GPU_B_saves_vs_A_pct": -2.941148736586548
+    },
+    "us_avg": {
+      "ci": 400,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 2,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 827166.7125,
+        "std_carbon": 7548.230332243032,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 834862.5,
+        "std_carbon": 0.0,
+        "mean_replacements": 250.0
+      },
+      "GPU_B_saves_vs_A_pct": -0.930379255318495
+    },
+    "uk_grid": {
+      "ci": 500,
+      "gpu_t_star": 10,
+      "max_useful_age_yr": 2,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 863933.390625,
+        "std_carbon": 6803.867196376465,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 856078.125,
+        "std_carbon": 0.0,
+        "mean_replacements": 250.0
+      },
+      "GPU_B_saves_vs_A_pct": 0.9092443596047634
+    },
+    "coal_pl": {
+      "ci": 800,
+      "gpu_t_star": 5,
+      "max_useful_age_yr": 2,
+      "policy_GPU_A_fixed2": {
+        "mean_carbon": 974233.425,
+        "std_carbon": 4570.777788776763,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B_dp_optimal": {
+        "mean_carbon": 1027293.75,
+        "std_carbon": 0.0,
+        "mean_replacements": 300.0
+      },
+      "GPU_B_saves_vs_A_pct": -5.44636671647762
+    }
+  }
+}
