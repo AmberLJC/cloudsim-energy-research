@@ -1,0 +1,2443 @@
+{
+  "cpu_fleet": {
+    "best_age_threshold": 2,
+    "best_ci_threshold": 600,
+    "mean_saving_vs_fixed5yr_pct": 21.1707,
+    "per_scenario_saving_vs_fixed_pct": {
+      "nuclear_fr": 60.3535,
+      "norway_hydro": 40.9675,
+      "eu_avg": 12.417,
+      "us_avg": 6.7815,
+      "uk_grid": 3.0381,
+      "coal_pl": 3.4664
+    },
+    "dp_savings_pct": {
+      "nuclear_fr": 60.3535,
+      "norway_hydro": 40.9675,
+      "eu_avg": 12.417,
+      "us_avg": 10.1783,
+      "uk_grid": 10.9988,
+      "coal_pl": 16.1814
+    },
+    "heuristic_captures_pct_of_dp": {
+      "nuclear_fr": 100.0,
+      "norway_hydro": 100.0,
+      "eu_avg": 100.0,
+      "us_avg": 66.63,
+      "uk_grid": 27.62,
+      "coal_pl": 21.42
+    },
+    "grid_search_log": [
+      {
+        "age_threshold": 1,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": -104.2129,
+        "per_scenario": {
+          "nuclear_fr": -273.9695,
+          "norway_hydro": -192.2891,
+          "eu_avg": -71.9957,
+          "us_avg": -48.2512,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": -48.4924,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": -192.2891,
+          "eu_avg": -71.9957,
+          "us_avg": -48.2512,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": -9.6163,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -71.9957,
+          "us_avg": -48.2512,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": -9.6163,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -71.9957,
+          "us_avg": -48.2512,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": -9.6163,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -71.9957,
+          "us_avg": -48.2512,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": -9.6163,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -71.9957,
+          "us_avg": -48.2512,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 4.4525,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": -48.2512,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 4.4525,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": -48.2512,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 13.6246,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 13.6246,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -32.4789,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 19.5441,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 19.5441,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 19.5441,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -6.2931
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": -34.5659,
+        "per_scenario": {
+          "nuclear_fr": -100.4997,
+          "norway_hydro": -68.7749,
+          "eu_avg": -22.0527,
+          "us_avg": -12.8302,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": -7.757,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": -68.7749,
+          "eu_avg": -22.0527,
+          "us_avg": -12.8302,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 10.5334,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -22.0527,
+          "us_avg": -12.8302,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 10.5334,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -22.0527,
+          "us_avg": -12.8302,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 10.5334,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -22.0527,
+          "us_avg": -12.8302,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 10.5334,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -22.0527,
+          "us_avg": -12.8302,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 16.2783,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": -12.8302,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 16.2783,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": -12.8302,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 19.5469,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 19.5469,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -6.7042,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 21.1707,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 21.1707,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 21.1707,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 3.4664
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": -18.9102,
+        "per_scenario": {
+          "nuclear_fr": -54.6968,
+          "norway_hydro": -37.4776,
+          "eu_avg": -12.1184,
+          "us_avg": -7.1128,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 0.2649,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": -37.4776,
+          "eu_avg": -12.1184,
+          "us_avg": -7.1128,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 13.3391,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -12.1184,
+          "us_avg": -7.1128,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 13.3391,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -12.1184,
+          "us_avg": -7.1128,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 13.3391,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -12.1184,
+          "us_avg": -7.1128,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 13.3391,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -12.1184,
+          "us_avg": -7.1128,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 17.4283,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": -7.1128,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 17.4283,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": -7.1128,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 19.744,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 19.744,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -3.7878,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 20.8817,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 20.8817,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 20.8817,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 1.7325
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": -6.8842,
+        "per_scenario": {
+          "nuclear_fr": -20.9469,
+          "norway_hydro": -14.1805,
+          "eu_avg": -4.2153,
+          "us_avg": -2.2483,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 6.6658,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": -14.1805,
+          "eu_avg": -4.2153,
+          "us_avg": -2.2483,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 15.8572,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -4.2153,
+          "us_avg": -2.2483,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 15.8572,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -4.2153,
+          "us_avg": -2.2483,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 15.8572,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -4.2153,
+          "us_avg": -2.2483,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 15.8572,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": -4.2153,
+          "us_avg": -2.2483,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 18.6292,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": -2.2483,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 18.6292,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": -2.2483,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 20.1342,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 20.1342,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -0.9418,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 20.7975,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 20.7975,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 20.7975,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 1.2275
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 0.0,
+        "per_scenario": {
+          "nuclear_fr": 0.0,
+          "norway_hydro": 0.0,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 10.0589,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 0.0,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 16.8868,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 16.8868,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 16.8868,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 16.8868,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 18.9563,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 18.9563,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 20.0866,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 20.0866,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 20.5929,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 20.5929,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 5,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 20.5929,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 3.5846,
+        "per_scenario": {
+          "nuclear_fr": 12.0306,
+          "norway_hydro": 7.9667,
+          "eu_avg": 1.9816,
+          "us_avg": 0.8003,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 11.6384,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 7.9667,
+          "eu_avg": 1.9816,
+          "us_avg": 0.8003,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 17.1385,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 1.9816,
+          "us_avg": 0.8003,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 17.1385,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 1.9816,
+          "us_avg": 0.8003,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 17.1385,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 1.9816,
+          "us_avg": 0.8003,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 17.1385,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 1.9816,
+          "us_avg": 0.8003,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 18.8777,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 0.8003,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 18.8777,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 0.8003,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 19.8746,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 19.8746,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 0.0155,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 20.3784,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 20.3784,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 6,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 20.3784,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -1.2873
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 9.2444,
+        "per_scenario": {
+          "nuclear_fr": 27.2022,
+          "norway_hydro": 18.5616,
+          "eu_avg": 5.8363,
+          "us_avg": 3.3244,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 14.7696,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 18.5616,
+          "eu_avg": 5.8363,
+          "us_avg": 3.3244,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 18.5039,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 5.8363,
+          "us_avg": 3.3244,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 18.5039,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 5.8363,
+          "us_avg": 3.3244,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 18.5039,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 5.8363,
+          "us_avg": 3.3244,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 18.5039,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 5.8363,
+          "us_avg": 3.3244,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 19.6007,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 3.3244,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 19.6007,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 3.3244,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 20.1769,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 20.1769,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 1.656,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 20.4072,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 20.4072,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 7,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 20.4072,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -1.1141
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 8.0453,
+        "per_scenario": {
+          "nuclear_fr": 26.6075,
+          "norway_hydro": 17.6761,
+          "eu_avg": 4.5225,
+          "us_avg": 1.9262,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 13.6697,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 17.6761,
+          "eu_avg": 4.5225,
+          "us_avg": 1.9262,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 17.5516,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 4.5225,
+          "us_avg": 1.9262,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 17.5516,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 4.5225,
+          "us_avg": 1.9262,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 17.5516,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 4.5225,
+          "us_avg": 1.9262,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 17.5516,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 4.5225,
+          "us_avg": 1.9262,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 18.8673,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 1.9262,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 18.8673,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 1.9262,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 19.6765,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 19.6765,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 0.2015,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 20.1493,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 20.1493,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 8,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 20.1493,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -2.6618
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 6.8463,
+        "per_scenario": {
+          "nuclear_fr": 26.0128,
+          "norway_hydro": 16.7906,
+          "eu_avg": 3.2088,
+          "us_avg": 0.5279,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 12.5697,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 16.7906,
+          "eu_avg": 3.2088,
+          "us_avg": 0.5279,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 16.5992,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 3.2088,
+          "us_avg": 0.5279,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 16.5992,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 3.2088,
+          "us_avg": 0.5279,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 16.5992,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 3.2088,
+          "us_avg": 0.5279,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 16.5992,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 3.2088,
+          "us_avg": 0.5279,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 18.1339,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 0.5279,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 18.1339,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 0.5279,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 19.1762,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 19.1762,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -1.2529,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 19.8913,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 19.8913,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 9,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 19.8913,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -4.2094
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 8.8055,
+        "per_scenario": {
+          "nuclear_fr": 32.1526,
+          "norway_hydro": 20.9189,
+          "eu_avg": 4.3746,
+          "us_avg": 1.1089,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 13.5056,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 20.9189,
+          "eu_avg": 4.3746,
+          "us_avg": 1.1089,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 16.8471,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 4.3746,
+          "us_avg": 1.1089,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 16.8471,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 4.3746,
+          "us_avg": 1.1089,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 16.8471,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 4.3746,
+          "us_avg": 1.1089,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 16.8471,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 4.3746,
+          "us_avg": 1.1089,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 18.1875,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 1.1089,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 18.1875,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 1.1089,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 19.1329,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 19.1329,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": -1.0603,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 19.816,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 19.816,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -4.6617
+        }
+      },
+      {
+        "age_threshold": 10,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 19.816,
+        "per_scenario": {
+          "nuclear_fr": 60.3535,
+          "norway_hydro": 40.9675,
+          "eu_avg": 12.417,
+          "us_avg": 6.7815,
+          "uk_grid": 3.0381,
+          "coal_pl": -4.6617
+        }
+      }
+    ]
+  },
+  "gpu_fleet_inference": {
+    "best_age_threshold": 4,
+    "best_ci_threshold": 50,
+    "mean_saving_vs_fixed2yr_pct": 31.8671,
+    "per_scenario_saving_vs_fixed_pct": {
+      "nuclear_fr": 51.5675,
+      "norway_hydro": 47.5094,
+      "eu_avg": 33.4808,
+      "us_avg": 27.5503,
+      "uk_grid": 22.2008,
+      "coal_pl": 8.894
+    },
+    "dp_savings_pct": {
+      "nuclear_fr": 52.2688,
+      "norway_hydro": 48.8343,
+      "eu_avg": 29.5594,
+      "us_avg": 28.3881,
+      "uk_grid": 27.3164,
+      "coal_pl": 19.8678
+    },
+    "heuristic_captures_pct_of_dp": {
+      "nuclear_fr": 98.66,
+      "norway_hydro": 97.29,
+      "eu_avg": 113.27,
+      "us_avg": 97.05,
+      "uk_grid": 81.27,
+      "coal_pl": 44.77
+    },
+    "grid_search_log": [
+      {
+        "age_threshold": 1,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": -81.1718,
+        "per_scenario": {
+          "nuclear_fr": -105.0419,
+          "norway_hydro": -100.1249,
+          "eu_avg": -83.1269,
+          "us_avg": -75.9413,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": -55.0702,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": -100.1249,
+          "eu_avg": -83.1269,
+          "us_avg": -75.9413,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": -30.4645,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": -83.1269,
+          "us_avg": -75.9413,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": -30.4645,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": -83.1269,
+          "us_avg": -75.9413,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": -30.4645,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": -83.1269,
+          "us_avg": -75.9413,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": -30.4645,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": -83.1269,
+          "us_avg": -75.9413,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": -11.0299,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": -75.9413,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": -11.0299,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": -75.9413,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 6.2187,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 6.2187,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": -69.4595,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 21.4954,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 21.4954,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 1,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 21.4954,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": -53.3362
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 0.0,
+        "per_scenario": {
+          "nuclear_fr": 0.0,
+          "norway_hydro": 0.0,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 8.5946,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 0.0,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 16.5128,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 16.5128,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 16.5128,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 16.5128,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 0.0,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 22.0929,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 22.0929,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 0.0,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 26.6847,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 26.6847,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 0.0,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 30.3848,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 30.3848,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 2,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 30.3848,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 0.0
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 19.8621,
+        "per_scenario": {
+          "nuclear_fr": 31.3199,
+          "norway_hydro": 28.9597,
+          "eu_avg": 20.8006,
+          "us_avg": 17.3514,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 23.2367,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 28.9597,
+          "eu_avg": 20.8006,
+          "us_avg": 17.3514,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 26.3283,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 20.8006,
+          "us_avg": 17.3514,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 26.3283,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 20.8006,
+          "us_avg": 17.3514,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 26.3283,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 20.8006,
+          "us_avg": 17.3514,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 26.3283,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 20.8006,
+          "us_avg": 17.3514,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 28.4417,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 17.3514,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 28.4417,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 17.3514,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 30.1415,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 30.1415,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 14.2401,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 31.4683,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 31.4683,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 3,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 31.4683,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 6.5008
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 50,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 100,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 150,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 200,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 250,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 300,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 350,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 400,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 450,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 500,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 600,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 700,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      },
+      {
+        "age_threshold": 4,
+        "ci_threshold": 800,
+        "mean_saving_vs_fixed": 31.8671,
+        "per_scenario": {
+          "nuclear_fr": 51.5675,
+          "norway_hydro": 47.5094,
+          "eu_avg": 33.4808,
+          "us_avg": 27.5503,
+          "uk_grid": 22.2008,
+          "coal_pl": 8.894
+        }
+      }
+    ]
+  },
+  "summary": {
+    "cpu_heuristic": "age >= 2 AND CI >= 600 g/kWh",
+    "gpu_heuristic": "age >= 4 AND CI >= 50 g/kWh",
+    "cpu_mean_saving_pct": 21.17,
+    "gpu_mean_saving_pct": 31.87,
+    "cpu_captures_dp_pct": 69.3,
+    "gpu_captures_dp_pct": 88.7,
+    "within_5pct_of_dp": {
+      "cpu": false,
+      "gpu_inference": false
+    },
+    "description": "2-parameter threshold heuristic: replace server if age >= age_threshold AND current grid CI >= ci_threshold. No future knowledge required. max_useful_age hard ceiling still applies (enforced by operator constraint)."
+  }
+}
