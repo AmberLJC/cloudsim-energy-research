@@ -1,7 +1,7 @@
 # Carbon-Optimal Hardware Lifecycle Planning for AI Data Centers: A Dynamic Programming Approach
 
-**Targeting:** HotCarbon 2026 / ACM e-Energy 2026  
-**Status:** v0.3 — pre-submission revision  
+**Targeting:** HotCarbon 2026  
+**Status:** v0.4 — Proposition 1 corrected, venue confirmed  
 **Date:** 2026-02-28
 
 ---
@@ -284,9 +284,17 @@ At coal CI (800 g/kWh), Fixed-2yr savings are still +19.9% vs DP-Optimal. Even h
 
 **The critical mechanistic finding** is that DP-Optimal does NOT implement periodic replacement. At mid-range CI (400–500 g/kWh), DP-Optimal makes exactly 100 replacements for 50 servers — one per server over 10 years. But these replacements are concentrated in the first 2–3 years of the horizon.
 
-**Proposition 1 (Informal): T* analysis overestimates optimal replacement frequency for staggered fleets.**
+**Proposition 1 (Informal): T* analysis under-schedules early replacement for already-aged servers in staggered fleets.**
 
-**Analytical proof sketch (Proposition 1: T* is invalid for staggered fleets):** Let N=2 servers. Server A at age 0, Server B at age T*−1, where T* is the classical periodic replacement optimal computed assuming a zero-age fleet. Both have the same hardware profile (embodied cost K, operational cost rate c(gen, CI)). Under T* policy: replace Server B in 1 year (completing its current cycle), then replace both every T* years. Under DP: Server B has already been held T*−1 years. Its remaining optimal horizon is 1 year before the next replacement is optimal. DP makes the same recommendation as T* for Server B. However, Server A (age 0) benefits from DP's lookahead: if T* > horizon_remaining/2, DP may determine that replacing A once (not twice) over the remaining planning horizon is optimal, whereas T*'s periodic schedule would trigger 2 replacements. Each "avoided replacement" saves K kg embodied carbon. Conclusion: for fleets with heterogeneous server ages and finite planning horizons, T* over-schedules replacements for recently-deployed servers. DP accounts for the actual per-server state and avoids unnecessary embodied carbon expenditures. The simulation results in Table 5 (Policy D vs. DP-Optimal) confirm this analytically predicted outcome.
+**Proof sketch:** Consider a single server at age a=4 at simulation start, with T*=10yr (computed for a zero-age baseline at CI=500 g/kWh), H=10 years of remaining planning horizon, K=1,000 kgCO₂ embodied cost, and Δc=165 kgCO₂/yr operational savings per generation (from Section 3.2 CPU parameters at CI=500).
+
+Under **T* policy**: hold the server 6 more years (to complete the cycle), then replace. Early-replacement payoff: 4 years of new efficiency gains − K = 4 × 165 − 1,000 = −340 kgCO₂. T* correctly rejects replacement in a static zero-age model: 4 years of remaining horizon is insufficient payback.
+
+Under **DP**: with H=10 years of remaining horizon, replacing immediately yields 10 × 165 − 1,000 = +650 kgCO₂ net savings vs. holding. The break-even condition is H·Δc > K, i.e., 10 × 165 = 1,650 > 1,000 ✓.
+
+DP beats T*'s schedule by 650 − (−340) = **990 kgCO₂ per server** over the horizon. T* never evaluates this condition because it assumes a=0 for all servers; it instructs "wait 6 more years" without checking whether the remaining horizon H justifies early replacement.
+
+**General condition:** For a server at age a with remaining horizon H, immediate replacement dominates T*'s "hold" recommendation whenever H·Δc(CI) > K_embodied. This condition is age- and horizon-dependent; T*'s steady-state formula never evaluates it. Any staggered fleet contains servers where this condition holds and T* misses them. Finite-horizon DP tracks per-server (age, time-remaining) state and captures all such opportunities, which is precisely the "front-loading" behavior observed in Table 5. ∎
 
 **How front-loading works:** Servers entering the simulation with staggered initial ages of 3–4 years get replaced early (year 1–2), when there are 8–9 years of remaining horizon to recover the 1,000 kg embodied cost. A server with 9 remaining years captures 9 × 165 kg/yr operational savings = 1,485 kg against 1,000 kg embodied — a net saving of +485 kg. After this early replacement, the server runs at gen+1 efficiency for 6–8 more years with no further replacement, because by then only 2–4 years remain in the horizon: a second replacement would pay 1,000 kg embodied for only 2–4 × 165 kg = 330–660 kg in savings (below break-even).
 

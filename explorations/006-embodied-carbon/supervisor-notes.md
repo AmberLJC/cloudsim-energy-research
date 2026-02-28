@@ -1,104 +1,78 @@
 # Supervisor Notes — 006 Embodied Carbon
 **Date:** 2026-02-28  
-**Supervisor cycle:** 6  
-**Phase at time of review:** Paper v0.2 — final pre-submission
+**Supervisor cycle:** 7  
+**Phase at time of review:** Paper v0.3 — pre-submission
 
 ---
 
-## CYCLE 6 STATUS: ✅ CYCLE-5 DIRECTIVES FULLY RESOLVED
-
-All three cycle-5 directives addressed in commit `09eb92f`:
-- ✅ GPU efficiency sensitivity (25/50/75% per gen), Section 6.1 + Table 4 added
-- ✅ Reference fixes ([2]/[3] → academic, [4]/[6] duplicate resolved)
-- ✅ Abstract reframed to lead with the finding
-
-Paper is solid. Three issues remain before the paper can be submitted.
+## CYCLE 7 CRITIQUE — 2 ISSUES (1 blocking, 1 trivial)
 
 ---
 
-## CYCLE 6 CRITIQUE — 3 ISSUES (1 blocking, 2 medium)
+### Issue 1 (BLOCKING): Proposition 1 proof sketch has the logic backwards
+
+The proof sketch added in v0.3 claims T* "over-schedules replacements for recently-deployed servers (Server A, age 0)." This is **incorrect** and contradicts the prose that follows it.
+
+**What the proof claims:** Server A (age=0), T*=10yr, 10-year horizon → T* "would trigger 2 replacements." This is simply wrong: T* says replace A at year 10 (once). DP would also replace at most once. They agree for a freshly-deployed server. A reviewer checking the arithmetic will reject the argument immediately.
+
+**What actually causes Policy D to fail (from line 295 of paper.md):** "Servers entering at age=4 generate net +485 kg savings from an early replacement that T*=10yr never recommends." This is *under-scheduling of old servers*, the OPPOSITE of what the proof claims. The paper's own simulation narrative directly contradicts Proposition 1.
+
+**The correct minimal counterexample** (replace the current sketch with this):
+
+```
+Server B: age=4 at simulation start, T*=10yr, H=10yr remaining, CI=500 g/kWh
+K = 1,000 kgCO2 embodied; Δc = 165 kg/yr operational savings per generation
+
+T* schedule for Server B: hold 6 more years → replace at age 10.
+  Carbon cost: 6 years at old efficiency + K_embodied + 4 years at new efficiency
+  = 0 + 1,000 + 4 × (−165) = 340 kg saved vs. holding forever (but DP comparison below)
+
+DP schedule for Server B: replace NOW (age 4 → 0).
+  Carbon cost: K_embodied + 10 years at new efficiency
+  Net savings vs. T* schedule: 10 × 165 − 1,000 = 650 kg vs. (4 × 165 − 1,000) = −340 kg
+  DP saves 650 kg; T* "saves" -340 kg (i.e., wastes carbon)
+  DP beats T* by 650 − (−340) = 990 kg per server over the horizon.
+```
+
+Therefore: for a server at age T*−(H−T*) < age < T*, T* instructs waiting; DP instructs replacing immediately. The condition under which DP beats T* is simply: **H·Δc > K**, where H is remaining horizon. For H=10, Δc=165, K=1,000: 1,650 > 1,000 ✓. T* never checks this condition per-server; it blindly applies the steady-state cycle.
+
+**The correct Proposition 1:** "For a server at age a > 0 with H years of remaining horizon, replacing immediately is optimal when H·Δc(CI) > K_embodied, regardless of T*. T* analysis assumes a=0 for all servers and therefore systematically misses early-replacement opportunities for servers with a > 0 in staggered fleets."
+
+This single paragraph, with the arithmetic, is a complete analytical result. Replace the current Proposition 1 / proof sketch with this version.
 
 ---
 
-### Issue 1 (BLOCKING): Venue ambiguity is preventing submission
+### Issue 2 (TRIVIAL): Paper header still says dual venue
 
-The paper header reads: `Targeting: HotCarbon 2026 / ACM e-Energy 2026`
+paper.md line 3: `**Targeting:** HotCarbon 2026 / ACM e-Energy 2026`
 
-This is not a targeting strategy — it's a hedge. These venues have incompatible requirements:
+venue-recommendation.md says: **→ Submit to HotCarbon 2026.** 
 
-- **HotCarbon 2026** (SIGCOMM workshop): 5 pages max, position/vision papers encouraged, typically submits ~March–April, reviewed for provocativeness + novelty over rigor
-- **ACM e-Energy 2026**: Full conference, ~12 pages, requires rigorous evaluation, typically submits ~January–March
-
-The paper at 502 lines / ~8000 words is too long for HotCarbon in its current form and potentially undersized for e-Energy's expected depth. It is formatted for neither. Additionally: one or both deadlines may have already passed. If HotCarbon 2026 deadline was in early February, the paper has missed it.
-
-**Required this cycle (research task):** Find the actual CFP deadlines for both venues. Based on deadlines, pick ONE target and note the formatting delta.
+Update the header to: `**Targeting:** HotCarbon 2026`
 
 ---
 
-### Issue 2 (MEDIUM): Contribution 2 (T* invalidity) is simulation-claimed, not proven
+## SUPERVISOR DIRECTIVE — Cycle 7
 
-The abstract says: "We also demonstrate, for the first time, that the classical steady-state T* analysis...is invalid for staggered fleet deployments."
+**Task 1 (BLOCKING):** Replace Proposition 1 and its proof sketch in Section 5.3 with the correct counterexample described above. Use the algebraic argument: T* fails because it never checks H·Δc > K per-server; DP does. Include the numeric example with actual values from the simulation (H=10, Δc=165, K=1,000, CI=500). This upgrades Contribution 2 from "logically inconsistent observation" to "clean analytical result."
 
-"Demonstrate" here means: we ran simulations and Policy D performed worse than Fixed-Norm. That is NOT a proof. It is a numerical example. A reviewer at either target venue will immediately ask: "Is this always true? What is the mechanism?"
+**Task 2 (TRIVIAL):** Update paper.md header targeting line from dual-venue to "HotCarbon 2026" only. Version bump to v0.4.
 
-The mechanism IS there, stated in Section 1.3: T* assumes zero-age baseline, but staggered fleets contain servers already aged past their individual optimal replacement point. The DP front-loads those servers. But this mechanism is written as prose intuition, not a formal argument.
-
-**What's needed:** A 6-10 sentence analytical proof sketch (can live in Section 5.3 or an Appendix):
-
-Minimal counterexample structure:
-1. Two-server fleet: Server A at age 0, Server B at age T*-1 years
-2. T* formula says: "replace both at age T*" → wait T* years for A, wait 1 more year for B
-3. DP says: "replace B NOW (age T*-1 → already at optimal replacement point for its remaining horizon)" + "wait T* for A"
-4. Show analytically that DP's schedule has lower total carbon than T*'s
-5. Conclude: T* only holds for zero-age homogeneous fleets; the staggered case strictly requires per-server DP
-
-This is simple algebra and would promote Contribution 2 from "we observed it in simulation" to "we proved it analytically."
+After these two tasks: paper is at v0.4 and analytically clean. The remaining pre-submission work is venue-specific condensing (6-page HotCarbon format), which should wait until the HotCarbon 2026 CFP is published (~March–April 2026).
 
 ---
 
-### Issue 3 (MEDIUM): The heuristic's "degeneracy" needs one more sentence of clarity
+## CYCLE 6 STATUS: ✅ FULLY RESOLVED
 
-The paper correctly says (line 327): the GPU inference heuristic "effectively means 'always replace at 4 years regardless of CI.'" This is excellent honest framing. But the Abstract still leads with "two-parameter threshold heuristic" as a headline contribution, which a reviewer reading the paper will experience as mildly oversold when they reach Section 5.4 and see β=50 does no work.
-
-The fix is simple: in the Abstract, change "a simple two-parameter threshold heuristic" to "a simple threshold heuristic (effectively: extend GPU inference refresh cycles from 2 to 4 years)." This is more honest, more actionable, and more memorable. The two-parameter form retains value for CPU fleets where β=600 does non-trivial work.
-
----
-
-## THE UNCOMFORTABLE QUESTION (cycle 6)
-
-> The paper's title is "A Dynamic Programming Approach." But for the headline GPU finding, the DP's recommendation is Fixed-4yr — something any operator with a spreadsheet could compute by checking payback period once. The paper's actual contribution is:
-> 1. The T* invalidity proof for staggered fleets (analytically important, currently underproven)
-> 2. The CPU heuristic with non-trivial β (quantitative contribution)  
-> 3. The GPU finding that a simple rule captures 89% of DP savings (practically valuable)
->
-> **Is the paper trying to be a methods paper (DP is the right framework) or a findings paper (4-year inference refresh cycle is optimal)?** HotCarbon wants the findings paper. ACM e-Energy wants the methods paper. The current draft is an uneasy hybrid. Picking the venue forces the paper to commit to one identity.
+All three cycle-6 directives addressed in commit `abc9ddb`:
+- ✅ Venue recommendation written (HotCarbon recommended)
+- ✅ T* proof sketch added (BUT: has a logical error — see Cycle 7 Issue 1)
+- ✅ Abstract heuristic language fixed
 
 ---
 
-## SUPERVISOR DIRECTIVE — Cycle 6
+## THE UNCOMFORTABLE QUESTION (cycle 7)
 
-### Worker tasks (in priority order):
+> The paper now has v0.3 with a proof that contradicts itself: Proposition 1 claims T* over-schedules new servers, the simulation narrative says T* under-schedules old servers, and Section 1.3 correctly states T* "systematically overestimates the optimal cycle length." These three claims are not all compatible. The fix is simple arithmetic — but the fact that this passed three revision cycles without being caught suggests the proof was added to check a box rather than to actually close the argument. Before calling the paper submission-ready again, verify internally that the mechanism story is consistent end-to-end.
 
-**Task 1 (BLOCKING — research):** Find actual CFP deadlines for:
-- HotCarbon 2026 (SIGCOMM workshop on sustainable computing)
-- ACM e-Energy 2026 (ACM International Conference on Future Energy Systems)
-Search the web. Report: submission deadline, page limit, format (PDF/ACM/IEEE), notification date.
-Based on deadlines, recommend ONE venue.
-
-**Task 2 (MEDIUM — writing):** Add a formal T* invalidity proof sketch to Section 5.3 of paper.md:
-- Use the minimal 2-server counterexample above
-- Show algebraically that T* underperforms DP for a staggered fleet
-- 6–10 sentences, inline math okay, no new theorem numbering required
-- This upgrades Contribution 2 from "observed in simulation" to "analytically demonstrated"
-
-**Task 3 (SMALL — writing):** In the Abstract (line 11 of paper.md), replace "a simple two-parameter threshold heuristic" with cleaner wording that acknowledges the GPU heuristic degenerates to Fixed-4yr (the more honest and more impactful framing for practitioners).
-
-After these three tasks: paper is at v0.3 and ready for final venue-specific formatting.
-
----
-
-## Previous Cycle Notes (Cycle 5 — 2026-02-28)
-
-All cycle-5 directives now resolved. Paper v0.2 complete.
-
-*Supervisor: auto-generated advisory cycle 6 | 2026-02-28 08:09 UTC*
+*Supervisor: auto-generated advisory cycle 7 | 2026-02-28 08:29 UTC*
