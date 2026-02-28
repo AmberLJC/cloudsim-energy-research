@@ -1,4 +1,4 @@
-> **HotCarbon 2026 condensed version (6-page target). Source: paper.md v0.9**
+> **HotCarbon 2026 condensed version (6-page target). Source: paper.md v1.0-final — Open Problems section added; ready for HotCarbon 2026 submission when CFP opens**
 
 ---
 
@@ -158,6 +158,18 @@ Pierskalla and Voelker [10] (1976) is the foundational OR survey for equipment r
 ## 9. Conclusion
 
 The AI industry's uniform 2-year GPU refresh cycle wastes 17–43% lifecycle carbon relative to the DP-optimal policy for inference workloads. Even against a 3-year baseline (reflecting actual hyperscaler practice), DP-Optimal saves 7–23%. The most actionable finding: simply extending GPU inference server lifetimes from 2 to 4 years — the Fixed-4yr heuristic — captures 89% of the full carbon reduction with no dynamic decision-making required. We also show, for the first time in this literature, that the classical T* periodic replacement formula is invalid for staggered fleet deployments and can recommend cycles that perform worse than the industry norm. Disaggregating training and inference hardware refresh cycles is the primary deployable lever for reducing embodied carbon in AI data centers.
+
+---
+
+## 10. Open Problems
+
+This work identifies three community priorities for the embodied carbon research agenda:
+
+**GPU EPD data is urgently needed.** NVIDIA, AMD, and Intel have not published verified Environmental Product Declarations (EPDs) for H100, H200, B200, or competing AI accelerators as of early 2026. Every quantitative study of AI hardware lifecycle carbon — including this one — uses estimated embodied carbon figures derived from manufacturing intensity proxies. The research community and policymakers cannot validate, compare, or regulate GPU lifecycle carbon without first-party manufacturer EPD data. We call on accelerator vendors to publish ISO 14044-compliant EPDs for current and future GPU products.
+
+**Fleet age distribution data for validation.** The DP-vs-T* invalidity finding presented here is analytically demonstrated but empirically unvalidated: no cloud provider publishes hardware fleet age distribution data. The Google, Azure, and Alibaba trace releases have enabled a decade of cloud scheduling research; an analogous open fleet lifecycle dataset — mapping server acquisition dates, workload class, and retirement dates across a real production fleet — would enable the validation, refinement, and calibration of hardware lifecycle optimization models. We call on hyperscalers to include fleet age data in their open research data releases.
+
+**Regulatory frameworks may incentivize the wrong behavior.** The EU's Corporate Sustainability Reporting Directive (CSRD) and equivalent Scope 3 frameworks reward organizations for reducing emissions-per-unit-compute by procuring more efficient hardware. On renewable-heavy grids — where embodied carbon dominates total lifecycle emissions — this incentive is directionally counterproductive: it encourages early hardware replacement that increases total lifecycle carbon even as it reduces operational intensity. Designing carbon accounting frameworks that correctly penalize premature hardware retirement on clean grids is an open policy problem with direct regulatory implications.
 
 ---
 
