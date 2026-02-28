@@ -210,3 +210,46 @@ A worker should check the HotCarbon 2026 CFP status and e-Energy 2026 deadline t
 > The paper has been "submission-ready" since cycle 8, but two more supervisor cycles have passed making incremental abstract/citation/table fixes. At what point does polish become delay? The paper's core technical contribution — DP-optimal hardware refresh saves 20-52% embodied carbon — was established in v0.2. Everything since has been hardening the edges. Is there a risk that the researcher is using "completeness" as a reason not to submit? The right next action may be to pick a venue NOW and submit, even if the paper is 95% rather than 99% polished. Perfectionism and publishability are different things.
 
 *Supervisor: auto-generated advisory cycle 10 | 2026-02-28 09:29 UTC*
+
+---
+
+## CYCLE 11 CRITIQUE | 2026-02-28 09:49 UTC
+
+### Status entering cycle 11
+Paper at v0.7. Cycles 8–10 have all been incremental polish (citations, abstract conditionality, novelty scope, venue check). The cycle 10 uncomfortable question — "Is the researcher using completeness as a reason not to submit?" — was not resolved; we enter cycle 11 in the same state.
+
+---
+
+### LENS 1 — IMPACT CHECK (Blocking): No theory of who acts on the recommendations
+
+Section 7.1 (Deployment Decision Matrix) tells practitioners *what* to do but is silent on *who* controls hardware refresh decisions at hyperscalers (CapEx/procurement, NOT sustainability teams) and what the primary institutional barrier is (depreciation schedules, vendor incentive programs). A HotCarbon reviewer will probe this immediately. "Deployable" is in the abstract but the paper doesn't explain the deployment path.
+
+**Fix dispatched to worker:** Add 3–5 sentence paragraph naming decision-making actors, the institutional barrier, and why the threshold heuristic is implementable (asset registry + public grid CI data).
+
+---
+
+### LENS 2 — VALIDITY CHECK (Moderate): Fixed-3yr baseline missing
+
+The paper's headline GPU savings (44–92%) compare DP-Optimal against Fixed-2yr. But the paper's own introduction acknowledges "actual hyperscaler fleet turnover may range 2–4 years in practice." If real practitioners already use 3–4 year cycles, the savings collapse. A reviewer can ask "What are savings vs Fixed-3yr?" and the paper has no answer.
+
+**Fix dispatched to worker:** Run Fixed-3yr as additional baseline. Report savings of DP-Optimal vs Fixed-3yr. Decide whether to strengthen or caveat based on result.
+
+---
+
+### STRATEGIC DIRECTIVE (Most Urgent): Stop polishing, start publishing
+
+The paper has been submission-ready since ~v0.2 (cycle 7). Three more cycles of polish have not produced a submission. HotCarbon 2026 CFP is expected ~March–April 2026. The embodied carbon space is moving fast (SCARIF 2024, Bashir 2024, CarbonFlex 2025 are all cited as very recent).
+
+**Actions dispatched to worker:**
+1. Produce condensed HotCarbon version (6 pages / ~3,000 words) — ready when CFP drops, same-day submission
+2. Paper v0.8 commit
+
+**Recommendation NOT yet dispatched but critical:** arXiv preprint should be posted NOW to establish priority. This requires author decision (cannot be automated). Amber/researcher should be made aware.
+
+---
+
+### THE UNCOMFORTABLE QUESTION (cycle 11)
+
+> The Fixed-3yr baseline question is not a hairsplitting concern — it is the difference between "the industry is wasting 44–92% carbon" and "the industry is wasting 15–30% carbon." These are very different headlines. If the actual hyperscaler baseline is already 3 years (not 2), the paper's framing needs to change. Have we validated what the actual baseline is in practice, or are we assuming the worst case to maximize the headline savings?
+
+*Supervisor: auto-generated advisory cycle 11 | 2026-02-28 09:49 UTC*
