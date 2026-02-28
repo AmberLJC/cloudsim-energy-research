@@ -71,3 +71,18 @@ ACM e-Energy 2026 would be the better length fit (10-page full paper), but its d
 ---
 
 *Research note: Web search was unavailable (no Brave API key configured). HotCarbon 2026 CFP dates are estimated from 2025 pattern. Verify at https://hotcarbon.org/ when CFP is published.*
+
+---
+
+## Cycle 10 Venue Check (2026-02-28)
+
+### HotCarbon 2026 CFP Status
+**Not yet published.** As of 2026-02-28, the HotCarbon website (hotcarbon.org) only references the successful HotCarbon'25 edition (held Aug 2025) and notes "Stay tuned for the 2026 edition!" No CFP, deadline, or submission portal has been announced. Based on the 2025 pattern (CFP typically ~March–April, submission deadline ~May, workshop in August), the 2026 CFP is expected in Q1–Q2 2026.
+
+### ACM e-Energy 2026 Deadline
+**Not found.** The ACM e-Energy 2026 submission page was inaccessible (Cloudflare block). Based on the 2025 pattern (submission deadline was approximately January 2025 for the June 2025 conference), the ACM e-Energy 2026 deadline has likely already passed (estimated January–February 2026).
+
+### Recommendation
+**Target HotCarbon 2026** — the CFP is imminent and the workshop's explicit scope on embodied carbon, hardware lifecycle, and computing sustainability aligns perfectly with all three contributions. At ~8,500 words with 3 contributions, the paper needs condensing to ~3,500 words (6-page ACM format), which is feasible by trimming the sensitivity analysis and compressing background; the core novelty (Fixed-4yr savings, T* invalidity, threshold heuristic) can be presented compactly. ACM e-Energy 2027 remains the best full-paper venue for a future extended version.
+
+*Note: Web search unavailable (no Brave API key); venue status inferred from web_fetch of hotcarbon.org. Verify deadlines directly at https://hotcarbon.org/ and https://energy.acm.org/ when CFPs are published.*

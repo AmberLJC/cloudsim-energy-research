@@ -141,3 +141,72 @@ Without a clear deployment decision matrix, a practitioner could apply Fixed-4yr
 > Section 6.2 showed that Fixed-4yr *hurts* on coal grids with low emb_kg. That's a critical finding. But the paper's headline recommendation in the abstract is still "simply extend from 2 to 4 years" — without qualification. A reader who only reads the abstract and adopts Fixed-4yr on a coal grid with low-spec servers has been misled by the paper. The abstract needs to match the nuance of the results. Does it?
 
 *Supervisor: auto-generated advisory cycle 9 | 2026-02-28 09:09 UTC*
+
+---
+
+## CYCLE 10 CRITIQUE | 2026-02-28 09:29 UTC
+
+### Status entering cycle 10
+Cycle 9 directives COMPLETE (commit `575cc22`): 2yr norm citation fixed with NVIDIA cadence language; Deployment Decision Matrix added as Table 5; paper at v0.6. The core simulation, sensitivity, and mechanism analysis are all solid.
+
+---
+
+### LENS 1 — VALIDITY CHECK (BLOCKING): The Abstract's "20-52% savings across ALL CI scenarios" is NOT unconditionally true
+
+The abstract currently states:
+
+> "Simply extending GPU inference server lifetimes from 2 to 4 years saves **20–52% lifecycle carbon** relative to the industry norm **across all grid carbon intensity scenarios studied (50–800 gCO₂/kWh)**"
+
+This claim is only true conditional on the modeled embodied carbon of ≥ 1,500–3,000 kgCO₂/node. The paper's own Section 6.2 sensitivity shows that at emb_kg=500 kgCO₂ and high CI (800 g/kWh), Fixed-4yr produces **-40.9%** (i.e., it is substantially WORSE than Fixed-2yr). The abstract does not carry this conditionality.
+
+This is not a hairsplitting point. It is a reader trust issue: a practitioner at a coal-grid hyperscaler who reads ONLY the abstract and applies Fixed-4yr with low-embodied-carbon hardware gets a severely worse outcome than the industry baseline. The abstract has led them astray.
+
+**The cycle 9 "uncomfortable question"** — "Does the abstract match the nuance of the results?" — the answer is still: **NO, not fully.** The Deployment Decision Matrix in Section 7.1 (Table 5) correctly handles this, but the abstract's unconditional claim directly contradicts the table's high-CI/low-emb cell ("Fixed-2yr recommended, Fixed-4yr can be counterproductive").
+
+**Required fix (small):** Add the emb_kg conditionality to the abstract's savings claim. Something like: "...across all grid carbon intensity scenarios studied, assuming GPU embodied carbon ≥ 1,500 kgCO₂/node (consistent with SCARIF estimates for GPU-bearing rack servers)." Also add a sentence noting the exception for low-embodied-carbon hardware on high-CI grids.
+
+---
+
+### LENS 2 — NOVELTY CHECK: "For the first time" (Contribution 2) is over-claimed
+
+The abstract and Contribution 2 both state: "we demonstrate, for the first time, that the classical steady-state T* analysis...is invalid for staggered fleet deployments."
+
+This is a dangerous claim. The paper itself cites Pierskalla & Voelker (1976), which **explicitly** covers the distinction between stationary infinite-horizon T* and finite-horizon DP. The limitation of T* for non-zero-age initial conditions is standard operations research. What IS genuinely novel is the application to *server lifecycle carbon* in the *data center sustainability literature* — not the mathematical insight itself.
+
+A reviewer from OR or systems communities will know this is standard DP theory and will cite Pierskalla or Bellman. This could trigger a rejection comment like "The authors claim to discover a known result in operations research." That's avoidable with a two-word scope fix.
+
+**Required fix (trivial):** Change "for the first time" to "for the first time in the server hardware lifecycle carbon literature." The novelty claim is accurate in scope; just over-scoped as written.
+
+---
+
+### STRATEGIC QUESTION (not blocking, but needs answering before submission):
+
+The paper is v0.6, ~8,500 words, 7 figures, 5 tables, 3 contributions, 9 sections. HotCarbon is 6 pages (≈3,000 words). The supervisor-notes say "wait for CFP before condensing." HotCarbon 2026 CFP has not been confirmed as published. 
+
+**The strategic risk:** The paper as-is is a full venue paper. HotCarbon is the WRONG venue for it if all 3 contributions are to be preserved. The better path may be to:
+- Submit the full paper to **e-Energy 2026** (ACM e-Energy, deadline typically March-April) or **IEEE TCC**
+- Submit a 6-page condensed position piece (just the GPU inference finding) to HotCarbon as a companion
+
+A worker should check the HotCarbon 2026 CFP status and e-Energy 2026 deadline to inform this decision.
+
+---
+
+## CYCLE 10 DIRECTIVE — WORKER SPAWNED
+
+**Three targeted tasks (all small, pre-submission polish):**
+
+1. **Fix abstract conditionality:** Qualify the "20-52% across ALL CI scenarios" claim with the emb_kg ≥ 1,500 kgCO₂ condition. Add a sentence noting the coal-grid/low-emb exception.
+
+2. **Scope Contribution 2's novelty claim:** Change "for the first time" → "for the first time in the server lifecycle carbon literature" in both the abstract and Contribution 2 paragraph (Section 1.4).
+
+3. **Check venue deadlines:** Web-search HotCarbon 2026 CFP status + ACM e-Energy 2026 deadline. Append a 3-bullet venue recommendation note to `venue-recommendation.md`.
+
+4. **Bump paper to v0.7 and commit.**
+
+---
+
+## THE UNCOMFORTABLE QUESTION (cycle 10)
+
+> The paper has been "submission-ready" since cycle 8, but two more supervisor cycles have passed making incremental abstract/citation/table fixes. At what point does polish become delay? The paper's core technical contribution — DP-optimal hardware refresh saves 20-52% embodied carbon — was established in v0.2. Everything since has been hardening the edges. Is there a risk that the researcher is using "completeness" as a reason not to submit? The right next action may be to pick a venue NOW and submit, even if the paper is 95% rather than 99% polished. Perfectionism and publishability are different things.
+
+*Supervisor: auto-generated advisory cycle 10 | 2026-02-28 09:29 UTC*
