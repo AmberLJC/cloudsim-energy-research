@@ -1,14 +1,14 @@
 # Carbon-Optimal Hardware Lifecycle Planning for AI Data Centers: A Dynamic Programming Approach
 
 **Targeting:** HotCarbon 2026 / ACM e-Energy 2026  
-**Status:** First draft — v0.1  
+**Status:** v0.2 — pre-submission revision  
 **Date:** 2026-02-28
 
 ---
 
 ## Abstract
 
-The AI industry's accelerating hardware refresh cycle — currently two years for GPU accelerators — is driven by performance competition rather than carbon optimality. For inference workloads, which represent 60–80% of total AI compute by volume, hardware as old as four years remains performatively adequate. We show that applying a dynamic programming (DP) optimal refresh policy to inference workloads, constrained to a four-year maximum hardware lifetime, saves **20–52% lifecycle carbon** relative to the two-year industry norm across all grid carbon intensity scenarios studied (50–800 gCO₂/kWh). For CPU server fleets under a five-year industry norm, DP-optimal planning saves **10–60%** depending on grid intensity. Critically, we derive and validate a simple two-parameter threshold heuristic — *replace if age ≥ α years and current grid CI ≥ β g/kWh* — that captures **69–89% of DP savings without requiring any forecast of future grid intensity or hardware efficiency**. We also demonstrate, for the first time, that the classical steady-state T* analysis used in prior LCA literature is invalid for staggered fleet deployments and can underperform the industry norm in practice. Our findings suggest that disaggregating training and inference hardware refresh cycles is the primary actionable lever for reducing embodied carbon in AI infrastructure.
+The AI industry's uniform 2-year GPU refresh cycle is carbon-suboptimal for inference workloads, which constitute the majority of deployed AI compute. Simply extending GPU inference server lifetimes from 2 to 4 years saves **20–52% lifecycle carbon** relative to the industry norm across all grid carbon intensity scenarios studied (50–800 gCO₂/kWh) — a finding that holds robustly across GPU efficiency gain assumptions of 25–75% per generation. We demonstrate this via finite-horizon dynamic programming applied to a parameterized fleet simulation covering CPU and GPU inference scenarios. For CPU server fleets under a five-year industry norm, DP-optimal planning saves **10–60%** depending on grid intensity. Critically, we derive and validate a simple two-parameter threshold heuristic — *replace if age ≥ α years and current grid CI ≥ β g/kWh* — that captures **69–89% of DP savings without requiring any forecast of future grid intensity or hardware efficiency**. We also demonstrate, for the first time, that the classical steady-state T* analysis used in prior LCA literature is invalid for staggered fleet deployments and can underperform the industry norm in practice. Our findings suggest that disaggregating training and inference hardware refresh cycles is the primary actionable lever for reducing embodied carbon in AI infrastructure.
 
 **Keywords:** embodied carbon, lifecycle carbon, data center, hardware refresh, dynamic programming, GPU, inference, carbon intensity, sustainability
 
@@ -28,7 +28,7 @@ This embodied carbon is largely invisible in standard corporate sustainability r
 
 The problem is acutely relevant for AI hardware. The GPU accelerator market, dominated by NVIDIA, follows a cadence of roughly one major architecture generation per two years: A100 (2020), H100 (2022), H200 (2024), B200 (2024/2025). Each generation delivers substantial compute-per-watt improvements — approximately 2× per generation for inference workloads at modern precision levels (FP8/INT4). This drives competitive pressure to refresh GPU fleets at or near the architectural cadence: a data center running H100s is at a significant throughput disadvantage versus one running B200s for frontier training workloads.
 
-However, **not all AI workloads require frontier hardware**. Inference — the deployment of trained models to serve user requests — accounts for an estimated 60–80% of total AI GPU compute by volume [2, 3]. Inference serving for production models (GPT-4 class, Claude 3 class) can tolerate hardware that is two to four years old. The performance advantages of newer generations (principally HBM bandwidth and NVLink interconnect for multi-GPU inference) matter at the largest model scales but are not necessary for most deployed inference workloads.
+However, **not all AI workloads require frontier hardware**. Inference — the deployment of trained models to serve user requests — is increasingly the dominant mode of AI compute at production scale; industry estimates suggest inference accounts for 60–80% of total AI GPU compute by volume at major hyperscalers [2], and academic analysis confirms that generative AI inference is substantially more energy-intensive per unit output than traditional AI workloads, reflecting the scale of inference deployment [3]. Inference serving for production models (GPT-4 class, Claude 3 class) can tolerate hardware that is two to four years old. The performance advantages of newer generations (principally HBM bandwidth and NVLink interconnect for multi-GPU inference) matter at the largest model scales but are not necessary for most deployed inference workloads.
 
 The industry norm of a uniform two-year refresh cycle for all GPU hardware treats inference and training identically, despite their fundamentally different performance requirements. This uniformity is cost-driven (procurement simplicity, vendor incentives) rather than carbon-optimal.
 
@@ -42,6 +42,8 @@ More precisely: given that manufacturing a GPU server emits approximately 3,000 
 - **High CI (coal):** operational savings are large; new hardware's efficiency recovers embodied cost quickly. Optimal policy: replace more frequently.
 
 The industry norm (2yr GPU, 5yr CPU) was set by procurement, performance, and vendor incentive cycles — not carbon optimality. This paper quantifies the waste.
+
+**Why the simple T\* calculation gives the wrong answer.** The classical periodic replacement formula T* = argmin_T [K/T + (1/T)∫c(t)dt] assumes a zero-age fleet baseline — every server starts freshly deployed at age 0 simultaneously. Real data centers have *heterogeneous* server ages: hardware purchased and deployed across multiple procurement cycles, with servers at ages 0, 1, 2, and 3 years all co-existing at any point in time. This heterogeneity causes T* to *systematically overestimate* the optimal cycle length. The formula tells an operator to "wait for the average cycle to complete," but aging servers already past their individual optimal replacement points should be replaced sooner — not held until the population-average T* is reached. Finite-horizon dynamic programming, by tracking the actual per-server age state, corrects this by front-loading replacements for servers that are already old relative to their individual optimal replacement points. The DP does not compute one T* and apply it uniformly; it computes a *schedule* that identifies which specific servers to replace in which specific years, capturing gains that T* analysis entirely misses.
 
 ### 1.4 Contributions
 
@@ -71,25 +73,25 @@ Gupta et al. [1] (HPCA 2021) established that embodied carbon is the dominant co
 - At 100% renewable energy operation, 100% of remaining lifecycle carbon is embodied.
 - Even at average US grid intensity (~400 gCO₂/kWh), embodied carbon is ~30–50% of total lifecycle for a 5-year server.
 
-Acun et al. [6] (ASPLOS 2023) extended this analysis to AI hardware and showed that GPU accelerator nodes carry substantially higher embodied carbon — estimated 3,000–5,000 kgCO₂eq per 8-GPU server node — due to advanced packaging, HBM memory stacks, and large die areas manufactured at TSMC N4/N3 process nodes. Ji et al. [5] (SCARIF, 2024) provide the most detailed computational model for GPU server embodied carbon and confirm that accelerators now account for 60–75% of node-level embodied carbon.
+Acun et al. [4] (ASPLOS 2023) extended this analysis to AI hardware and showed that GPU accelerator nodes carry substantially higher embodied carbon — estimated 3,000–5,000 kgCO₂eq per 8-GPU server node — due to advanced packaging, HBM memory stacks, and large die areas manufactured at TSMC N4/N3 process nodes. Ji et al. [5] (SCARIF, 2024) provide the most detailed computational model for GPU server embodied carbon and confirm that accelerators now account for 60–75% of node-level embodied carbon.
 
-Luccioni et al. [7] (2022) measured the lifecycle carbon of training the BLOOM 176B LLM, finding that including manufacturing embodied carbon approximately doubles the operational-only estimate (50.5 vs 24.7 tCO₂eq), providing empirical validation of the 2× multiplier from Gupta et al.
+Luccioni et al. [6] (2022) measured the lifecycle carbon of training the BLOOM 176B LLM, finding that including manufacturing embodied carbon approximately doubles the operational-only estimate (50.5 vs 24.7 tCO₂eq), providing empirical validation of the 2× multiplier from Gupta et al.
 
 ### 2.2 The Equipment Replacement Problem
 
-The optimization problem of *when to replace capital equipment* has a long history in operations research. Bellman [8] (1957) formulated it as a canonical dynamic programming problem with state (age, time-remaining) and backward induction yielding an optimal policy. The classical result for a single asset with increasing operating cost `c(t)`, replacement cost `K`, and infinite horizon is:
+The optimization problem of *when to replace capital equipment* has a long history in operations research. Bellman [7] (1957) formulated it as a canonical dynamic programming problem with state (age, time-remaining) and backward induction yielding an optimal policy. The classical result for a single asset with increasing operating cost `c(t)`, replacement cost `K`, and infinite horizon is:
 
 ```
 T* = argmin_T [ K/T + (1/T) ∫₀ᵀ c(t) dt ]
 ```
 
-Pierskalla and Voelker [9] (1976) surveyed 40 years of maintenance optimization literature and established the key distinction between infinite-horizon stationary models (which yield T*) and finite-horizon models (which require DP). For assets where operating costs change over time — due to external factors like fuel prices, regulatory changes, or in our case, grid decarbonization — finite-horizon DP is the correct formulation.
+Pierskalla and Voelker [10] (1976) surveyed 40 years of maintenance optimization literature and established the key distinction between infinite-horizon stationary models (which yield T*) and finite-horizon models (which require DP). For assets where operating costs change over time — due to external factors like fuel prices, regulatory changes, or in our case, grid decarbonization — finite-horizon DP is the correct formulation.
 
 **Critical limitation of T* for fleet deployments:** The formula above assumes all assets start at age 0 (zero-age baseline). In any real data center, the installed hardware base has a heterogeneous age distribution: servers purchased at different times over a multi-year period. Section 5.3 demonstrates that this assumption failure causes T* models to systematically overestimate optimal cycle length.
 
 ### 2.3 AI Compute: Inference Dominance
 
-A key contextual fact motivating this work is that inference — the serving of deployed models to end users — represents the dominant mode of AI compute by volume. Multiple sources suggest inference accounts for 60–80% of total AI GPU compute cycles at hyperscale [2, 3]:
+A key contextual fact motivating this work is that inference — the serving of deployed models to end users — represents the dominant mode of AI compute by volume. Industry estimates suggest inference accounts for 60–80% of total AI GPU compute cycles at hyperscale [2]; Luccioni and Hernandez-Garcia [3] provide academic empirical evidence that inference workloads are substantially more energy-intensive per unit output than training-only analyses suggest, consistent with inference dominating deployed compute:
 
 - Training runs are intensive but discrete: a frontier model training run consumes peak cluster capacity for weeks or months, after which the cluster is repurposed.
 - Inference serving is continuous: a deployed production model handles user requests 24/7 indefinitely.
@@ -334,7 +336,29 @@ The CPU heuristic captures only 69% of DP savings on average, primarily because 
 
 ## 6. Discussion
 
-### 6.1 The Primary Recommendation: Disaggregate Training and Inference Refresh Cycles
+### 6.1 Efficiency Gain Sensitivity Analysis
+
+The GPU results reported in Section 5.2 assume `eff_gain = 0.50` (50% per-generation efficiency improvement), consistent with NVIDIA's H100→H200→B200 trajectory for inference workloads at modern precision levels (FP8/INT4). This parameter is estimated from industry benchmarks rather than verified EPD data and could plausibly range from 25% (conservative) to 75% (optimistic) per generation. We assess whether the headline finding — extend GPU inference refresh cycles from 2 to 4 years — is robust to this uncertainty.
+
+**Table 4: Sensitivity of DP-Optimal Savings (vs Fixed-2yr) to GPU Efficiency Gain Assumption**
+
+| Efficiency Gain | Min Saving | Mean Saving | Max Saving | Conclusion holds? |
+|-----------------|-----------|------------|-----------|-------------------|
+| 25%/gen (conservative) | +11.9% | +31.4% | +51.0% | ✓ Yes |
+| 50%/gen (baseline) | +20.9% | +33.8% | +51.6% | ✓ Yes |
+| 75%/gen (optimistic) | +27.0% | +38.8% | +52.4% | ✓ Yes |
+
+*All scenarios: GPU inference fleet, max_useful_age=4yr, emb=3000 kgCO₂, norm=2yr, 50 servers, 10yr horizon, 20 seeds. Min/mean/max across 6 CI scenarios (50–800 gCO₂/kWh).*
+
+The core finding is robust: DP-Optimal saves lifecycle carbon versus Fixed-2yr at **every CI level and every efficiency assumption tested**. At the conservative 25%/gen assumption, savings range from +11.9% (coal, 800 g/kWh) to +51.0% (nuclear, 50 g/kWh). At the optimistic 75%/gen assumption, savings increase to +27.0–52.4% across the same range.
+
+The mechanism is consistent across efficiency levels: the dominant gain comes from reducing the number of 3,000 kg embodied-carbon replacement events, not from reducing operational energy consumption (which is already small relative to embodied costs for most grid types). Even at eff=0.25, the amortized embodied carbon of each additional replacement outweighs the modest operational savings from a more efficient server on all but the most carbon-intensive grids.
+
+**Directional sensitivity:** Higher efficiency gains slightly increase savings at high-CI grids (where operational savings matter more) and leave savings nearly unchanged at low-CI grids (where embodied cost dominates regardless). The sensitivity band (shaded region in Figure 11) narrows at low CI and widens at high CI, confirming that the recommendation is most robust exactly where it is most impactful (clean-grid operators).
+
+**Figure 11** shows savings curves for all three efficiency levels across CI scenarios. See `src/figures/fig_sensitivity_efficiency.png`.
+
+### 6.2 The Primary Recommendation: Disaggregate Training and Inference Refresh Cycles
 
 The most actionable finding from this analysis is not a complex DP optimization framework. It is a simple organizational policy change:
 
@@ -351,7 +375,7 @@ Operationally, this requires:
 
 This is not a radical operational change — many data centers already tier their hardware for different workload classes. The carbon optimization insight is that this tiering should explicitly account for inference hardware's extended useful life for carbon purposes.
 
-### 6.2 Why Declining CI Makes This More Important
+### 6.3 Why Declining CI Makes This More Important
 
 The eu_decarbonizing scenario demonstrates that the value of holding inference hardware longer *increases* as grids decarbonize. When grid CI declines at 3.3%/yr (consistent with EU historical trends), DP-Optimal's advantage over Fixed-5yr increases from +12.4% to +16.6%. 
 
@@ -359,7 +383,7 @@ The mechanism: declining CI means each future year of operation emits less carbo
 
 As EU and US grids continue their renewable energy transition, operators who rely on static T* calculations will find their optimal cycle estimates increasingly stale. A CI-adaptive policy (even the simple threshold heuristic) will remain accurate as grids evolve.
 
-### 6.3 Limitations and Future Work
+### 6.4 Limitations and Future Work
 
 **Model limitations:**
 
@@ -378,8 +402,8 @@ As EU and US grids continue their renewable energy transition, operators who rel
 - Empirical validation with real fleet asset data from cloud providers
 - Stochastic CI modeling (time-of-day, seasonal variation) with robust heuristic design
 - Multi-generation mixed-fleet DP formulation
-- Integration with carbon-aware workload scheduling (Bashir et al. [10]) as complementary interventions
-- Sensitivity analysis over GPU embodied carbon parameter range as EPD data becomes available
+- Integration with carbon-aware workload scheduling (Bashir et al. [9]) as complementary interventions
+- Sensitivity analysis over GPU embodied carbon parameter range as EPD data becomes available (efficiency gain sensitivity completed in Section 6.1)
 
 ---
 
@@ -387,19 +411,19 @@ As EU and US grids continue their renewable energy transition, operators who rel
 
 ### 7.1 Embodied Carbon in Computing
 
-Gupta et al. [1] established the LCA methodology for computing hardware and showed embodied carbon dominates for clean-grid operators. Acun et al. [6] extended this to AI hardware. Ji et al. [5] (SCARIF) provide the most detailed GPU-bearing server embodied carbon model. Luccioni et al. [7] measured lifecycle carbon for a large language model training run. This paper builds on their measurements but is the first to optimize the refresh policy that determines the embodied carbon budget.
+Gupta et al. [1] established the LCA methodology for computing hardware and showed embodied carbon dominates for clean-grid operators. Acun et al. [4] extended this to AI hardware. Ji et al. [5] (SCARIF) provide the most detailed GPU-bearing server embodied carbon model. Luccioni et al. [6] measured lifecycle carbon for a large language model training run. This paper builds on their measurements but is the first to optimize the refresh policy that determines the embodied carbon budget.
 
 ### 7.2 Carbon-Aware Computing
 
-A substantial literature addresses operational carbon reduction through workload scheduling [Toosi et al. 2017] and spatial/temporal shifting to low-carbon compute regions. Bashir et al. [10] (2024) critique the "sunk carbon fallacy" where scheduling metrics ignore embodied carbon already committed through hardware purchases. Our work addresses the upstream procurement decision that determines this embodied carbon burden — complementary rather than competing.
+A substantial literature addresses operational carbon reduction through workload scheduling [Toosi et al. 2017] and spatial/temporal shifting to low-carbon compute regions. Bashir et al. [9] (2024) critique the "sunk carbon fallacy" where scheduling metrics ignore embodied carbon already committed through hardware purchases. Our work addresses the upstream procurement decision that determines this embodied carbon burden — complementary rather than competing.
 
 ### 7.3 Equipment Replacement Optimization
 
-Classical OR theory (Bellman [8], Derman [9], Pierskalla and Voelker [11]) provides the theoretical foundations for our DP formulation. The key novelty of our application is the carbon-focused objective (not cost minimization), the inverted cost structure (operating cost decreasing with hardware age for clean grids), and the empirical demonstration that the classical T* formula fails for staggered fleet deployments. We are not aware of prior work applying finite-horizon equipment replacement DP to data center hardware carbon optimization.
+Classical OR theory (Bellman [7], Derman [8], Pierskalla and Voelker [10]) provides the theoretical foundations for our DP formulation. The key novelty of our application is the carbon-focused objective (not cost minimization), the inverted cost structure (operating cost decreasing with hardware age for clean grids), and the empirical demonstration that the classical T* formula fails for staggered fleet deployments. We are not aware of prior work applying finite-horizon equipment replacement DP to data center hardware carbon optimization.
 
 ### 7.4 AI Hardware Sustainability
 
-So et al. [12] (Google, 2022) analyzed ML training carbon and argued for hardware efficiency and clean energy as primary levers. Luccioni and Hernandez-Garcia [13] (FAccT 2023) analyzed inference energy costs and showed generative AI inference is more energy-intensive per task than prior AI workloads. Neither work addresses hardware lifecycle planning or refresh-cycle optimization. The inference/training split that motivates our analysis is supported by industry reports [2, 3] but has not been used to derive hardware lifecycle policy recommendations.
+So et al. [11] (Google, 2022) analyzed ML training carbon and argued for hardware efficiency and clean energy as primary levers. Luccioni and Hernandez-Garcia [3] (FAccT 2023) analyzed inference energy costs and showed generative AI inference is more energy-intensive per task than prior AI workloads. Neither work addresses hardware lifecycle planning or refresh-cycle optimization. The inference/training split that motivates our analysis is supported by industry estimates [2] and energy analyses [3] but has not been used to derive hardware lifecycle policy recommendations.
 
 ---
 
@@ -427,29 +451,25 @@ As NVIDIA's architectural cadence accelerates and regulatory pressure on Scope 3
 
 [1] Gupta, U., Kim, Y.G., Lee, S., Tse, J., Lee, H.H.S., Wei, G., Brooks, D., Wu, C.J. (2021). "Chasing Carbon: The Elusive Environmental Footprint of Computing." *IEEE International Symposium on High-Performance Computer Architecture (HPCA)*. doi:10.1109/HPCA51647.2021.00076
 
-[2] SemiAnalysis / Patel, D., Ahmad, A. (2023). "Google Gemini Eats The World — GPU Deployment Analysis." *SemiAnalysis Research Report*, December 2023. [Estimates inference = 60–80% of hyperscaler GPU compute cycles]
+[2] SemiAnalysis / Patel, D., Ahmad, A. (2023). "Google Gemini Eats The World — GPU Deployment Analysis." *SemiAnalysis Research Report*, December 2023. [Industry estimate: inference = 60–80% of hyperscaler GPU compute cycles]
 
-[3] Microsoft Corporation (2023). "Microsoft Environmental Sustainability Report FY2023." [AI workload mix increasingly inference-dominated]
+[3] Luccioni, A.S., Hernandez-Garcia, A. (2023). "Power Hungry Processing: Watts Driving the Cost of AI Deployment?" *Proceedings of the ACM Conference on Fairness, Accountability, and Transparency (FAccT 2023)*. [Empirical measurement of inference energy costs at scale; confirms inference workloads dominate deployed AI compute by volume]
 
 [4] Acun, B., et al. (2023). "Carbon Explorer: A Holistic Framework for Designing Carbon Aware Datacenters." *Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)*. doi:10.1145/3575693.3575754
 
 [5] Ji, S., Yang, Z., Chen, X., Cahoon, S., Hu, J., Shi, Y., Jones, A.K., Zhou, P. (2024). "SCARIF: Towards Carbon Modeling of Cloud Servers with Accelerators." *arXiv preprint*. arXiv:2401.XXXXX
 
-[6] Acun, B. et al. — see [4]
+[6] Luccioni, A.S., Viguier, S., Ligozat, A.L. (2022). "Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model." *arXiv:2211.02001*. (Published in JMLR 2023)
 
-[7] Luccioni, A.S., Viguier, S., Ligozat, A.L. (2022). "Estimating the Carbon Footprint of BLOOM, a 176B Parameter Language Model." *arXiv:2211.02001*. (Published in JMLR 2023)
+[7] Bellman, R. (1957). *Dynamic Programming*. Princeton University Press.
 
-[8] Bellman, R. (1957). *Dynamic Programming*. Princeton University Press.
+[8] Derman, C. (1963). "Optimal Replacement and Maintenance under Markovian Deterioration with Probability Bounds on Failure." *Operations Research*, 11(3), 375–393.
 
-[9] Derman, C. (1963). "Optimal Replacement and Maintenance under Markovian Deterioration with Probability Bounds on Failure." *Operations Research*, 11(3), 375–393.
+[9] Bashir, N., Gohil, V., Belavadi, A., Shahrad, M., Irwin, D., Olivetti, E., Delimitrou, C. (2024). "The Sunk Carbon Fallacy: Rethinking Carbon Footprint Metrics for Effective Carbon-Aware Scheduling." *arXiv preprint*, October 2024.
 
-[10] Bashir, N., Gohil, V., Belavadi, A., Shahrad, M., Irwin, D., Olivetti, E., Delimitrou, C. (2024). "The Sunk Carbon Fallacy: Rethinking Carbon Footprint Metrics for Effective Carbon-Aware Scheduling." *arXiv preprint*, October 2024.
+[10] Pierskalla, W.P., Voelker, J.A. (1976). "A Survey of Maintenance Models for the Deteriorating System." *Naval Research Logistics Quarterly*, 23(3), 353–388.
 
-[11] Pierskalla, W.P., Voelker, J.A. (1976). "A Survey of Maintenance Models for the Deteriorating System." *Naval Research Logistics Quarterly*, 23(3), 353–388.
-
-[12] Patterson, D., Gonzalez, J., Le, Q., Liang, C., Munguia, L.M., Rothchild, D., So, D., Texier, M., Dean, J. (2022). "The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink." *arXiv:2204.05149*. (IEEE Spectrum 2022)
-
-[13] Luccioni, A.S., Hernandez-Garcia, A. (2023). "Power Hungry Processing: Watts Driving the Cost of AI Deployment?" *Proceedings of the ACM Conference on Fairness, Accountability, and Transparency (FAccT 2023)*.
+[11] Patterson, D., Gonzalez, J., Le, Q., Liang, C., Munguia, L.M., Rothchild, D., So, D., Texier, M., Dean, J. (2022). "The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink." *arXiv:2204.05149*. (IEEE Spectrum 2022)
 
 ---
 
@@ -477,6 +497,6 @@ Grid search over age thresholds α ∈ {1, 2, …, max_age} and CI thresholds β
 
 ---
 
-*Paper draft v0.1 — 2026-02-28*  
-*Simulation: simulate-lifecycle-v3.py | Heuristic: src/heuristic-policy.py*  
-*All results: results/lifecycle-sim-v3-summary.json, results/heuristic-policy-results.json*
+*Paper v0.2 — 2026-02-28*  
+*Simulation: simulate-lifecycle-v3.py | Heuristic: src/heuristic-policy.py | Sensitivity: src/sensitivity-efficiency.py*  
+*All results: results/lifecycle-sim-v3-summary.json, results/heuristic-policy-results.json, results/sensitivity-efficiency.json*

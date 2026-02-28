@@ -1,0 +1,375 @@
+{
+  "metadata": {
+    "script": "sensitivity-efficiency.py",
+    "scenario": "GPU inference (max_age=4yr, emb=3000kg, norm=2yr, fleet=50, horizon=10yr, seeds=20)",
+    "eff_gain_levels": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "ci_scenarios": {
+      "nuclear_fr": 50,
+      "norway_hydro": 100,
+      "eu_avg": 300,
+      "us_avg": 400,
+      "uk_grid": 500,
+      "coal_pl": 800
+    }
+  },
+  "results": {
+    "eff_025": {
+      "eff_gain": 0.25,
+      "scenarios": {
+        "nuclear_fr": {
+          "ci": 50,
+          "fixed_2yr": {
+            "mean_carbon": 717511.4406445335,
+            "std_carbon": 10174.061337940182,
+            "min_carbon": 700982.6841796899,
+            "max_carbon": 738679.8480468777,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 351846.3337499959,
+            "std_carbon": 201.69839810587706,
+            "min_carbon": 351426.67499999574,
+            "max_carbon": 352174.0124999961,
+            "mean_replacements": 100.0
+          },
+          "saving_pct": 50.962965352310505
+        },
+        "norway_hydro": {
+          "ci": 100,
+          "fixed_2yr": {
+            "mean_carbon": 754922.8812890702,
+            "std_carbon": 9822.439800170683,
+            "min_carbon": 738965.368359383,
+            "max_carbon": 775359.6960937575,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 403692.66750000225,
+            "std_carbon": 403.3967962115259,
+            "min_carbon": 402853.35000000236,
+            "max_carbon": 404348.0250000021,
+            "mean_replacements": 100.0
+          },
+          "saving_pct": 46.52531039850376
+        },
+        "eu_avg": {
+          "ci": 300,
+          "fixed_2yr": {
+            "mean_carbon": 904568.6438671844,
+            "std_carbon": 8415.953649094201,
+            "min_carbon": 890896.1050781214,
+            "max_carbon": 922079.0882812474,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 611078.0024999942,
+            "std_carbon": 1210.1903886347206,
+            "min_carbon": 608560.0499999942,
+            "max_carbon": 613044.0749999944,
+            "mean_replacements": 100.0
+          },
+          "saving_pct": 32.445369774533404
+        },
+        "us_avg": {
+          "ci": 400,
+          "fixed_2yr": {
+            "mean_carbon": 979391.525156244,
+            "std_carbon": 7712.710573555324,
+            "min_carbon": 966861.4734374944,
+            "max_carbon": 995438.7843749936,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 714770.6700000096,
+            "std_carbon": 1613.5871848462098,
+            "min_carbon": 711413.4000000097,
+            "max_carbon": 717392.1000000095,
+            "mean_replacements": 100.0
+          },
+          "saving_pct": 27.018903917309174
+        },
+        "uk_grid": {
+          "ci": 500,
+          "fixed_2yr": {
+            "mean_carbon": 1054214.4064453125,
+            "std_carbon": 7009.467498017028,
+            "min_carbon": 1042826.841796875,
+            "max_carbon": 1068798.48046875,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 850359.375,
+            "std_carbon": 0.0,
+            "min_carbon": 850359.375,
+            "max_carbon": 850359.375,
+            "mean_replacements": 150.0
+          },
+          "saving_pct": 19.337150981714224
+        },
+        "coal_pl": {
+          "ci": 800,
+          "fixed_2yr": {
+            "mean_carbon": 1278683.0503124867,
+            "std_carbon": 4899.738271402131,
+            "min_carbon": 1270722.946874986,
+            "max_carbon": 1288877.5687499875,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 1126010.6249999846,
+            "std_carbon": 0.0,
+            "min_carbon": 1126010.6249999846,
+            "max_carbon": 1126010.6249999846,
+            "mean_replacements": 200.0
+          },
+          "saving_pct": 11.939817711292235
+        }
+      },
+      "summary": {
+        "min_saving_pct": 11.939817711292235,
+        "mean_saving_pct": 31.37158635594388,
+        "max_saving_pct": 50.962965352310505
+      }
+    },
+    "eff_050": {
+      "eff_gain": 0.5,
+      "scenarios": {
+        "nuclear_fr": {
+          "ci": 50,
+          "fixed_2yr": {
+            "mean_carbon": 702160.0068749995,
+            "std_carbon": 10079.064994189175,
+            "min_carbon": 685785.5812499997,
+            "max_carbon": 723130.762499999,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 340073.7149999995,
+            "std_carbon": 345.7686824671524,
+            "min_carbon": 339354.2999999994,
+            "max_carbon": 340635.44999999966,
+            "mean_replacements": 100.0
+          },
+          "saving_pct": 51.567490077722354
+        },
+        "norway_hydro": {
+          "ci": 100,
+          "fixed_2yr": {
+            "mean_carbon": 724220.0137500031,
+            "std_carbon": 9632.447112669524,
+            "min_carbon": 708571.1625000029,
+            "max_carbon": 744261.5250000033,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 380147.43000000075,
+            "std_carbon": 691.5373649340721,
+            "min_carbon": 378708.6000000007,
+            "max_carbon": 381270.9000000006,
+            "mean_replacements": 100.0
+          },
+          "saving_pct": 47.509400074212024
+        },
+        "eu_avg": {
+          "ci": 300,
+          "fixed_2yr": {
+            "mean_carbon": 812460.0412500019,
+            "std_carbon": 7845.975586589433,
+            "min_carbon": 799713.4875000024,
+            "max_carbon": 828784.5750000018,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 578115.0000000001,
+            "std_carbon": 0.0,
+            "min_carbon": 578115.0000000001,
+            "max_carbon": 578115.0000000001,
+            "mean_replacements": 150.0
+          },
+          "saving_pct": 28.843885157656818
+        },
+        "us_avg": {
+          "ci": 400,
+          "fixed_2yr": {
+            "mean_carbon": 856580.054999996,
+            "std_carbon": 6952.739823549911,
+            "min_carbon": 845284.6499999956,
+            "max_carbon": 871046.099999996,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 620820.0000000012,
+            "std_carbon": 1.1641532182693481e-10,
+            "min_carbon": 620820.000000001,
+            "max_carbon": 620820.000000001,
+            "mean_replacements": 150.0
+          },
+          "saving_pct": 27.523411690924316
+        },
+        "uk_grid": {
+          "ci": 500,
+          "fixed_2yr": {
+            "mean_carbon": 900700.06875,
+            "std_carbon": 6059.5040605098975,
+            "min_carbon": 890855.8125,
+            "max_carbon": 913307.625,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 663525.0,
+            "std_carbon": 0.0,
+            "min_carbon": 663525.0,
+            "max_carbon": 663525.0,
+            "mean_replacements": 150.0
+          },
+          "saving_pct": 26.33230272527388
+        },
+        "coal_pl": {
+          "ci": 800,
+          "fixed_2yr": {
+            "mean_carbon": 1033060.1100000044,
+            "std_carbon": 3379.7967713901235,
+            "min_carbon": 1027569.3000000046,
+            "max_carbon": 1040092.200000004,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 816810.0000000054,
+            "std_carbon": 0.0,
+            "min_carbon": 816810.0000000054,
+            "max_carbon": 816810.0000000054,
+            "mean_replacements": 200.0
+          },
+          "saving_pct": 20.932964878490772
+        }
+      },
+      "summary": {
+        "min_saving_pct": 20.932964878490772,
+        "mean_saving_pct": 33.78490910071336,
+        "max_saving_pct": 51.567490077722354
+      }
+    },
+    "eff_075": {
+      "eff_gain": 0.75,
+      "scenarios": {
+        "nuclear_fr": {
+          "ci": 50,
+          "fixed_2yr": {
+            "mean_carbon": 694097.9367773447,
+            "std_carbon": 10065.108185391799,
+            "min_carbon": 677746.1853515636,
+            "max_carbon": 715039.653515626,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 330382.143750003,
+            "std_carbon": 432.21085308371397,
+            "min_carbon": 329482.87500000326,
+            "max_carbon": 331084.3125000029,
+            "mean_replacements": 100.0
+          },
+          "saving_pct": 52.401220887653466
+        },
+        "norway_hydro": {
+          "ci": 100,
+          "fixed_2yr": {
+            "mean_carbon": 708095.8735546903,
+            "std_carbon": 9604.533495074209,
+            "min_carbon": 692492.3707031282,
+            "max_carbon": 728079.3070312524,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 360764.2875000005,
+            "std_carbon": 864.4217061676613,
+            "min_carbon": 358965.7500000004,
+            "max_carbon": 362168.6250000005,
+            "mean_replacements": 100.0
+          },
+          "saving_pct": 49.05149133422586
+        },
+        "eu_avg": {
+          "ci": 300,
+          "fixed_2yr": {
+            "mean_carbon": 764087.620664064,
+            "std_carbon": 7762.234733804578,
+            "min_carbon": 751477.1121093767,
+            "max_carbon": 780237.9210937514,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 500506.8750000025,
+            "std_carbon": 1.7462298274040222e-10,
+            "min_carbon": 500506.8750000027,
+            "max_carbon": 500506.8750000027,
+            "mean_replacements": 150.0
+          },
+          "saving_pct": 34.496141350253126
+        },
+        "us_avg": {
+          "ci": 400,
+          "fixed_2yr": {
+            "mean_carbon": 792083.4942187488,
+            "std_carbon": 6841.08535316985,
+            "min_carbon": 780969.4828124985,
+            "max_carbon": 806317.228124999,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 517342.4999999994,
+            "std_carbon": 5.820766091346741e-11,
+            "min_carbon": 517342.49999999936,
+            "max_carbon": 517342.49999999936,
+            "mean_replacements": 150.0
+          },
+          "saving_pct": 34.68586281926416
+        },
+        "uk_grid": {
+          "ci": 500,
+          "fixed_2yr": {
+            "mean_carbon": 820079.3677734375,
+            "std_carbon": 5919.935972534916,
+            "min_carbon": 810461.853515625,
+            "max_carbon": 832396.53515625,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 534178.125,
+            "std_carbon": 0.0,
+            "min_carbon": 534178.125,
+            "max_carbon": 534178.125,
+            "mean_replacements": 150.0
+          },
+          "saving_pct": 34.86263086336091
+        },
+        "coal_pl": {
+          "ci": 800,
+          "fixed_2yr": {
+            "mean_carbon": 904066.9884375001,
+            "std_carbon": 3156.487830630279,
+            "min_carbon": 898938.9656250002,
+            "max_carbon": 910634.45625,
+            "mean_replacements": 226.7
+          },
+          "dp_optimal": {
+            "mean_carbon": 659540.6250000005,
+            "std_carbon": 1.1641532182693481e-10,
+            "min_carbon": 659540.6250000006,
+            "max_carbon": 659540.6250000006,
+            "mean_replacements": 200.0
+          },
+          "saving_pct": 27.047372215206618
+        }
+      },
+      "summary": {
+        "min_saving_pct": 27.047372215206618,
+        "mean_saving_pct": 38.75745324499403,
+        "max_saving_pct": 52.401220887653466
+      }
+    }
+  }
+}
