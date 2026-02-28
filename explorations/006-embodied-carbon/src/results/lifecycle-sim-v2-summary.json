@@ -1,0 +1,286 @@
+{
+  "metadata": {
+    "script": "simulate-lifecycle-v2.py",
+    "cpu_fleet": {
+      "fleet_size": 50,
+      "horizon": 10,
+      "eff_gain": 0.15,
+      "emb_kg": 1000.0,
+      "seeds": 20
+    },
+    "gpu_fleet": {
+      "fleet_size": 50,
+      "horizon": 10,
+      "eff_gain": 0.5,
+      "emb_kg": 3000.0,
+      "refresh_norm": 2,
+      "seeds": 20
+    },
+    "policies_cpu": [
+      "A=Fixed-5yr",
+      "B_dp=DP-Optimal",
+      "C_dp=DP-Oracle",
+      "D=Fixed-T*"
+    ],
+    "policies_gpu": [
+      "GPU_A=Fixed-2yr",
+      "GPU_B=DP-Optimal"
+    ]
+  },
+  "cpu_fleet": {
+    "nuclear_fr": {
+      "ci": 50,
+      "t_star": 10,
+      "policy_A": {
+        "mean_carbon": 138095.4598750001,
+        "std_carbon": 2327.323516295323,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 54750.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_Cdp": {
+        "mean_carbon": 54750.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_D": {
+        "mean_carbon": 93694.16750000001,
+        "std_carbon": 2446.6515275869933,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 60.35351194778013,
+      "D_saves_vs_A_pct": 32.15260835887784,
+      "Bdp_vs_Cdp_gap_pct": 0.0
+    },
+    "norway_hydro": {
+      "ci": 100,
+      "t_star": 10,
+      "policy_A": {
+        "mean_carbon": 185490.91975000003,
+        "std_carbon": 2078.8339034191586,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 109500.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_Cdp": {
+        "mean_carbon": 109500.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_D": {
+        "mean_carbon": 146688.335,
+        "std_carbon": 2306.568618050417,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 40.967460753560694,
+      "D_saves_vs_A_pct": 20.918859425732094,
+      "Bdp_vs_Cdp_gap_pct": 0.0
+    },
+    "eu_avg": {
+      "ci": 300,
+      "t_star": 10,
+      "policy_A": {
+        "mean_carbon": 375072.75925,
+        "std_carbon": 1388.8203562896188,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 328500.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_Cdp": {
+        "mean_carbon": 328500.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "policy_D": {
+        "mean_carbon": 358665.005,
+        "std_carbon": 1799.2757176083298,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 12.416993263687678,
+      "D_saves_vs_A_pct": 4.374552362269427,
+      "Bdp_vs_Cdp_gap_pct": 0.0
+    },
+    "us_avg": {
+      "ci": 400,
+      "t_star": 10,
+      "policy_A": {
+        "mean_carbon": 469863.6789999998,
+        "std_carbon": 1387.27905198594,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 422039.5000000001,
+        "std_carbon": 0.0,
+        "mean_replacements": 100.0
+      },
+      "policy_Cdp": {
+        "mean_carbon": 422039.5000000001,
+        "std_carbon": 0.0,
+        "mean_replacements": 100.0
+      },
+      "policy_D": {
+        "mean_carbon": 464653.33999999997,
+        "std_carbon": 1595.076373218529,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 10.1783093985436,
+      "D_saves_vs_A_pct": 1.108904397779566,
+      "Bdp_vs_Cdp_gap_pct": 0.0
+    },
+    "uk_grid": {
+      "ci": 500,
+      "t_star": 10,
+      "policy_A": {
+        "mean_carbon": 564654.59875,
+        "std_carbon": 1647.7220488066132,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 502549.3749999999,
+        "std_carbon": 0.0,
+        "mean_replacements": 100.0
+      },
+      "policy_Cdp": {
+        "mean_carbon": 502549.3749999999,
+        "std_carbon": 0.0,
+        "mean_replacements": 100.0
+      },
+      "policy_D": {
+        "mean_carbon": 570641.675,
+        "std_carbon": 1443.3813579144635,
+        "mean_replacements": 40.7
+      },
+      "Bdp_saves_vs_A_pct": 10.998798891833186,
+      "D_saves_vs_A_pct": -1.0603077108118641,
+      "Bdp_vs_Cdp_gap_pct": 0.0
+    },
+    "coal_pl": {
+      "ci": 800,
+      "t_star": 2,
+      "policy_A": {
+        "mean_carbon": 849027.3579999998,
+        "std_carbon": 3139.2138940053164,
+        "mean_replacements": 90.7
+      },
+      "policy_Bdp": {
+        "mean_carbon": 711642.5824999998,
+        "std_carbon": 0.0,
+        "mean_replacements": 200.0
+      },
+      "policy_Cdp": {
+        "mean_carbon": 711642.5824999998,
+        "std_carbon": 0.0,
+        "mean_replacements": 200.0
+      },
+      "policy_D": {
+        "mean_carbon": 819596.7181352499,
+        "std_carbon": 2941.3403863078383,
+        "mean_replacements": 240.7
+      },
+      "Bdp_saves_vs_A_pct": 16.181430928636818,
+      "D_saves_vs_A_pct": 3.4663947618929223,
+      "Bdp_vs_Cdp_gap_pct": 0.0
+    }
+  },
+  "gpu_fleet": {
+    "nuclear_fr": {
+      "ci": 50,
+      "gpu_t_star": 10,
+      "policy_GPU_A": {
+        "mean_carbon": 698483.3390625,
+        "std_carbon": 10153.501307776016,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B": {
+        "mean_carbon": 54750.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "GPU_B_saves_vs_A_pct": 92.16158826730425
+    },
+    "norway_hydro": {
+      "ci": 100,
+      "gpu_t_star": 10,
+      "policy_GPU_A": {
+        "mean_carbon": 716866.678125,
+        "std_carbon": 9781.319739842733,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B": {
+        "mean_carbon": 109500.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 0.0
+      },
+      "GPU_B_saves_vs_A_pct": 84.72519321355504
+    },
+    "eu_avg": {
+      "ci": 300,
+      "gpu_t_star": 10,
+      "policy_GPU_A": {
+        "mean_carbon": 790400.034375,
+        "std_carbon": 8292.593468109599,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B": {
+        "mean_carbon": 314250.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 50.0
+      },
+      "GPU_B_saves_vs_A_pct": 60.24165152668678
+    },
+    "us_avg": {
+      "ci": 400,
+      "gpu_t_star": 10,
+      "policy_GPU_A": {
+        "mean_carbon": 827166.7125,
+        "std_carbon": 7548.230332243032,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B": {
+        "mean_carbon": 369000.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 50.0
+      },
+      "GPU_B_saves_vs_A_pct": 55.38988762195868
+    },
+    "uk_grid": {
+      "ci": 500,
+      "gpu_t_star": 10,
+      "policy_GPU_A": {
+        "mean_carbon": 863933.390625,
+        "std_carbon": 6803.867196376465,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B": {
+        "mean_carbon": 423750.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 50.0
+      },
+      "GPU_B_saves_vs_A_pct": 50.95107972462504
+    },
+    "coal_pl": {
+      "ci": 800,
+      "gpu_t_star": 5,
+      "policy_GPU_A": {
+        "mean_carbon": 974233.425,
+        "std_carbon": 4570.777788776763,
+        "mean_replacements": 226.7
+      },
+      "policy_GPU_B": {
+        "mean_carbon": 540900.0,
+        "std_carbon": 0.0,
+        "mean_replacements": 100.0
+      },
+      "GPU_B_saves_vs_A_pct": 44.479424938638296
+    }
+  }
+}
