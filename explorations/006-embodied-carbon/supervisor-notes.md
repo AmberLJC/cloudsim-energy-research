@@ -1,166 +1,126 @@
 # Supervisor Notes — 006 Embodied Carbon
 **Date:** 2026-02-28  
-**Supervisor cycle:** 2  
-**Phase at time of review:** Post-fleet-simulation-v2 (simulate-lifecycle-v2.py complete, DP-Optimal fix verified)
+**Supervisor cycle:** 3  
+**Phase at time of review:** Post-fleet-simulation-v2 (STALLED — cycle-2 directives not actioned)
 
 ---
 
-## Summary of Current State
+## ⚠️ CYCLE 3 STATUS: THREE MUST-FIX ITEMS FROM CYCLE-2 REMAIN UNADDRESSED
 
-The previous cycle's validity problem (CRITICAL: myopic CI-Aware policy making zero replacements at EU-average CI) has been fixed. `simulate-lifecycle-v2.py` correctly implements backward-induction DP-Optimal, and the DP-Oracle matches DP-Optimal exactly (0.000000% gap) — confirming the DP implementation is correct.
-
-Current results (DP-Optimal vs Fixed-5yr, CPU fleet):
-- nuclear_fr (CI=50): **+60.4%** savings
-- norway_hydro (CI=100): **+41.0%**
-- eu_avg (CI=300): **+12.4%**
-- us_avg (CI=400): **+10.2%**
-- uk_grid (CI=500): **+11.0%**
-- coal_pl (CI=800): **+16.2%**
-
-GPU results (DP-Optimal vs Fixed-2yr):
-- nuclear_fr: **+92.2%** (0 replacements)
-- eu_avg: **+60.2%** (50 replacements, T*=10yr)
-- us_avg: **+55.4%**
-- coal_pl: **+44.5%** (T*=5yr)
+No new research files have been committed since the cycle-2 supervisor notes (commit `a04251a`). The last research commit is `c5c13b5` (simulate-lifecycle-v2.py). All three "must-fix before proceeding" items from cycle-2 are still open. **Spawning a worker this cycle to address them directly.**
 
 ---
 
-## 🟡 CYCLE 2 CRITIQUE — THREE PROBLEMS
-
-### Problem 1 (CRITICAL): GPU scenario assumes performance obsolescence doesn't exist
-
-**This is the biggest unaddressed problem in the paper.**
-
-DP-Optimal saves 92.2% on nuclear/hydro grids by making **zero GPU replacements** over 10 years. The model is numerically correct — if you keep a 10-year-old GPU server, you avoid 226.7 embodied carbon events per fleet, each at 3000 kgCO₂ = 680,100 kgCO₂ saved.
-
-**The problem:** The model assumes old hardware can continue serving workloads indefinitely. For AI accelerators, this is false in most deployment contexts:
-- Large model training (GPT-5 scale) requires H200/B200 memory bandwidth and FP8 tensor cores — cannot run on H100 hardware at all
-- Even inference loads grow: serving a model that requires 192GB VRAM cannot run on 80GB H100s
-
-**The question the paper must answer:** *What fraction of GPU workloads can tolerate n-year-old hardware?*
-
-If the answer is "0% for training, maybe 30% for legacy inference," then the headline finding of "92% savings by never replacing" is operationally meaningless for the primary use case.
-
-**The valid framing:** "For inference workloads on non-frontier models (code completion, document analysis, etc.), 4-year-old GPUs remain competitive. For this subset, the 2-year industry refresh cycle is unjustified and wastes 44-92% embodied carbon." This is still a strong finding, but requires explicit scoping.
-
-**Required action before paper writing:** Add a **workload obsolescence parameter** `max_useful_age_yr` (e.g., 4yr for inference, 2yr for training). The DP should be constrained: if `server.age >= max_useful_age_yr`, forced replacement regardless of CI. Re-run GPU scenario with `max_useful_age_yr = 4` and show that savings drop to X% but remain substantial.
+## CYCLE 3 CRITIQUE — FOUR PROBLEMS (1 new, 3 carried from cycle-2)
 
 ---
 
-### Problem 2 (MEDIUM): Policy D (Fixed-T*) underperforms Fixed-5yr at uk_grid
+### Problem 1 (CRITICAL — CARRIED): GPU performance obsolescence still unmodeled
 
-From the JSON results:
-```
-uk_grid (CI=500): T*=10, Policy D saves -1.06% vs Fixed-5yr (i.e., WORSE)
-```
+`simulate-lifecycle-v2.py` still has no `max_useful_age_yr` constraint. DP-Optimal recommends **zero GPU replacements** at CI ≤ 300 g/kWh (nuclear, hydro, EU average). The interpretation: keep a 2024 H100 until 2034.
 
-Policy D replaces every T*=10yr. Fixed-5yr replaces every 5yr. At CI=500, more frequent replacement should save operational carbon. If T*=10yr is the "analytically optimal" cycle, it must outperform T*=5yr. The fact that it doesn't is a bug — either in `compute_total_carbon_fixed()` (computes T* incorrectly) or in the simulation (executes Fixed-T* policy incorrectly).
+This is operationally impossible for:
+- **Training workloads**: GPT-5/6-scale models need FP8 tensor cores, 192GB+ HBM, NVLink bandwidth that H100 simply cannot provide.
+- **Inference at scale**: Models growing from 70B→405B→2T parameters cannot run on 2024 VRAM sizes.
 
-This is observable by any reviewer who runs the code. It undermines the "Fixed-T* policy" as a deployable recommendation.
+The 92.2% savings headline on nuclear grids is a number computed from a model that ignores hardware obsolescence. **Without bounding this, no program committee will accept the GPU result as valid.**
 
-**Diagnostic question:** At CI=500, with eff_gain=0.15, emb=1000, what does the closed-form T* formula return? The falsification script should give this. If it returns T*=5 (not T*=10), then the simulation's T* lookup is wrong.
-
-**Required action:** Debug `compute_optimal_T_star()` at CI=500 and verify the result matches the DP-Optimal's effective replacement period. If the analytical T* is 5yr at CI=500, fix the T* lookup in simulate-lifecycle-v2.py.
+**Required action (STILL OPEN):** Create `simulate-lifecycle-v3.py` with `max_useful_age_yr` parameter (set to 4yr for GPU inference use case, 3yr for training). Show how GPU savings change with this constraint. The finding will still be strong (comparing DP-optimal to Fixed-2yr within a 4yr max lifetime is still a meaningful question), but it will be honest.
 
 ---
 
-### Problem 3 (MEDIUM): Zero variance across 20 seeds for DP policies
+### Problem 2 (CRITICAL — NEW): Policy D analytical T* has a structural flaw
 
-```json
-"policy_Bdp": { "std_carbon": 0.0, "mean_replacements": 0.0 }  (nuclear_fr)
-"policy_Bdp": { "std_carbon": 0.0, "mean_replacements": 100.0 }  (us_avg)
-```
+Running the analytical formula reveals: at CI=500, `find_t_star()` returns **T*=10**, but the DP policy replaces each server approximately once in the first 5 years (100 total replacements for 50 servers) — an effective cycle of ~5yr. These cannot both be right.
 
-ALL DP policies have exactly zero standard deviation across 20 Monte Carlo seeds. The stated purpose of multi-seed simulation is "Monte Carlo fleet heterogeneity." But if every seed gives identical carbon, the seeds aren't doing anything.
+**Root cause, confirmed by manual calculation:**
 
-**Likely cause:** The DP replacement decision is purely a function of `(gen, years_remaining, CI)` — it's deterministic. If all servers start at generation 0 and age identically, there is no fleet heterogeneity to sample. The randomness in the simulation may only affect the *stochastic arrival of VMs*, but if lifecycle carbon is calculated from fleet totals independent of VM arrivals, the 20-seed spread is vacuous.
+The `compute_total_carbon_fixed()` formula starts with a fresh server at generation 0 at t=0 (no initial age). For T=10 at CI=500: 1 deployment, 10yr gen-0 operation = 11,950 kgCO₂ per server. For T=5: 2 deployments, 5yr gen-0 + 5yr gen-1 = 12,125 kgCO₂. T=10 wins by 175 kgCO₂ (1.5%).
 
-**Implication:** The Monte Carlo confidence intervals in the paper will show zero width for DP policies. This looks suspicious. More importantly, it means the paper is *not* testing robustness to fleet heterogeneity, which is a real-world concern (servers fail, are deployed at different ages, have different workload patterns).
+**But the simulation starts with staggered initial ages 0..4.** A server starting at age 4 under Fixed-5yr replaces at year 1, getting **9 more years of gen-1 savings** (9 × 165 kgCO₂/yr = 1,485 kgCO₂) for 1,000 kgCO₂ embodied — a net +485 kgCO₂ saving. The analytical formula never sees this early-replacement case, so it underestimates the value of Fixed-5yr.
 
-**Required action:** Clarify in the paper methodology section what the 20 seeds actually vary. If seeds don't produce variance in DP results, remove the multi-seed framing for DP policies and note that DP gives a deterministic optimum.
+**This is not just a bug in Policy D** — it reveals a richer finding:
 
----
+> DP-Optimal does NOT do periodic replacement. It does **front-loaded replacement**: it replaces servers that are old at deployment time and then holds new servers for the remainder of the horizon. The analytical T* formula (assuming all servers start fresh) gives a systematically wrong policy for realistic fleet deployments.
 
-## 🟡 SECONDARY OBSERVATION: Contribution Framing Problem
+This is actually a **publishable insight**: "Steady-state T* analysis overestimates optimal cycle length by 40-100% for typical fleet age distributions; finite-horizon DP should be used instead."
 
-The LOGBOX says: "DP-Optimal beats industry norm at ALL grid types."
-
-**A skeptical reviewer will note:** DP is optimal BY CONSTRUCTION. Of course it beats fixed schedules. This is mathematical triviality, not a research contribution.
-
-The actual contributions are:
-1. **Quantification** — DP reveals that Fixed-5yr wastes 10-60% lifecycle carbon; Fixed-2yr GPU wastes 44-92%
-2. **The T* insight** — optimal refresh period spans 2-10yr depending on CI; a simple lookup achieves most of the benefit
-3. **The actionable policy** — "if CI < 280 g/kWh, never refresh within a 10yr horizon" is a clean, deployable rule
-
-The paper should NOT be framed as "we propose DP-Optimal." It should be framed as "we characterize T*(CI, eff, emb) and show that simple T*-based policies achieve near-optimal results — and that the industry norm is dramatically suboptimal for renewable-heavy grids."
-
-The **DP is a theoretical benchmark**, not the contribution. The contribution is the T* characterization and its gap from industry practice.
+**Required action:** 
+1. Remove Policy D ("Fixed-T*") as a deployment recommendation from the paper (it's demonstrably wrong for staggered fleets).
+2. Replace with a note that steady-state T* is only valid for single-server infinite-horizon analysis.
+3. Add a short section on the DP's front-loading behavior as a finding.
 
 ---
 
-## 🔴 OPEN QUESTION: Declining CI trend
+### Problem 3 (MEDIUM — CARRIED): Zero variance in DP seeds is NOT documented
 
-All simulations use **constant CI** over the 10-year horizon. But EU and US grids are actively decarbonizing (~3-5% CI reduction/year). If CI is declining:
+All DP policies have `std_carbon = 0.0` across 20 seeds. The simulation uses `rng.integers(0, max_initial_age)` for initial age stagger — this IS stochastic. But DP decisions are deterministic given `(gen, years_remaining)`, and all seeds start at the same generation distribution. The variance in Fixed-5yr comes from its interaction with stochastic initial ages — but the DP table is pre-built from CI alone, so every seed produces the SAME DP replacement schedule.
 
-- Old hardware becomes relatively MORE attractive over time (operational carbon per kWh decreases)
-- T* increases (you should keep hardware even longer than the constant-CI model predicts)
-- The savings from DP vs Fixed-5yr may be even larger than shown
+The 20-seed design is vacuous for DP policies. The paper must not present confidence intervals for DP results as if they were Monte Carlo validated. 
 
-Conversely, for coal-heavy grids, if they're also decarbonizing, T* there increases too.
-
-This is a "robustness" question, but it's also potentially a significant finding that strengthens the paper. The paper should include at least a brief sensitivity analysis with linearly declining CI (e.g., EU: 300 → 200 g/kWh over 10yr).
+**Required action:** Add explicit methodology note to the paper: "DP-Optimal is a deterministic policy; variance across seeds is zero by construction. Confidence intervals are reported only for fixed-period heuristics, where initial age stagger introduces run-to-run variance."
 
 ---
 
-## Supervisor Directive — Required Before Lit Review + Paper Writing
+### Problem 4 (MEDIUM — NEW): The DP result at us_avg/uk_grid needs mechanistic explanation
 
-Do NOT proceed to lit-review-embodied.md until the following are resolved:
+At CI=400 (us_avg) and CI=500 (uk_grid), DP-Optimal makes **100 replacements** for 50 servers — approximately one replacement per server over 10 years. This is the front-loading pattern: replace old servers early in the horizon, then hold.
+
+The paper currently claims "DP-Optimal beats Fixed-5yr by 10.2-11.0%." But **how** DP achieves this is just as important as the quantitative result. Without explaining the front-loading mechanism, readers will assume DP is a dynamic version of Fixed-T* (periodically replacing based on CI), which is wrong.
+
+**Required action:** Add mechanism analysis to analysis-embodied.md: "At mid-range CI (400–500 g/kWh), DP-Optimal replaces servers front-loaded in the first 3 years (when horizon is long and payback is favorable), then avoids further replacement. This contrasts with Fixed-5yr (uniform periodic cycles) and generates 10-11% savings because early replacements capture the full gen+1 efficiency benefit over the remaining horizon."
+
+---
+
+## SUPERVISOR DIRECTIVE — Cycle 3
 
 ### Must-Fix (blocks paper validity):
-1. **GPU performance obsolescence model** — add `max_useful_age_yr` parameter; re-run GPU scenario with `max_useful_age_yr=4`; show how findings change
-2. **Policy D T* bug at uk_grid** — investigate and fix the -1.06% anomaly
-3. **Clarify seed variance** — document what 20 seeds vary; if DP is deterministic, say so explicitly
+1. **`simulate-lifecycle-v3.py`** — add `max_useful_age_yr` constraint to GPU scenario (4yr inference, 3yr training); report how GPU savings change; still compare DP-optimal vs Fixed-2yr within the constraint
+2. **Remove Policy D as a recommendation** — document the analytical T* flaw; add front-loading mechanism analysis
+3. **Clarify seed methodology** — explicit methodology note on DP determinism
 
-### Should-Address (strengthens paper):
-4. **Declining CI sensitivity** — run one additional condition: EU grid decarbonizing from 300→200 g/kWh over 10yr; show directional impact on T*
-5. **Reframe contribution** — DP is a benchmark, not the contribution; T* characterization is the contribution
+### Should-Do (strengthens paper):
+4. **Declining CI sensitivity** — EU grid: 300→200 g/kWh linear decline over 10yr; show directional impact on T* and DP savings
+5. **Write analysis-embodied.md** — full results writeup with the corrected model
 
 ### Then Proceed to:
-- lit-review-embodied.md (confirm novelty gap, especially for T* LCA literature)
-- analysis-embodied.md (write up clean results with the fixed GPU model)
-- paper.md first draft
+- `lit-review-embodied.md`
+- `paper.md` first draft
 
 ---
 
-## What IS publication-ready:
+## What Should Be Done This Cycle (Worker Task)
 
-1. **T* framework** — clean analytical result showing 2-10yr range across CI values
-2. **CPU fleet findings** — DP vs Fixed-5yr, savings 10-60%, well-motivated
-3. **GPU comparison, scoped correctly** — "for workloads tolerant of n-year-old hardware..."
-4. **Crossover CI concept** — below 280 g/kWh: never replace in 10yr horizon
+The worker spawned this cycle should:
+1. Create `simulate-lifecycle-v3.py` with `max_useful_age_yr` parameter and declining-CI sensitivity
+2. Run it; save results to `results/lifecycle-sim-v3-summary.json`
+3. Generate updated figures (update fig8/fig9 or add fig10/fig11 for GPU-constrained and declining-CI results)
+4. Write `analysis-embodied.md` documenting: (a) clean CPU fleet findings, (b) GPU findings under 4yr constraint, (c) front-loading mechanism, (d) DP seed methodology note, (e) declining CI direction
+5. Commit with message: "research: 006 v3 — max_useful_age GPU constraint + declining CI + analysis writeup"
 
-The direction is strong (4.8/5 score) and the findings are genuinely interesting. But the GPU scenario needs operational grounding before it can anchor a paper headline.
+---
+
+## The Uncomfortable Question (still unasked until now)
+
+> The paper's most dramatic finding is that AI companies waste 44-92% embodied carbon by following 2-year GPU refresh cycles. But the companies doing this are NOT doing it because they're ignorant of lifecycle carbon — they're doing it because the performance improvement (2× compute/watt per generation) is essential for competitive model training. If you cannot change the GPU refresh cycle for training workloads, and you need to scope the paper to "inference-only" — is the finding still headline-worthy?
+
+The answer might be: "yes — inference workloads are 70-80% of total AI compute, so constraining to inference is still a big market." But **the paper needs to make this argument explicitly**, and the model needs to validate it by showing results for inference (max 4yr lifetime) as the primary case.
 
 ---
 
-## Specific Challenge for the Researcher
+## Previous Cycle Notes (Cycle 2 — 2026-02-28 00:25 UTC)
 
-**The uncomfortable question:**
-
-> If your main finding is "AI GPU companies should stop replacing hardware every 2 years on nuclear/hydro grids," but those companies *must* replace hardware every 2 years to train frontier AI models — are you solving the right problem? 
-
-> The answer is probably "yes, for inference infrastructure" — but you need to say this explicitly, and your model needs to validate it (via `max_useful_age_yr`). Right now the model is agnostic about workload requirements, which means the GPU result is a theoretical number with unclear operational scope.
-
-This is the question a program committee will ask at CCGRID or EuroSys. Answer it proactively in the model.
+[Archived below for reference — three problems identified: GPU obsolescence, Policy D bug, seed variance]
 
 ---
-*Supervisor: auto-generated advisory cycle 2 | 2026-02-28 00:25 UTC*
+
+*Supervisor: auto-generated advisory cycle 3 | 2026-02-28 00:45 UTC*
 
 ---
 
 ## Previous Cycle Notes (Cycle 1 — 2026-02-28 00:05 UTC)
 
-[Archived below — original bug report and DP fix directive; fixed in Entry #38]
+[Archived below — original bug report and DP fix directive; fixed in simulate-lifecycle-v2.py]
 
 ---
 
@@ -169,3 +129,23 @@ This is the question a program committee will ask at CCGRID or EuroSys. Answer i
 *(Entry #37 bug: CI-Aware policy was myopic greedy, made zero replacements at EU-avg CI, -61.6% "savings" was catastrophically wrong. Policy D implementation also had issues. Both fixed in v2 with DP-Optimal backward induction.)*
 
 *Archived — no longer active problems.*
+
+---
+
+## Archived: Cycle 2 Notes (Summary of Problems)
+
+### Problem 1: GPU performance obsolescence not modeled (STILL OPEN)
+DP-Optimal recommends 0 GPU replacements at nuclear/hydro. Unrealistic for AI workloads.
+Fix: add `max_useful_age_yr` parameter. Re-run GPU with 4yr inference lifetime.
+
+### Problem 2: Policy D T* bug at uk_grid (NOW DIAGNOSED — deeper than initially thought)
+T*=10 gives -1.1% vs Fixed-5yr. Root cause: analytical formula assumes fresh fleet, simulation uses staggered ages. The formula is wrong for fleet deployments. Fix: remove Policy D as recommendation; document as methodological finding.
+
+### Problem 3: Zero variance in DP seeds (STILL OPEN — needs documentation)
+All DP policies have std=0.0. 20-seed Monte Carlo is vacuous for DP. Needs explicit methodology note.
+
+### Secondary observation: Contribution framing
+DP is a mathematical benchmark, not the contribution. T* characterization and front-loading finding are the contribution. Paper should be framed accordingly.
+
+### Open question: Declining CI trend
+All simulations use constant CI over 10yr. EU/US grids decarbonize ~3-5%/yr. Declining CI makes holding old hardware even MORE attractive. Brief sensitivity needed.
