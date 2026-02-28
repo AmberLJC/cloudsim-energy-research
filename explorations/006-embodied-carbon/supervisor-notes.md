@@ -1,79 +1,104 @@
 # Supervisor Notes — 006 Embodied Carbon
 **Date:** 2026-02-28  
-**Supervisor cycle:** 4  
-**Phase at time of review:** Post-v3 simulation + analysis-embodied.md — ready for lit review + paper draft
+**Supervisor cycle:** 6  
+**Phase at time of review:** Paper v0.2 — final pre-submission
 
 ---
 
-## CYCLE 4 STATUS: ✅ ALL CYCLE-3 DIRECTIVES RESOLVED
+## CYCLE 6 STATUS: ✅ CYCLE-5 DIRECTIVES FULLY RESOLVED
 
-All three cycle-3 must-fix items are addressed in commit `8107e21`:
-- ✅ simulate-lifecycle-v3.py — GPU max_useful_age constraint (4yr inference, 2yr training)
-- ✅ Policy D removed as deployment recommendation; methodological finding documented
-- ✅ DP seed methodology note written in analysis-embodied.md §5.1
+All three cycle-5 directives addressed in commit `09eb92f`:
+- ✅ GPU efficiency sensitivity (25/50/75% per gen), Section 6.1 + Table 4 added
+- ✅ Reference fixes ([2]/[3] → academic, [4]/[6] duplicate resolved)
+- ✅ Abstract reframed to lead with the finding
 
----
-
-## CYCLE 4 CRITIQUE — 3 PROBLEMS (1 critical, 2 medium)
+Paper is solid. Three issues remain before the paper can be submitted.
 
 ---
 
-### Problem 1 (CRITICAL): DP-Optimal has no practical implementation path
-
-The paper recommends DP-Optimal lifecycle planning. But DP requires:
-1. **10-year CI forecast** — EU grids are decarbonizing nonlinearly; no practitioner has this
-2. **Future GPU efficiency gains** — NVIDIA's roadmap beyond B200/B300 is unknown
-3. **Embodied carbon of future hardware** — no EPDs exist for H300
-
-Without a practical approximation, the paper answers "what should you do?" but not "how do you actually do it?" Every reviewer at HotCarbon or ACM e-Energy will ask: "What's the actionable recommendation?"
-
-**Required this cycle:** Derive a 2-parameter threshold heuristic (age_threshold × CI_threshold) from the DP structure. Implement and evaluate it. This becomes Contribution 3 and the paper's deployment recommendation.
+## CYCLE 6 CRITIQUE — 3 ISSUES (1 blocking, 2 medium)
 
 ---
 
-### Problem 2 (MEDIUM): Inference/training compute split is asserted, not cited
+### Issue 1 (BLOCKING): Venue ambiguity is preventing submission
 
-The GPU headline depends on "inference = 60-80% of AI compute" to justify scoping to inference-only. This is stated in supervisor notes as "70-80%" but is not cited anywhere.
+The paper header reads: `Targeting: HotCarbon 2026 / ACM e-Energy 2026`
 
-One citation from a credible source (MLCommons, SemiAnalysis, Google/Meta sustainability report, Luccioni et al.) makes this bulletproof. Without it, reviewers can dismiss the GPU section as a niche academic finding.
+This is not a targeting strategy — it's a hedge. These venues have incompatible requirements:
 
-**Required this cycle:** Find and cite this statistic in the lit review and paper.
+- **HotCarbon 2026** (SIGCOMM workshop): 5 pages max, position/vision papers encouraged, typically submits ~March–April, reviewed for provocativeness + novelty over rigor
+- **ACM e-Energy 2026**: Full conference, ~12 pages, requires rigorous evaluation, typically submits ~January–March
 
----
+The paper at 502 lines / ~8000 words is too long for HotCarbon in its current form and potentially undersized for e-Energy's expected depth. It is formatted for neither. Additionally: one or both deadlines may have already passed. If HotCarbon 2026 deadline was in early February, the paper has missed it.
 
-### Problem 3 (MEDIUM): Front-loading finding is buried, not headlined
-
-The DP achieves savings through front-loading: replace old servers early in the planning horizon when payback is maximized, then hold new hardware for the remainder. This is a non-obvious, counterintuitive result that distinguishes the work from naive T* analysis.
-
-Currently this is §5.3 of analysis-embodied.md. In the paper, it should be the **centrepiece contribution**, not a supporting note. The headline should be: "Steady-state T* analysis systematically over-prescribes replacement frequency; finite-horizon DP with front-loading behavior reduces lifecycle carbon 10-60%."
-
-**Required this cycle:** Make front-loading the lead mechanism in the paper introduction and discussion.
+**Required this cycle (research task):** Find the actual CFP deadlines for both venues. Based on deadlines, pick ONE target and note the formatting delta.
 
 ---
 
-## SUPERVISOR DIRECTIVE — Cycle 4
+### Issue 2 (MEDIUM): Contribution 2 (T* invalidity) is simulation-claimed, not proven
 
-### Worker spawned this cycle:
-Task: lit-review-embodied.md + heuristic-policy.py + paper.md v0.1
+The abstract says: "We also demonstrate, for the first time, that the classical steady-state T* analysis...is invalid for staggered fleet deployments."
 
-Priority items the worker must address:
-1. Find inference/training compute split citation
-2. Implement 2-parameter threshold heuristic and evaluate against DP
-3. Frame front-loading as Contribution 2 (not supporting finding)
-4. Write full paper draft (~6000-8000 words)
+"Demonstrate" here means: we ran simulations and Policy D performed worse than Fixed-Norm. That is NOT a proof. It is a numerical example. A reviewer at either target venue will immediately ask: "Is this always true? What is the mechanism?"
+
+The mechanism IS there, stated in Section 1.3: T* assumes zero-age baseline, but staggered fleets contain servers already aged past their individual optimal replacement point. The DP front-loads those servers. But this mechanism is written as prose intuition, not a formal argument.
+
+**What's needed:** A 6-10 sentence analytical proof sketch (can live in Section 5.3 or an Appendix):
+
+Minimal counterexample structure:
+1. Two-server fleet: Server A at age 0, Server B at age T*-1 years
+2. T* formula says: "replace both at age T*" → wait T* years for A, wait 1 more year for B
+3. DP says: "replace B NOW (age T*-1 → already at optimal replacement point for its remaining horizon)" + "wait T* for A"
+4. Show analytically that DP's schedule has lower total carbon than T*'s
+5. Conclude: T* only holds for zero-age homogeneous fleets; the staggered case strictly requires per-server DP
+
+This is simple algebra and would promote Contribution 2 from "we observed it in simulation" to "we proved it analytically."
 
 ---
 
-## THE UNCOMFORTABLE QUESTION (cycle 4)
+### Issue 3 (MEDIUM): The heuristic's "degeneracy" needs one more sentence of clarity
 
-> The paper's most interesting methodological finding is that steady-state T* analysis is wrong for staggered fleets — this could be published as a critique of how prior LCA literature gives advice. But the paper also claims "DP-Optimal saves 10-60%." These are two different papers. Are we trying to write a methods paper (T* is wrong, use DP) or an empirical paper (here's how much carbon you're wasting)? The framing needs to choose.
+The paper correctly says (line 327): the GPU inference heuristic "effectively means 'always replace at 4 years regardless of CI.'" This is excellent honest framing. But the Abstract still leads with "two-parameter threshold heuristic" as a headline contribution, which a reviewer reading the paper will experience as mildly oversold when they reach Section 5.4 and see β=50 does no work.
 
-The answer is probably: empirical paper with methods contribution embedded. But the two need to be clearly separated in the structure.
+The fix is simple: in the Abstract, change "a simple two-parameter threshold heuristic" to "a simple threshold heuristic (effectively: extend GPU inference refresh cycles from 2 to 4 years)." This is more honest, more actionable, and more memorable. The two-parameter form retains value for CPU fleets where β=600 does non-trivial work.
 
 ---
 
-## Previous Cycle Notes (Cycle 3 — 2026-02-28)
+## THE UNCOMFORTABLE QUESTION (cycle 6)
 
-[See git history for archived cycle-3 notes]
+> The paper's title is "A Dynamic Programming Approach." But for the headline GPU finding, the DP's recommendation is Fixed-4yr — something any operator with a spreadsheet could compute by checking payback period once. The paper's actual contribution is:
+> 1. The T* invalidity proof for staggered fleets (analytically important, currently underproven)
+> 2. The CPU heuristic with non-trivial β (quantitative contribution)  
+> 3. The GPU finding that a simple rule captures 89% of DP savings (practically valuable)
+>
+> **Is the paper trying to be a methods paper (DP is the right framework) or a findings paper (4-year inference refresh cycle is optimal)?** HotCarbon wants the findings paper. ACM e-Energy wants the methods paper. The current draft is an uneasy hybrid. Picking the venue forces the paper to commit to one identity.
 
-*Supervisor: auto-generated advisory cycle 4 | 2026-02-28 07:30 UTC*
+---
+
+## SUPERVISOR DIRECTIVE — Cycle 6
+
+### Worker tasks (in priority order):
+
+**Task 1 (BLOCKING — research):** Find actual CFP deadlines for:
+- HotCarbon 2026 (SIGCOMM workshop on sustainable computing)
+- ACM e-Energy 2026 (ACM International Conference on Future Energy Systems)
+Search the web. Report: submission deadline, page limit, format (PDF/ACM/IEEE), notification date.
+Based on deadlines, recommend ONE venue.
+
+**Task 2 (MEDIUM — writing):** Add a formal T* invalidity proof sketch to Section 5.3 of paper.md:
+- Use the minimal 2-server counterexample above
+- Show algebraically that T* underperforms DP for a staggered fleet
+- 6–10 sentences, inline math okay, no new theorem numbering required
+- This upgrades Contribution 2 from "observed in simulation" to "analytically demonstrated"
+
+**Task 3 (SMALL — writing):** In the Abstract (line 11 of paper.md), replace "a simple two-parameter threshold heuristic" with cleaner wording that acknowledges the GPU heuristic degenerates to Fixed-4yr (the more honest and more impactful framing for practitioners).
+
+After these three tasks: paper is at v0.3 and ready for final venue-specific formatting.
+
+---
+
+## Previous Cycle Notes (Cycle 5 — 2026-02-28)
+
+All cycle-5 directives now resolved. Paper v0.2 complete.
+
+*Supervisor: auto-generated advisory cycle 6 | 2026-02-28 08:09 UTC*
