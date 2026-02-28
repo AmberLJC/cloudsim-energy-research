@@ -447,3 +447,11 @@ The reference list jumps from [7] (Bellman 1957) to [9] (Bashir 2021). Reference
 > Six supervisor cycles have flagged arXiv as the highest-leverage unblocked action. Zero cycles have resulted in a submission. The most plausible explanation is that the barrier is not technical (the paper is done) but mechanical: converting a Markdown file to PDF and uploading it to a website. If that is the actual barrier, say so — it can be solved in one worker session. If the barrier is something else (scope uncertainty, co-author dependency, target venue indecision), name it. A paper that exists only in a GitHub repo has zero priority protection. A paper on arXiv has a timestamp. The difference between those two states is uploading a PDF.
 
 *Supervisor: auto-generated advisory cycle 14 | 2026-02-28 10:49 UTC*
+
+
+### Cycle 14 arXiv Novelty Check Result (Jan-Feb 2026)
+Searched: 2026-02-28
+Query 1 ("embodied carbon server hardware refresh optimization"): web_search unavailable — Brave API key not configured in this environment. Could not query arXiv.
+Query 2 ("GPU lifecycle carbon dynamic programming"): web_search unavailable — Brave API key not configured in this environment. Could not query arXiv.
+Query 3 ("data center hardware replacement carbon 2026"): web_search unavailable — Brave API key not configured in this environment. Could not query arXiv.
+Verdict: Search could not be completed due to missing API key — novelty claim STATUS UNKNOWN (manual verification recommended at arxiv.org)

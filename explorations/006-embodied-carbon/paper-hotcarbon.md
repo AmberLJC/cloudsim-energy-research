@@ -34,7 +34,7 @@ Correcting this mistake has concrete operational consequences for AI infrastruct
 
 **Embodied carbon in computing.** Gupta et al. [1] established that embodied carbon dominates lifecycle emissions for clean-energy procurers. Acun et al. [4] extended this to AI hardware: 8-GPU server nodes carry ~3,000–5,000 kgCO₂eq embodied before first operation. Ji et al. (SCARIF) [5] provide the most detailed GPU server LCA, confirming accelerators account for 60–75% of node-level embodied carbon. Luccioni et al. [6] showed empirically that including embodied carbon roughly doubles operational-only lifecycle estimates for large model training.
 
-**Equipment replacement DP.** Bellman [7] formulated asset replacement as a DP with state (age, time-remaining) and backward induction. Pierskalla and Voelker [10] established the key distinction between infinite-horizon stationary models (yielding T*) and finite-horizon models requiring DP. For any asset whose operating costs change over time — including servers on a decarbonizing grid — finite-horizon DP is the correct formulation. The T* formula assumes all assets start at age 0; real data centers have heterogeneous age distributions that violate this assumption.
+**Equipment replacement DP.** Bellman [7] formulated asset replacement as a DP with state (age, time-remaining) and backward induction. Pierskalla and Voelker [9] established the key distinction between infinite-horizon stationary models (yielding T*) and finite-horizon models requiring DP. For any asset whose operating costs change over time — including servers on a decarbonizing grid — finite-horizon DP is the correct formulation. The T* formula assumes all assets start at age 0; real data centers have heterogeneous age distributions that violate this assumption.
 
 **Inference dominance.** Inference represents 60–80% of deployed AI GPU compute at hyperscale [2]. Unlike training (intensive but discrete), inference serving is continuous and tolerates older hardware. This makes inference hardware lifecycle the primary lever for embodied carbon reduction.
 
@@ -149,9 +149,9 @@ Hardware refresh decisions at large cloud providers are controlled by CapEx and 
 
 Gupta et al. [1] (HPCA 2021) established the embodied carbon dominance finding for clean-energy data centers and called for lifecycle-aware hardware policy — a framing this paper directly extends with quantitative DP analysis. Acun et al. [4] (ASPLOS 2023) quantified AI accelerator embodied carbon and showed GPU nodes carry 3–5× the embodied carbon of CPU servers, motivating GPU-specific lifecycle analysis. Ji et al. (SCARIF) [5] (2024) provide the most detailed GPU server LCA, confirming accelerators dominate node-level embodied carbon and providing the parameter basis for our GPU emb_kg estimate.
 
-Bashir et al. [9] (2021) analyze carbon-aware *workload* scheduling across data centers with heterogeneous grid CI — a complementary intervention to our hardware lifecycle work. Where Bashir et al. shift workloads to lower-CI regions, we shift hardware retirement decisions to lower-embodied outcomes; both are orthogonal levers.
+Bashir et al. [8] (2021) analyze carbon-aware *workload* scheduling across data centers with heterogeneous grid CI — a complementary intervention to our hardware lifecycle work. Where Bashir et al. shift workloads to lower-CI regions, we shift hardware retirement decisions to lower-embodied outcomes; both are orthogonal levers.
 
-Pierskalla and Voelker [10] (1976) is the foundational OR survey for equipment replacement under DP — our formulation directly applies their finite-horizon DP framework to the server hardware problem. To our knowledge, no prior work applies finite-horizon DP to server hardware lifecycle carbon or demonstrates the T* invalidity finding for staggered fleets.
+Pierskalla and Voelker [9] (1976) is the foundational OR survey for equipment replacement under DP — our formulation directly applies their finite-horizon DP framework to the server hardware problem. To our knowledge, no prior work applies finite-horizon DP to server hardware lifecycle carbon or demonstrates the T* invalidity finding for staggered fleets.
 
 ---
 
@@ -189,9 +189,9 @@ This work identifies three community priorities for the embodied carbon research
 
 [7] Bellman, R. "Dynamic Programming." Princeton University Press, 1957.
 
-[9] Bashir, N., et al. "Enabling Carbon-Aware Workload Management in Cloud Platforms." HotCarbon 2021.
+[8] Bashir, N., et al. "Enabling Carbon-Aware Workload Management in Cloud Platforms." HotCarbon 2021.
 
-[10] Pierskalla, W.P., Voelker, J.A. "A Survey of Maintenance Models for the Deteriorating System." Naval Research Logistics Quarterly, 1976.
+[9] Pierskalla, W.P., Voelker, J.A. "A Survey of Maintenance Models for the Deteriorating System." Naval Research Logistics Quarterly, 1976.
 
 ---
 
