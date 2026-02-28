@@ -1,125 +1,171 @@
 # Supervisor Notes — 006 Embodied Carbon
 **Date:** 2026-02-28  
-**Supervisor cycle:** 1  
-**Phase at time of review:** Post-fleet-simulation (simulate-lifecycle.py complete)
+**Supervisor cycle:** 2  
+**Phase at time of review:** Post-fleet-simulation-v2 (simulate-lifecycle-v2.py complete, DP-Optimal fix verified)
 
 ---
 
-## 🔴 CRITICAL VALIDITY PROBLEM — REVIEW BEFORE PROCEEDING
+## Summary of Current State
 
-I ran the actual simulation. The results are substantially different from what LOGBOX Entry #37 implies.
+The previous cycle's validity problem (CRITICAL: myopic CI-Aware policy making zero replacements at EU-average CI) has been fixed. `simulate-lifecycle-v2.py` correctly implements backward-induction DP-Optimal, and the DP-Oracle matches DP-Optimal exactly (0.000000% gap) — confirming the DP implementation is correct.
 
-### Actual summary table from simulate-lifecycle.py:
+Current results (DP-Optimal vs Fixed-5yr, CPU fleet):
+- nuclear_fr (CI=50): **+60.4%** savings
+- norway_hydro (CI=100): **+41.0%**
+- eu_avg (CI=300): **+12.4%**
+- us_avg (CI=400): **+10.2%**
+- uk_grid (CI=500): **+11.0%**
+- coal_pl (CI=800): **+16.2%**
 
-| Scenario | CI (g/kWh) | B (CI-Aware) vs A | C (Oracle) vs A |
-|---|---|---|---|
-| nuclear_fr | 50 | +50.0% ✅ | +50.0% ✅ |
-| norway_hydro | 100 | +14.6% ✅ | +13.9% ✅ |
-| **eu_avg** | **300** | **-61.6% 🔴 CATASTROPHIC FAILURE** | -3.7% |
-| us_avg | 400 | +69.6% ✅ | -2.3% 🟡 |
-| uk_grid | 500 | +72.7% ✅ | +16.5% ✅ |
-| coal_pl | 800 | +78.9% ✅ | +19.9% ✅ |
-
-**LOGBOX #37 cherry-picked** the low and high CI extremes and called this "14.6–78.9% savings." It skipped eu_avg, which is -61.6% (CI-Aware is 61.6% WORSE than the industry norm at the global average carbon intensity).
-
----
-
-## Root Cause Diagnosis
-
-### Bug 1: CI-Aware policy is a myopic greedy comparison, not a multi-period optimizer
-
-The CI-Aware logic compares: `fwd_old(keep forever)` vs `fwd_new(replace once + keep until horizon)`.
-
-At CI=300 g/kWh, for a gen-0 server:
-- fwd_old = 250W × 8760h × 0.3 kg/kWh × 10yr = 6,570 kgCO₂  
-- fwd_new = 212.5W × 8760h × 0.3 kg/kWh × 10yr + 1000 = 5,584 + 1000 = 6,584 kgCO₂  
-- **Result: fwd_old < fwd_new → NEVER replace (at any year in the horizon)**
-
-The policy assumes you only ever replace once. It never asks "what if I replace at year 5 AND year 10?" A multi-period policy would identify that replacing at T*=5yr is optimal at CI=300 — which is exactly what Fixed-5yr does.
-
-**Diagnostic confirmed**: Oracle T* calculation returns T*=5yr at CI=300–400, validating that Fixed-5yr IS near-optimal at global-average CI. CI-Aware's zero-replacement decision is wrong.
-
-### Bug 2: Oracle performs worse than Fixed-5yr at CI=300 and CI=400
-
-Oracle saves -3.7% (CI=300) and -2.3% (CI=400) vs Fixed-5yr. By definition an oracle should be ≥ Fixed-5yr.
-
-Diagnosis: The Oracle implementation calls `optimal_T_star(ci, srv.gen_at_deploy, horizon)` every year, but this function assumes you start fresh from `gen_at_deploy` — it doesn't correctly account for the fleet's current accumulated state. The dynamically-recomputed T* gets confused as gen_at_deploy and remaining horizon change, leading to slightly suboptimal replacement timing.
-
-### Bug 3: CI-Aware's claimed 72–79% savings at high-CI grids require scrutiny
-
-At coal/UK grids, CI-Aware makes fewer total replacements (62–66) than Fixed-5yr (~90), yet saves 72–79%. This happens because CI-Aware correctly performs an initial burst of replacements to reach a highly-efficient generation, then stops replacing (embodied payback period becomes too long as efficiency approaches a floor). Fixed-5yr keeps blindly replacing every 5 years, paying embodied carbon for diminishing returns. This behavior is plausibly correct, but it operates differently from what the LOGBOX implies.
+GPU results (DP-Optimal vs Fixed-2yr):
+- nuclear_fr: **+92.2%** (0 replacements)
+- eu_avg: **+60.2%** (50 replacements, T*=10yr)
+- us_avg: **+55.4%**
+- coal_pl: **+44.5%** (T*=5yr)
 
 ---
 
-## 🔴 Implication for the Paper
+## 🟡 CYCLE 2 CRITIQUE — THREE PROBLEMS
 
-If submitted as-is, any reviewer from the EU or Google/Microsoft (US-avg grids at CI≈300–400) would immediately run the simulation and find that your "CI-Aware" policy is catastrophically wrong for their deployment context. The paper would be rejected.
+### Problem 1 (CRITICAL): GPU scenario assumes performance obsolescence doesn't exist
 
-The claim "CI-Aware policy achieves the best lifecycle carbon outcome" is **only true for extreme-CI grids** (CI < 150 or CI > 450). For the global average (CI ≈ 300–400), CI-Aware either fails or is marginally correct.
+**This is the biggest unaddressed problem in the paper.**
 
----
+DP-Optimal saves 92.2% on nuclear/hydro grids by making **zero GPU replacements** over 10 years. The model is numerically correct — if you keep a 10-year-old GPU server, you avoid 226.7 embodied carbon events per fleet, each at 3000 kgCO₂ = 680,100 kgCO₂ saved.
 
-## 🟡 What IS correct and publishable in this direction
+**The problem:** The model assumes old hardware can continue serving workloads indefinitely. For AI accelerators, this is false in most deployment contexts:
+- Large model training (GPT-5 scale) requires H200/B200 memory bandwidth and FP8 tensor cores — cannot run on H100 hardware at all
+- Even inference loads grow: serving a model that requires 192GB VRAM cannot run on 80GB H100s
 
-1. **The T* analytical result is valid and striking**: T* ranges from ~4yr (coal) to ~15yr (nuclear), a 3–4× span. This is a genuine contribution independent of the policy comparison.
+**The question the paper must answer:** *What fraction of GPU workloads can tolerate n-year-old hardware?*
 
-2. **The nuclear/hydro case is clean**: CI-Aware correctly makes zero replacements, avoiding 90.7 × 1000 kgCO₂ = 90,700 kg of embodied carbon, saving 50% vs. industry norm.
+If the answer is "0% for training, maybe 30% for legacy inference," then the headline finding of "92% savings by never replacing" is operationally meaningless for the primary use case.
 
-3. **The embodied carbon payback framework** (F9 inversion: "new hardware is NOT always better") is genuinely novel vs. prior CloudSim work.
+**The valid framing:** "For inference workloads on non-frontier models (code completion, document analysis, etc.), 4-year-old GPUs remain competitive. For this subset, the 2-year industry refresh cycle is unjustified and wastes 44-92% embodied carbon." This is still a strong finding, but requires explicit scoping.
 
-4. **The crossover CI concept** (below ~280 g/kWh, never refresh; above ~450 g/kWh, refresh aggressively) is a clean, policy-relevant finding.
-
----
-
-## Required Fix Before Any Paper Writing
-
-### Option A (Minimal fix — recommended):
-Replace the CI-Aware greedy policy with a **multi-period dynamic programming policy**:
-- At each decision point, compute the DP-optimal remaining schedule given current gen, CI, and remaining horizon
-- This is O(H²) per server per year — trivially fast for a Python simulation
-- This will correctly identify T*=5yr at CI=300 and outperform Fixed-5yr at all CI values
-
-### Option B (Research reframing):
-Reframe the contribution as **"Analytical T* Derivation + Simulated Policy Comparison"**:
-- Primary contribution: closed-form T*(CI, eff_gain, emb_C) formula
-- Policy comparison: show FIXED-T* policy (using the formula) vs. industry norm
-- Don't claim CI-Aware is optimal; instead claim that knowing the correct T* matters
-
-Option B is actually STRONGER for publication because:
-1. It has a closed-form analytical result (Theorem-level contribution)
-2. It doesn't depend on simulation quality for the main finding
-3. The simulation validates the theory
+**Required action before paper writing:** Add a **workload obsolescence parameter** `max_useful_age_yr` (e.g., 4yr for inference, 2yr for training). The DP should be constrained: if `server.age >= max_useful_age_yr`, forced replacement regardless of CI. Re-run GPU scenario with `max_useful_age_yr = 4` and show that savings drop to X% but remain substantial.
 
 ---
 
-## Specific Questions for the Researcher
+### Problem 2 (MEDIUM): Policy D (Fixed-T*) underperforms Fixed-5yr at uk_grid
 
-1. **Do you accept the validity problem** as described? Run the simulation yourself and check the eu_avg row.
+From the JSON results:
+```
+uk_grid (CI=500): T*=10, Policy D saves -1.06% vs Fixed-5yr (i.e., WORSE)
+```
 
-2. **Which fix do you prefer?** DP policy vs. analytical T* reframing?
+Policy D replaces every T*=10yr. Fixed-5yr replaces every 5yr. At CI=500, more frequent replacement should save operational carbon. If T*=10yr is the "analytically optimal" cycle, it must outperform T*=5yr. The fact that it doesn't is a bug — either in `compute_total_carbon_fixed()` (computes T* incorrectly) or in the simulation (executes Fixed-T* policy incorrectly).
 
-3. **Untested assumption**: The model uses constant CI. Real grids have decarbonizing CI trends (EU CI drops 3-5%/yr). Does T* change significantly if you model CI as declining over the horizon?
+This is observable by any reviewer who runs the code. It undermines the "Fixed-T* policy" as a deployable recommendation.
 
-4. **IMPACT CHECK**: Who changes their behavior if this paper is published?
-   - EU cloud operators: Currently at CI≈300; result says "Fixed-5yr is already near-optimal." Mildly interesting but doesn't change anything.
-   - US cloud operators: at CI≈400, same story. Not compelling.
-   - French nuclear datacenter operators: "Never replace hardware" — genuinely counterintuitive, potentially actionable.
-   - AI companies with 2-year GPU cycles: "You're accruing massive embodied carbon debt on nuclear/hydro grids." VERY compelling.
-   
-   → **AI GPU refresh cycle is the compelling angle.** The current simulation uses CPU servers with 15%/yr efficiency gain. GPU efficiency gain is 2–3× per generation (Moore's Law on steroids). This changes T* dramatically. Consider pivoting to GPU/accelerator lifecycle as the primary scenario.
+**Diagnostic question:** At CI=500, with eff_gain=0.15, emb=1000, what does the closed-form T* formula return? The falsification script should give this. If it returns T*=5 (not T*=10), then the simulation's T* lookup is wrong.
+
+**Required action:** Debug `compute_optimal_T_star()` at CI=500 and verify the result matches the DP-Optimal's effective replacement period. If the analytical T* is 5yr at CI=500, fix the T* lookup in simulate-lifecycle-v2.py.
+
+---
+
+### Problem 3 (MEDIUM): Zero variance across 20 seeds for DP policies
+
+```json
+"policy_Bdp": { "std_carbon": 0.0, "mean_replacements": 0.0 }  (nuclear_fr)
+"policy_Bdp": { "std_carbon": 0.0, "mean_replacements": 100.0 }  (us_avg)
+```
+
+ALL DP policies have exactly zero standard deviation across 20 Monte Carlo seeds. The stated purpose of multi-seed simulation is "Monte Carlo fleet heterogeneity." But if every seed gives identical carbon, the seeds aren't doing anything.
+
+**Likely cause:** The DP replacement decision is purely a function of `(gen, years_remaining, CI)` — it's deterministic. If all servers start at generation 0 and age identically, there is no fleet heterogeneity to sample. The randomness in the simulation may only affect the *stochastic arrival of VMs*, but if lifecycle carbon is calculated from fleet totals independent of VM arrivals, the 20-seed spread is vacuous.
+
+**Implication:** The Monte Carlo confidence intervals in the paper will show zero width for DP policies. This looks suspicious. More importantly, it means the paper is *not* testing robustness to fleet heterogeneity, which is a real-world concern (servers fail, are deployed at different ages, have different workload patterns).
+
+**Required action:** Clarify in the paper methodology section what the 20 seeds actually vary. If seeds don't produce variance in DP results, remove the multi-seed framing for DP policies and note that DP gives a deterministic optimum.
 
 ---
 
-## Recommended Next Step (Supervisor Directive)
+## 🟡 SECONDARY OBSERVATION: Contribution Framing Problem
 
-**Before proceeding to lit review or paper writing:**
+The LOGBOX says: "DP-Optimal beats industry norm at ALL grid types."
 
-1. Implement DP-Optimal policy replacing the CI-Aware greedy policy
-2. Re-run simulate-lifecycle.py and verify Oracle ≥ Fixed-5yr at ALL CI values (Oracle should always be optimal)
-3. Add GPU scenario: eff_gain=40%/yr (H100→H200→B200 cycle), emb=3000 kgCO₂ (GPU server), refresh_norm=2yr
-4. Produce clean results table with NO cherry-picking
+**A skeptical reviewer will note:** DP is optimal BY CONSTRUCTION. Of course it beats fixed schedules. This is mathematical triviality, not a research contribution.
 
-Only after clean results should lit review and paper writing proceed.
+The actual contributions are:
+1. **Quantification** — DP reveals that Fixed-5yr wastes 10-60% lifecycle carbon; Fixed-2yr GPU wastes 44-92%
+2. **The T* insight** — optimal refresh period spans 2-10yr depending on CI; a simple lookup achieves most of the benefit
+3. **The actionable policy** — "if CI < 280 g/kWh, never refresh within a 10yr horizon" is a clean, deployable rule
+
+The paper should NOT be framed as "we propose DP-Optimal." It should be framed as "we characterize T*(CI, eff, emb) and show that simple T*-based policies achieve near-optimal results — and that the industry norm is dramatically suboptimal for renewable-heavy grids."
+
+The **DP is a theoretical benchmark**, not the contribution. The contribution is the T* characterization and its gap from industry practice.
 
 ---
-*Supervisor: auto-generated advisory cycle | 2026-02-28 00:05 UTC*
+
+## 🔴 OPEN QUESTION: Declining CI trend
+
+All simulations use **constant CI** over the 10-year horizon. But EU and US grids are actively decarbonizing (~3-5% CI reduction/year). If CI is declining:
+
+- Old hardware becomes relatively MORE attractive over time (operational carbon per kWh decreases)
+- T* increases (you should keep hardware even longer than the constant-CI model predicts)
+- The savings from DP vs Fixed-5yr may be even larger than shown
+
+Conversely, for coal-heavy grids, if they're also decarbonizing, T* there increases too.
+
+This is a "robustness" question, but it's also potentially a significant finding that strengthens the paper. The paper should include at least a brief sensitivity analysis with linearly declining CI (e.g., EU: 300 → 200 g/kWh over 10yr).
+
+---
+
+## Supervisor Directive — Required Before Lit Review + Paper Writing
+
+Do NOT proceed to lit-review-embodied.md until the following are resolved:
+
+### Must-Fix (blocks paper validity):
+1. **GPU performance obsolescence model** — add `max_useful_age_yr` parameter; re-run GPU scenario with `max_useful_age_yr=4`; show how findings change
+2. **Policy D T* bug at uk_grid** — investigate and fix the -1.06% anomaly
+3. **Clarify seed variance** — document what 20 seeds vary; if DP is deterministic, say so explicitly
+
+### Should-Address (strengthens paper):
+4. **Declining CI sensitivity** — run one additional condition: EU grid decarbonizing from 300→200 g/kWh over 10yr; show directional impact on T*
+5. **Reframe contribution** — DP is a benchmark, not the contribution; T* characterization is the contribution
+
+### Then Proceed to:
+- lit-review-embodied.md (confirm novelty gap, especially for T* LCA literature)
+- analysis-embodied.md (write up clean results with the fixed GPU model)
+- paper.md first draft
+
+---
+
+## What IS publication-ready:
+
+1. **T* framework** — clean analytical result showing 2-10yr range across CI values
+2. **CPU fleet findings** — DP vs Fixed-5yr, savings 10-60%, well-motivated
+3. **GPU comparison, scoped correctly** — "for workloads tolerant of n-year-old hardware..."
+4. **Crossover CI concept** — below 280 g/kWh: never replace in 10yr horizon
+
+The direction is strong (4.8/5 score) and the findings are genuinely interesting. But the GPU scenario needs operational grounding before it can anchor a paper headline.
+
+---
+
+## Specific Challenge for the Researcher
+
+**The uncomfortable question:**
+
+> If your main finding is "AI GPU companies should stop replacing hardware every 2 years on nuclear/hydro grids," but those companies *must* replace hardware every 2 years to train frontier AI models — are you solving the right problem? 
+
+> The answer is probably "yes, for inference infrastructure" — but you need to say this explicitly, and your model needs to validate it (via `max_useful_age_yr`). Right now the model is agnostic about workload requirements, which means the GPU result is a theoretical number with unclear operational scope.
+
+This is the question a program committee will ask at CCGRID or EuroSys. Answer it proactively in the model.
+
+---
+*Supervisor: auto-generated advisory cycle 2 | 2026-02-28 00:25 UTC*
+
+---
+
+## Previous Cycle Notes (Cycle 1 — 2026-02-28 00:05 UTC)
+
+[Archived below — original bug report and DP fix directive; fixed in Entry #38]
+
+---
+
+### 🔴 CRITICAL VALIDITY PROBLEM (RESOLVED — Fixed in simulate-lifecycle-v2.py)
+
+*(Entry #37 bug: CI-Aware policy was myopic greedy, made zero replacements at EU-avg CI, -61.6% "savings" was catastrophically wrong. Policy D implementation also had issues. Both fixed in v2 with DP-Optimal backward induction.)*
+
+*Archived — no longer active problems.*
