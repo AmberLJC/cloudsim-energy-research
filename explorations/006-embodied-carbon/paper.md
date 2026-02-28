@@ -1,14 +1,14 @@
 # Carbon-Optimal Hardware Lifecycle Planning for AI Data Centers: A Dynamic Programming Approach
 
 **Targeting:** HotCarbon 2026  
-**Status:** v0.5 — embodied carbon sensitivity analysis added (Section 6.2)  
+**Status:** v0.6 — citation fix + deployment decision table  
 **Date:** 2026-02-28
 
 ---
 
 ## Abstract
 
-The AI industry's uniform 2-year GPU refresh cycle is carbon-suboptimal for inference workloads, which constitute the majority of deployed AI compute. Simply extending GPU inference server lifetimes from 2 to 4 years saves **20–52% lifecycle carbon** relative to the industry norm across all grid carbon intensity scenarios studied (50–800 gCO₂/kWh) — a finding that holds robustly across GPU efficiency gain assumptions of 25–75% per generation. We demonstrate this via finite-horizon dynamic programming applied to a parameterized fleet simulation covering CPU and GPU inference scenarios. For CPU server fleets under a five-year industry norm, DP-optimal planning saves **10–60%** depending on grid intensity. Critically, we derive and validate a deployable threshold heuristic — for GPU inference fleets, simply *extend the refresh cycle from 2 to 4 years*, capturing 89% of DP savings with no CI monitoring; for CPU fleets, a two-parameter rule (*replace if age ≥ α years AND grid CI ≥ β g/kWh*) captures 69% of DP savings —. We also demonstrate, for the first time, that the classical steady-state T* analysis used in prior LCA literature is invalid for staggered fleet deployments and can underperform the industry norm in practice. Our findings suggest that disaggregating training and inference hardware refresh cycles is the primary actionable lever for reducing embodied carbon in AI infrastructure.
+The AI industry's prevalent ~2-year GPU refresh cycle — reflecting NVIDIA's architectural cadence of roughly one major generation per two years (A100→H100→H200→B200, 2020–2025), though real fleet turnover varies from 2 to 4 years in practice — is carbon-suboptimal for inference workloads, which constitute the majority of deployed AI compute. Simply extending GPU inference server lifetimes from 2 to 4 years saves **20–52% lifecycle carbon** relative to the industry norm across all grid carbon intensity scenarios studied (50–800 gCO₂/kWh) — a finding that holds robustly across GPU efficiency gain assumptions of 25–75% per generation. We demonstrate this via finite-horizon dynamic programming applied to a parameterized fleet simulation covering CPU and GPU inference scenarios. For CPU server fleets under a five-year industry norm, DP-optimal planning saves **10–60%** depending on grid intensity. Critically, we derive and validate a deployable threshold heuristic — for GPU inference fleets, simply *extend the refresh cycle from 2 to 4 years*, capturing 89% of DP savings with no CI monitoring; for CPU fleets, a two-parameter rule (*replace if age ≥ α years AND grid CI ≥ β g/kWh*) captures 69% of DP savings —. We also demonstrate, for the first time, that the classical steady-state T* analysis used in prior LCA literature is invalid for staggered fleet deployments and can underperform the industry norm in practice. Our findings suggest that disaggregating training and inference hardware refresh cycles is the primary actionable lever for reducing embodied carbon in AI infrastructure.
 
 **Keywords:** embodied carbon, lifecycle carbon, data center, hardware refresh, dynamic programming, GPU, inference, carbon intensity, sustainability
 
@@ -30,7 +30,7 @@ The problem is acutely relevant for AI hardware. The GPU accelerator market, dom
 
 However, **not all AI workloads require frontier hardware**. Inference — the deployment of trained models to serve user requests — is increasingly the dominant mode of AI compute at production scale; industry estimates suggest inference accounts for 60–80% of total AI GPU compute by volume at major hyperscalers [2], and academic analysis confirms that generative AI inference is substantially more energy-intensive per unit output than traditional AI workloads, reflecting the scale of inference deployment [3]. Inference serving for production models (GPT-4 class, Claude 3 class) can tolerate hardware that is two to four years old. The performance advantages of newer generations (principally HBM bandwidth and NVLink interconnect for multi-GPU inference) matter at the largest model scales but are not necessary for most deployed inference workloads.
 
-The industry norm of a uniform two-year refresh cycle for all GPU hardware treats inference and training identically, despite their fundamentally different performance requirements. This uniformity is cost-driven (procurement simplicity, vendor incentives) rather than carbon-optimal.
+The industry norm of a uniform two-year refresh cycle for all GPU hardware treats inference and training identically, despite their fundamentally different performance requirements. We model the 2-year cycle as the industry baseline — a reasonable representation of aggressive AI hardware procurement driven by NVIDIA's ~18–24 month architectural cadence (Section 1.2); actual hyperscaler fleet turnover may range 2–4 years, and no public EPD or sustainability report specifies a universal cycle length. This uniformity is cost-driven (procurement simplicity, vendor incentives) rather than carbon-optimal.
 
 ### 1.3 The Research Question
 
@@ -399,6 +399,20 @@ Operationally, this requires:
 
 This is not a radical operational change — many data centers already tier their hardware for different workload classes. The carbon optimization insight is that this tiering should explicitly account for inference hardware's extended useful life for carbon purposes.
 
+#### Deployment Decision Guide
+
+The Fixed-4yr heuristic is robust in most regimes but fails at high grid carbon intensity combined with low embodied carbon (Section 6.2). Operators should use their hardware's Environmental Product Declaration (EPD) to determine the applicable emb_kg regime; in the absence of vendor-provided EPDs (currently unavailable for H100/H200/B200 as of early 2026), a conservative default of **≥ 1,500 kgCO₂** per rack-mounted GPU node is appropriate based on Ji et al. [5] and SCARIF estimates for GPU-bearing server systems. Table 5 maps grid CI and embodied carbon regime to the recommended refresh policy.
+
+**Table 5: Deployment Decision Matrix — Recommended GPU Inference Refresh Policy**
+
+| Grid CI regime | Low emb (< 1,500 kgCO₂/node) | High emb (≥ 1,500 kgCO₂/node) |
+|---|---|---|
+| **Low** (< 200 g/kWh) | **Fixed-4yr** — embodied carbon dominates lifecycle cost even at low emb; extending lifetime saves ~47–52% vs Fixed-2yr | **Fixed-4yr** — strong savings (~47–52% vs Fixed-2yr); DP-Optimal provides marginal additional gain |
+| **Moderate** (200–500 g/kWh) | **DP-Optimal** — marginal regime; reduced embodied advantage combined with meaningful operational savings warrants CI-adaptive scheduling | **Fixed-4yr** — robust 27–34% savings across moderate-CI range; simple and deployable |
+| **High** (> 500 g/kWh) | **Fixed-2yr** (or DP-Optimal) — ⚠ Fixed-4yr can be severely counterproductive (−41% at emb=500 kgCO₂, CI=800 g/kWh); frequent refresh harvests efficiency gains that outweigh low embodied cost | **Fixed-4yr** — 9–22% savings even at coal-level CI; holds because embodied cost is large enough to penalise frequent replacement |
+
+*Cells derived from Section 5.3 (Table 3) and Section 6.2 sensitivity sweep (emb_kg ∈ {500–5,000}, CI ∈ {50–800 g/kWh}). emb_kg thresholds are modelling boundaries, not sharp transitions.*
+
 ### 6.4 Why Declining CI Makes This More Important
 
 The eu_decarbonizing scenario demonstrates that the value of holding inference hardware longer *increases* as grids decarbonize. When grid CI declines at 3.3%/yr (consistent with EU historical trends), DP-Optimal's advantage over Fixed-5yr increases from +12.4% to +16.6%. 
@@ -521,6 +535,6 @@ Grid search over age thresholds α ∈ {1, 2, …, max_age} and CI thresholds β
 
 ---
 
-*Paper v0.2 — 2026-02-28*  
+*Paper v0.6 — 2026-02-28*  
 *Simulation: simulate-lifecycle-v3.py | Heuristic: src/heuristic-policy.py | Sensitivity: src/sensitivity-efficiency.py*  
 *All results: results/lifecycle-sim-v3-summary.json, results/heuristic-policy-results.json, results/sensitivity-efficiency.json*
